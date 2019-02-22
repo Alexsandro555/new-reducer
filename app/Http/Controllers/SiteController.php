@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Modules\Product\Entities\Product;
 use Modules\Article\Entities\Article;
 use Modules\Product\Entities\ProductCategory;
+use Modules\Product\Entities\TypeProduct;
+use Modules\Product\Entities\LineProduct;
 
 class SiteController extends Controller
 {
@@ -27,9 +29,19 @@ class SiteController extends Controller
     return view('catalog', compact('products', 'typeProduct', 'id'));
   }
 
+  public function lineProduct($slugTypeProduct, $slugLineProduct) {
+    $lineProduct = LineProduct::with('products.files','type_product')->where('url_key', $slugLineProduct)->first();
+    return view('lineProduct', compact('lineProduct'));
+  }
+
   public function menuLeft() {
     return ProductCategory::with(['typeProducts' => function($query) {
       $query->orderBy('sort');
     }, 'typeProducts.lineProducts'])->get();
+  }
+
+  public function detail($slug) {
+    $product = Product::with('files')->where('url_key',$slug)->first();
+    return view('detail', compact('product'));
   }
 }

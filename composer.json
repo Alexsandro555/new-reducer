@@ -21,6 +21,7 @@
         "nwidart/laravel-modules": "^4.0",
         "staudenmeir/eloquent-has-many-deep": "^1.6",
         "tymon/jwt-auth": "dev-develop",
+        "watson/breadcrumbs": "^1.0",
         "webpatser/laravel-uuid": "^3.0"
     },
     "require-dev": {

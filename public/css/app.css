@@ -814,10 +814,19 @@ header {
   background: url("/images/content-layout.png") bottom center repeat-x, white;
 }
 
+.breadcrumbs {
+  list-style-type: none;
+}
+
+.breadcrumb {
+  list-style-type: none;
+}
+
 .breadcrumb li {
   background: url("/images/footer-list-mark.png") left center no-repeat;
   padding-left: 20px;
   padding-right: 10px;
+  display: inline-block;
 }
 
 .breadcrumbs .wrapper li:nth-child(2n) {
