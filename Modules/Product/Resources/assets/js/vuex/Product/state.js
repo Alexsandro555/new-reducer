@@ -13,7 +13,7 @@ const state = {
   name: 'Product',
   items: [],
   item: {},
-  url: 'product',
+  url: 'api/product',
   loading: true,
   fields: [],
   init: true,

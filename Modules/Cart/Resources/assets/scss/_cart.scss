@@ -1,9 +1,9 @@
 // стили виджета
 .cart__info {
-  color: $color-white;
+  color: $color-cart-text-main;
 }
 .cart__gold {
-  color: $color-orange;
+  color: $color-cart-text-bold;
   font-weight: bold;
 }
 // конец стилей виджета
@@ -14,13 +14,13 @@
 }
 .cart h2 {
   text-align: center;
-  color: $color-dark-green;
-  font-family: $font-ptsans;
+  color: $color-cart-main;
+  font-family: $font-gilroy-extrabold;
   text-transform: uppercase;
   padding-bottom: 10px;
 }
 .cart__content--wrapper {
-  filter: drop-shadow(5px 5px 10px $color-dark-green);
+  filter: drop-shadow(5px 5px 10px $color-cart-main);
 }
 .cart__content {
   width: 964px;
@@ -31,12 +31,12 @@
 }
 .cart-table {
   width: 100%;
-  border: 0px solid $color-orange;
+  border: 0px solid $color-cart-main;;
   border-collapse: collapse;
   text-align: left;
 }
 .cart-table th {
-  background-color: $color-orange;
+  background-color: $color-cart-main;;
   color: $color-white;
   height: 30px;
 }
@@ -48,16 +48,16 @@
 .cart-table tr td {
   height: 100px;
   border-bottom: 1px solid $color-white;
-  color: $color-dark-green;
+  color: $color-cart-main;
   font-size: 0.9em;
   padding: 10px;
 }
 
 .cart-table-title {
   font-size: 1.4em;
-  font-family: $font-sans-condensed;
+  font-family: $font-gilroy-extrabold;
   text-decoration: none;
-  color: $color-dark-green;
+  color: $color-cart-main;
 }
 
 .cart-table-counter {
@@ -66,8 +66,8 @@
 
 .cart-table-price {
   font-size: 1.5em;
-  color: $color-orange;
-  font-family: $font-sans-condensed;
+  color: $color-cart-main;
+  font-family: $font-gilroy-extrabold;
 }
 
 .cart-table-td-price {
@@ -77,7 +77,7 @@
 
 .cart-table-rub {
   font-size: 1.2em;
-  font-family: $font-sans-condensed;
+  font-family: $font-gilroy-extrabold;
 }
 .cart-table-del {
   margin: auto;
@@ -87,7 +87,7 @@
   text-decoration: none;
   display: inline-block;
   @include border-radius(10px);
-  background-color: $color-dark-green;
+  background-color: $color-cart-main;
   color: $color-white;
   width: 20px;
   height: 20px;
@@ -107,17 +107,17 @@
 
 .cart-table__total td {
   height: 50px !important;
-  background-color: $color-dark-green;
+  background-color: $color-cart-main;
 }
 
 .cart-table__total td span {
   color: $color-white;
-  font-family:$font-sans-condensed;
+  font-family:$font-gilroy-extrabold;
   font-size: 1.6em;
 }
 
 .cart-table__total td span span {
-  color: $color-orange;
+  color: $color-cart-text-bold;
   font-size: 0.9em;
 }
 
@@ -134,7 +134,7 @@
   line-height: 34px;
   text-transform: uppercase;
   padding: 0px 10px;
-  background-color: $color-orange;
+  background-color: $color-cart-main;
   width: 138px;
   height: 34px;
   text-decoration: none;
@@ -186,4 +186,95 @@
   line-height: inherit;
   float: right;
   border-left: 1px solid lightgrey;
+}
+
+
+
+// modal
+#baskets .cart-col
+{
+  margin-left:0px;
+}
+#baskets .div-plus,#baskets .div-minus
+{
+  right:6px;
+}
+#baskets table thead
+{
+  border-radius: 12px;
+
+}
+#baskets table thead,form div.content-right-order table thead
+{
+  background-color:$color-cart-main;
+  color:white;
+}
+#baskets table thead tr
+{
+  line-height: 45px;
+  height:45px;
+  padding: 0;
+}
+#baskets table tbody tr
+{
+  border-bottom:1px solid $color-cart-main;
+  vertical-align:middle;
+}
+#baskets table tbody tr td
+{
+  position: relative;
+  text-align: center;
+  border: 0px;
+}
+#baskets table tbody tr td:nth-child(2)
+{
+  text-align: left;
+}
+#baskets table tbody tr td:nth-child(2) span,form div.content-right-order table tbody tr td:nth-child(2) span
+{
+  color:#aaa;
+  font-size:9pt;
+}
+#baskets table tbody tr td:nth-child(6) img
+{
+  cursor:hand;
+  cursor:pointer;
+}
+#baskets table tfoot tr,form div.content-right-order table tfoot tr {
+  background-color:$color-cart-main;
+  line-height:45px;
+  height:45px;
+}
+#baskets table tfoot tr td,form div.content-right-order table tfoot tr td {
+  font-weight: bold;
+  font-size:13pt;
+  color:white;
+}
+.callback_close {
+  background: rgba(0, 0, 0, 0) url('/images/close.png') no-repeat scroll 0 0;
+  cursor: pointer;
+  height: 22px;
+  position: absolute;
+  right: -34px;
+  top: 5px;
+  width: 22px;
+  z-index: 2147483647;
+}
+.cart-submit{
+  background-color: $color-cart-main;
+  border: 2px solid $color-cart-main;
+  border-radius: 2px;
+  color: #ffffff;
+  font-weight: 600;
+  height: 35px;
+  width: 125px;
+  padding: 10px;
+}
+.cart-header {
+  background-color: $color-cart-main;
+  color: black;
+}
+.cart-table {
+  border-collapse: collapse;
+  border-spacing: 0;
 }

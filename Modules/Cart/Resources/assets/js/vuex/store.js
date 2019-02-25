@@ -1,5 +1,5 @@
 import module_actions from './actions.js'
-import standart_actions from '../../../../../../resources/assets/js/vuex/actions.js'
+import standart_actions from '@/vuex/actions.js'
 import mutations from './mutations.js'
 import module_getters from './getters.js'
 

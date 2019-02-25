@@ -23,7 +23,7 @@
                   <!--<v-btn @click="goToPage(props.item)" icon class="mx-0">
                     <v-icon>find_in_page</v-icon>
                   </v-btn>-->
-                  <v-btn icon class="mx-0" @click="$router.push({name: 'edit-tnved', params: {id: props.item.id.toString()}})">
+                  <v-btn icon class="mx-0" @click="$router.push({name: 'edit-tnved-product', params: {id: props.item.id.toString()}})">
                     <v-icon color="teal">edit</v-icon>
                   </v-btn>
                   <!--<v-btn :disabled="props.item.url_key === 'po-umolchaniyu'" icon class="mx-0"
@@ -48,11 +48,11 @@
               </v-alert>
             </v-data-table>
           </v-card-text>
-          <v-card-actions>
+          <!--<v-card-actions>
             <v-btn @click="addTnved" color="primary" dark class="text-left mb-2">
               <v-icon>add</v-icon>
             </v-btn>
-          </v-card-actions>
+          </v-card-actions>-->
         </v-card>
       </v-flex>
     </v-layout>

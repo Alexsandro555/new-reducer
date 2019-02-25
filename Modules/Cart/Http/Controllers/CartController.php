@@ -5,7 +5,7 @@ namespace Modules\Cart\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
-use Modules\Catalog\Entities\Product;
+use Modules\Product\Entities\Product;
 use Cart;
 use Illuminate\Support\Facades\Config;
 
@@ -55,7 +55,7 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-      $product = Product::with('files')->with('type_product','line_product')->findOrFail($request->id);
+      $product = Product::with('files')->with('typeProduct','lineProduct')->findOrFail($request->id);
       $filename = "";
       foreach($product->files as $file)
       {
@@ -73,14 +73,14 @@ class CartController extends Controller
           }
         }
       }
-      $typeProductUrl = $product->type_product->url_key;
-      $lineProductUrl = $product->line_product?$product->line_product->url_key:'empty';
+      $typeProductUrl = $product->typeProduct->url_key;
+      $lineProductUrl = $product->lineProduct?$product->lineProduct->url_key:'empty';
       $productUrl = $product->url_key;
       $slug = '/catalog/'.$typeProductUrl.'/'.$lineProductUrl.'/'.$productUrl;
       Cart::add($product->id, $product->title, $request->count, $product->price,
         [
           'article'=>$product->vendor,
-          'type'=>$product->type_product->title,
+          'type'=>$product->typeProduct->title,
           'slug'=> $slug,
           'filename'=>$filename!=""?'/storage/'.$filename:"/images/no-image-small.png"
         ]

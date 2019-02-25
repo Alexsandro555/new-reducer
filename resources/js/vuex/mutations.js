@@ -30,6 +30,9 @@ export default {
   SET_VARIABLE: (state,{module,variable,value}) => {
     _.set(state,variable,value)
   },
+  SET_VARIABLE2: (state,{module,variable,value}) => {
+    _.set(state[module],variable,value)
+  },
   INC_VARIABLE: (state,{module,variable}) => {
     _.set(state[module],variable,_.get(state[module],variable)+1)
   },

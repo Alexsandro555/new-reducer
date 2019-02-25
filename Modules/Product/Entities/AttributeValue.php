@@ -40,6 +40,14 @@ class AttributeValue extends Model
 
     public function setValueAttribute($value) {
       $attributeTypeId = $this->attribute->attribute_type_id;
+      $this->attributes['boolean_value'] = null;
+      $this->attributes['string_value'] = null;
+      $this->attributes['integer_value'] = null;
+      $this->attributes['double_value'] = null;
+      $this->attributes['date_value'] = null;
+      $this->attributes['text_value'] = null;
+      $this->attributes['decimal_value'] = null;
+      $this->attributes['list_value'] = null;
       switch ($attributeTypeId) {
         case 1:
           $this->attributes['boolean_value'] = $value;

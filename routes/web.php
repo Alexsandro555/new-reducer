@@ -20,6 +20,9 @@ Route::get('/catalog/{slugTypeProduct}/{slugLineProduct}', ['uses' => 'SiteContr
 
 Route::get('/admin', ['uses' => '\Modules\Auth\Http\Controllers\AdminController@index', 'as' => 'master']);
 
+Route::get('/news/{slug}', '\Modules\News\Http\Controllers\NewsController@show');
+//Route::get('/{slug}', '\Modules\Page\Http\Controllers\PageController@show');
+
 //Auth::routes();
 //Route::post('/register', 'Auth\RegisterController@create');
 

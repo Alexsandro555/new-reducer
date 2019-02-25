@@ -1,4 +1,4 @@
-@extends('layouts.root')
+@extends('layouts.master')
 
 @section('menu')
   <!--<left-menu></left-menu>-->

@@ -5,7 +5,8 @@ Route::group(['middleware' => 'web', 'prefix' => 'page', 'namespace' => 'Modules
   Route::get('/', 'PageController@index');
   Route::post('/', 'PageController@save');
   Route::patch('/', 'PageController@save');
-  Route::get('/list', 'PageController@list');
   Route::delete('/', 'PageController@destroy');
+
+  Route::get('/list', 'PageController@list');
   Route::get('/{slug}', 'PageController@show');
 });

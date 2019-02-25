@@ -11,12 +11,6 @@
 |
 */
 
-Route::prefix('product')->group(function() {
-  Route::get('/', 'ProductController@index');
-  Route::post('/', 'ProductController@create');
-  Route::patch('/', 'ProductController@save');
-});
-
 Route::prefix('attribute')->group(function() {
   Route::get('/', 'AttributeController@index');
   Route::get('/bindings', 'AttributeController@binding');

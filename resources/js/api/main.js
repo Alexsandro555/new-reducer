@@ -21,7 +21,6 @@ export const api = {
   },
   patch({data, url}) {
     return new Promise((resolve, reject) => {
-      debugger
       axios.patch(url, data).then(response => response.data).then(response => {
         resolve(response)
       }).catch(error => {

@@ -7,7 +7,6 @@ $factory->define(Article::class, function (Faker $faker) {
     return [
       'title' => $faker->sentence(3),
       'url_key' => $faker->slug,
-      'content' => $faker->text(1200),
-      'page' => 0
+      'content' => $faker->text(1200)
     ];
 });

@@ -14,10 +14,10 @@ Breadcrumbs::for('catalog.type-product', function($trail, $urlKeyTypeProduct) {
 });
 
 Breadcrumbs::for('catalog.line-product', function($trail, $urlKeyTypeProduct, $urlKeyLineProduct) {
-  $lineProduct = LineProduct::with('typeProduct')->where('url_key', $urlKeyLineProduct)->firstOrFail();
+  $lineProduct = LineProduct::with('type_product')->where('url_key', $urlKeyLineProduct)->firstOrFail();
   $trail->parent('main');
-  $trail->add($lineProduct->typeProduct->title, route('catalog.type-product',[$lineProduct->typeProduct->url_key]));
-  $trail->add($lineProduct->title, route('catalog.line-product',[$lineProduct->typeProduct->url_key, $lineProduct->url_key]));
+  $trail->add($lineProduct->type_product->title, route('catalog.type-product',[$lineProduct->type_product->url_key]));
+  $trail->add($lineProduct->title, route('catalog.line-product',[$lineProduct->type_product->url_key, $lineProduct->url_key]));
 });
 
 Breadcrumbs::for('catalog.detail', function($trail, $urlKeyProduct) {

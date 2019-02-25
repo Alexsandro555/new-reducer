@@ -70,7 +70,7 @@ const initializer = () => import("@initializer/vuex/initializer/state")
 
 const token = localStorage.getItem('user-token')
 if (token) {
-  axios.defaults.headers.common['Authorization'] = token
+  axios.defaults.headers.common['Authorization'] = 'Bearer '+token
 }
 
 //import Registration from '@auth/vue/Register'

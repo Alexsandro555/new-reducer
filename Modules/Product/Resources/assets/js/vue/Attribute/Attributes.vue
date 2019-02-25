@@ -45,7 +45,7 @@
                         v-else-if="attribute.attribute_type_id==1"
                         :name="attribute.alias"
                         :label="attribute.title"
-                        @input="updateAttribute($event, attribute.id)"
+                        @change="updateAttribute($event, attribute.id)"
                         :value="form[attribute.id]?form[attribute.id].value:null">
                       </v-checkbox>
                       <v-select

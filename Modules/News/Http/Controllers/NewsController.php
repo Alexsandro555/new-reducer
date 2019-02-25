@@ -42,9 +42,10 @@ class NewsController extends Controller
    * Show the specified resource.
    * @return Response
    */
-  public function show()
+  public function show($slug)
   {
-    return view('news::show');
+    $article = News::where('url_key', $slug)->first();
+    return view('article::show', compact('article'));
   }
 
   /**

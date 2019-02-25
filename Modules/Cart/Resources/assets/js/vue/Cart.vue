@@ -2,7 +2,7 @@
     <div class="cart" ref="cart">
         <h2>Корзина</h2>
         <div class="cart__content--wrapper">
-            <div v-focus class="cart__content">
+            <div class="cart__content">
                 <table class="cart-table">
                     <thead>
                         <th class="center">фото</th>

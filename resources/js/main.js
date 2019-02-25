@@ -18,6 +18,53 @@ Vue.use(Vuetify)
 import LeftMenu from '@/vue/LeftMenu'
 Vue.component('left-menu', LeftMenu)
 
+import DetailImage from '@file/vue/DetailImage'
+Vue.component('detail-image', DetailImage)
+
+import { mapActions, mapMutations } from 'vuex'
+import {ACTIONS, MUTATIONS} from '@cart/constants'
+
+import CartWidget from '@cart/vue/Widget'
+import mutations from "./vuex/mutations";
+import getters from "./vuex/getters";
+Vue.component('cart-widget',CartWidget)
+
+import CartModal from '@cart/vue/CartModal'
+Vue.component('cart-modal', CartModal)
+
+import CartPage from '@cart/vue/Cart'
+Vue.component('cart-page', CartPage)
+
+
+// Обратный звонок
+import Callback from '@callback/vue/Callback.vue'
+import callback from '@callback/vuex/Callback/state'
+Vue.component('callback', Callback)
+
+import cart from '@cart/vuex/store'
+const store = new Vuex.Store({
+  modules: {
+    cart,
+    callback
+  },
+  mutations,
+  getters
+  }
+)
+
 const app = new Vue({
   el: '#app',
+  store,
+  methods: {
+    addCart(id) {
+      const count = 1
+      this.addCartItem({id, count})
+      this.showCartModal()
+    },
+    showCallback() {
+      this.$store.commit('SET_VARIABLE2', {module: 'callback', variable: 'isVisible', value: true})
+    },
+    ...mapActions('cart',{addCartItem: ACTIONS.ADD_CART}),
+    ...mapMutations('cart', {showCartModal: MUTATIONS.SHOW_MODAL})
+  }
 })

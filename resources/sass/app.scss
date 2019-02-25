@@ -56,7 +56,6 @@
 }
 
 @import 'find';
-//@import '~cartScss/cart';
 
 .headsite {
   color: $color-blue-dark;
@@ -132,8 +131,10 @@
 @import 'detail';
 @import 'detail_characteristics';
 @import 'SEO.scss';
-//@import '~articleScss/articles';
 @import 'breadcrumbs';
 @import 'brand';
 @import 'left-banner';
 @import 'footer';
+@import '~cartScss/cart';
+@import '~articleScss/articles';
+@import 'form';

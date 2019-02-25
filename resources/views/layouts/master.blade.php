@@ -15,7 +15,8 @@
 </head>
 <body>
 <div id="app" v-cloak>
-  <v-app class="leader">
+  <span class="v-cloak--block"></span>
+  <v-app class="v-cloak--hidden leader">
     <v-container pa-0 fluid grid-list-xs text-xs-center>
       <v-layout column wrap>
         <header>
@@ -43,7 +44,7 @@
                   Работаем с <b>{{config('info.time_start')}}</b> до <b>{{config('info.time_end')}}</b><br>
                   <span class="telephone__number">{{config('info.telephone')}}</span><br>
                   <img class="telephone__img" src="{{asset('images/telephone-img.png')}}" align="middle"/>
-                  <a class="telephone__link" href="#">заказать звонок</a>
+                  <a class="telephone__link" @click="showCallback">заказать звонок</a>
                 </v-flex>
                 <v-flex xs2 text-xs-center class="top-20">
                   <a href="/"><img src="{{asset('images/logo.png')}}"/></a>
@@ -52,7 +53,7 @@
                   <input placeholder="Поиск по сайту" class="find-input" type="text"><br><br>
                   <v-layout row wrap>
                     <v-flex xs2 text-xs-center>
-                      <a href="/cart#cart"><img src="{{asset('images/cart.png')}}" align="middle"/></a>
+                      <a href="/cart"><img src="{{asset('images/cart.png')}}" align="middle"/></a>
                     </v-flex>
                     <cart-widget/>
                   </v-layout>
@@ -99,7 +100,7 @@
                   <img text-align-center src="{{asset('images/logo-footer.png')}}"/><br>
                   <span class="telephone__number">{{config('info.telephone')}}</span><br>
                   <img class="telephone__img" src="{{asset('images/telephone-img.png')}}" align="middle"/>
-                  <a class="telephone__link" href="#">заказать звонок</a>
+                  <a class="telephone__link" @click="showCallback">заказать звонок</a>
                   <div text-xs-center class="footer__address">
                     {{config('info.address')}}
                   </div>
@@ -128,6 +129,7 @@
       </v-layout>
     </v-container>
     <cart-modal></cart-modal>
+    <callback></callback>
   </v-app>
 </div>
 <script src="{{mix('/js/main.js')}}" type="application/javascript"></script>

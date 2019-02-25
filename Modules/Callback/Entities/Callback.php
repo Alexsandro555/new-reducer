@@ -4,14 +4,12 @@ namespace Modules\Callback\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Traits\RelationTrait;
-use App\Traits\TableColumnsTrait;
+use Modules\Initializer\Traits\RelationTrait;
+use Modules\Initializer\Traits\TableColumnsTrait;
 
 class Callback extends Model
 {
-  use SoftDeletes;
-  use RelationTrait;
-  use TableColumnsTrait;
+  use SoftDeletes, RelationTrait, TableColumnsTrait;
 
   protected $dates = ['deleted_at'];
 

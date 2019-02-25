@@ -1,36 +1,29 @@
-@extends('layouts.root')
+@extends('layouts.master')
 
 @section('title', $article->title)
 
 @section('menu')
-    <left-menu></left-menu>
+    <div class="menu-wrapper wrapper">
+        <div class="abs-position">
+            <left-menu></left-menu>
+        </div>
+    </div>
 @endsection
 
 @section('content')
-    <section class="section">
-        <div class="container catalog">
-            <!--<left-menu></left-menu>-->
-            <div class="product-catalog">
-                <h1>
-                    {{$article->title}}
-                    <img src="{{asset("images/arrowed.png")}}" alt="" align="center">
-                </h1>
-                <br>
-                <div class="article__showcontent">
-                    {!! $article->content !!}
-                </div>
-            </div>
+    <div class="articles">
+        <div class="wrapper top20">
+            <v-layout row wrap>
+                <v-flex xs12 class="text-xs-left">
+                    <p class="about__head text-md-left">
+                        <span>{{$article->title}}</span>
+                    </p>
+                    <div class="article__content">
+                        {!! $article->content !!}
+                    </div>
+                </v-flex>
+            </v-layout>
         </div>
-    </section>
+    </div>
 @endsection
 
-@section('view.scripts')
-    <script src="{{asset('js/jquery-ui.min.js')}}"></script>
-    <script>
-      $('.tabs').tabs(
-        {
-          active: 0
-        }
-      );
-    </script>
-@endsection

@@ -31,8 +31,10 @@ mix.webpackConfig({
       '@article': __dirname + '/Modules/Article/Resources/assets/js',
       '@news': __dirname + '/Modules/News/Resources/assets/js',
       '@page': __dirname + '/Modules/Page/Resources/assets/js',
-      //cartScss: path.resolve(__dirname + '/Modules/Cart/Resources/assets/scss'),
-      //articleScss: path.resolve(__dirname + '/Modules/Article/Resources/assets/scss')
+      '@cart': __dirname + '/Modules/Cart/Resources/assets/js',
+      '@callback': __dirname + '/Modules/Callback/Resources/assets/js',
+      cartScss: path.resolve(__dirname + '/Modules/Cart/Resources/assets/scss'),
+      articleScss: path.resolve(__dirname + '/Modules/Article/Resources/assets/scss')
     }
   }
 })
