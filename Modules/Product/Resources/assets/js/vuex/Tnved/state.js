@@ -13,7 +13,7 @@ const state = {
     name: 'Tnved',
     items: [],
     item: {},
-    url: 'tnved',
+    url: 'api/tnved',
     init: true,
     fields: [],
     loading: true,

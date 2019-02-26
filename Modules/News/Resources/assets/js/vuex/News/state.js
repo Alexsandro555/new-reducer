@@ -13,7 +13,7 @@ const state = {
     name: 'News',
     items: [],
     item: {},
-    url: 'news',
+    url: 'api/news',
     init: true,
     fields: [],
     loading: true,

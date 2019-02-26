@@ -13,7 +13,7 @@ const state = {
     name: 'AttributeListValue',
     items: [],
     item: {},
-    url: 'attribute-list-value',
+    url: 'api/attribute-list-value',
     init: true,
     fields: [],
     loading: true,

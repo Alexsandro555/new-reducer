@@ -13,7 +13,7 @@ const state = {
     name: 'AttributeGroup',
     items: [],
     item: {},
-    url: 'attribute-group',
+    url: 'api/attribute-group',
     init: true,
     fields: [],
     loading: true,

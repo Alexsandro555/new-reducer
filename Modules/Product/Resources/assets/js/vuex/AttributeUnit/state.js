@@ -13,7 +13,7 @@ const state = {
   name: 'AttributeUnit',
   items: [],
   item: {},
-  url: 'attribute-unit',
+  url: 'api/attribute-unit',
   init: true,
   loading: true,
   needFields: true,

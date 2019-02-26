@@ -13,7 +13,7 @@ const state = {
     name: 'AttributeType',
     items: [],
     item: {},
-    url: 'attribute-type',
+    url: 'api/attribute-type',
     init: true,
     fields: [],
     loading: true,

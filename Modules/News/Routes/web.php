@@ -11,8 +11,3 @@
 |
 */
 
-Route::prefix('news')->group(function () {
-  Route::get('/', 'NewsController@index');
-  Route::post('/', 'NewsController@save');
-  Route::patch('/', 'NewsController@save');
-});

@@ -113,7 +113,7 @@
           this.register(this.form).then(response => {
             this.$refs.form.reset()
             this.resetError()
-            this.$router.push({name: 'list-product'})
+            this.$router.push({name: 'login'})
           })
         }
       }

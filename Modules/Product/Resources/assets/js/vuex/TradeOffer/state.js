@@ -13,7 +13,7 @@ const state = {
     name: 'TradeOffer',
     items: [],
     item: {},
-    url: 'trade-offer',
+    url: 'api/trade-offer',
     init: true,
     fields: [],
     loading: true,

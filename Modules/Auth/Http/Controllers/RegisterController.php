@@ -77,7 +77,7 @@ class RegisterController extends Controller
   {
     $this->validator($request->all())->validate();
     $user = $this->create($request->all());
-    $success['token'] = $user->createToken('MyApp')->accessToken;
+    //$success['token'] = $user->createToken('MyApp')->accessToken;
     $success['name'] = $user->name;
     return ['success' => $success];
   }

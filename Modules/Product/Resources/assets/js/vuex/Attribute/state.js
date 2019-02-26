@@ -12,7 +12,7 @@ var mutations = Object.assign({}, module_mutations, standart_mutations)
 const state = {
   name: 'Attribute',
   items: [],
-  url: '/attribute',
+  url: 'api/attribute',
   item: {},
   bindAttributes: [],
   loading: true,

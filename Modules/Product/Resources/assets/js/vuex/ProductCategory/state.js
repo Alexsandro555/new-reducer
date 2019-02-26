@@ -16,7 +16,7 @@ const state = {
   needFields: true,
   loading: true,
   item: {},
-  url: 'product-category',
+  url: 'api/product-category',
   fields: [],
   typeFiles: ['image-type-product'],
   model: 'Modules\\Product\\Entities\\ProductCategory'

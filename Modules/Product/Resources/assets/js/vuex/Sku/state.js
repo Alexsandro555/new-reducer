@@ -13,7 +13,7 @@ const state = {
     name: 'Sku',
     items: [],
     item: {},
-    url: 'sku',
+    url: 'api/sku',
     init: true,
     fields: [],
     loading: true,

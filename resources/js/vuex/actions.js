@@ -13,6 +13,17 @@ export default {
       commit('SET_VARIABLE',{variable: 'loading', value: false})
     })
   },
+  [GLOBAL.LOAD_ALL]: ({commit, dispatch}) => {
+    return new Promise((resolve, reject) => {
+      api.get(state.url).then(response => {
+        commit('SET_ARRAY_VARIABLE', {variable: 'items', value: response})
+        commit('SET_VARIABLE',{variable: 'loading', value: false})
+        resolve(response)
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
   [GLOBAL.ADD]: ({ commit, state }, data) => {
     return new Promise((resolve, reject) => {
       api.create(state.url, data).then(response => {

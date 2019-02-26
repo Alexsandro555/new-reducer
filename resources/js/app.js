@@ -71,6 +71,15 @@ const initializer = () => import("@initializer/vuex/initializer/state")
 const token = localStorage.getItem('user-token')
 if (token) {
   axios.defaults.headers.common['Authorization'] = 'Bearer '+token
+  // инициализируем начальное состояние
+  for(var key in store._modulesNamespaceMap) {
+    if(store.state[key.substring(0, key.length - 1) ].init) {
+      store.dispatch(key.substring(0, key.length - 1)+'/GLOBAL_LOAD')
+    }
+    if(store.state[key.substring(0, key.length - 1) ].needFields) {
+      store.dispatch(key.substring(0, key.length - 1)+'/GLOBAL_INITIALIZATION')
+    }
+  }
 }
 
 //import Registration from '@auth/vue/Register'
@@ -119,15 +128,7 @@ const app = new Vue({
 
 
 
-    // инициализируем начальное состояние
-    for(var key in store._modulesNamespaceMap) {
-      if(store.state[key.substring(0, key.length - 1) ].init) {
-        store.dispatch(key.substring(0, key.length - 1)+'/GLOBAL_LOAD')
-      }
-      if(store.state[key.substring(0, key.length - 1) ].needFields) {
-        store.dispatch(key.substring(0, key.length - 1)+'/GLOBAL_INITIALIZATION')
-      }
-    }
+
     //store.registerModule("initializer", () => import("@initializer/vuex/initializer/state").then(module => {}))
     //store.dispatch('initializer/init')
   },
