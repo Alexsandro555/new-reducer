@@ -10,10 +10,14 @@ export default {
         },
         error => {
           let errorType = error.response.status
+          console.log(errorType)
           if (errorType == 419) {
             setTimeout(() => {
               document.location.href = '/'
             }, 2000)
+          }
+          if (errorType == 401) {
+            console.log('401 error')
           }
           if (errorType == 422) {
             commit('SET_ERRORS', error.response.data.errors)
