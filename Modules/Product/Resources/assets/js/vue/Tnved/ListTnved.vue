@@ -89,7 +89,17 @@
       }
     },
     computed: {
-      ...mapState('Tnved', ['items', 'loading']),
+      ...mapState('tnveds', ['items', 'loading']),
+    },
+    beforeRouteEnter(to, from, next) {
+      next(vm => {
+        vm.initialization()
+        vm.loadRelations().then(response => {
+          vm.load().then(response => {
+            vm.$store.commit('SET_VARIABLE',{module: 'tnveds', variable: 'loading', value: false}, {root: true})
+          })
+        })
+      })
     },
     methods: {
       addTnved() {
@@ -107,11 +117,13 @@
           this.delete(item.id)
         }
       },
-      ...mapActions('Tnved', {
+      ...mapActions('tnveds', {
         load: GLOBAL.LOAD,
         add: GLOBAL.ADD,
         delete: GLOBAL.DELETE,
-        initialization: GLOBAL.INITIALIZATION
+        initialization: GLOBAL.INITIALIZATION,
+        loadAll: GLOBAL.LOAD_ALL,
+        loadRelations: GLOBAL.LOAD_RELATIONS
       })
     }
   }

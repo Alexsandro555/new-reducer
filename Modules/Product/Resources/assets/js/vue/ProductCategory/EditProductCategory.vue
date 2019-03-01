@@ -22,11 +22,11 @@
                       url-file="upload-file"
                       type-file-upload="file"
                       type-file="image-wysiwyg"
-                      model=""
+                      model="getModel"
                       v-model="form.description">
                     </wysiwyg>
                     <br>
-                    <file-box url="/files/upload" :fileable-id="Number(form.id)" :type-files="typeFiles" :model="model"></file-box>
+                    <file-box url="/files/upload" :fileable-id="Number(form.id)" :type-files="typeFiles" :model="getModel"></file-box>
                     <v-flex text-xs-left>
                       <v-btn large :class="{primary: valid, 'red lighten-3': !valid}" :disabled="isSending" @click.prevent="onSubmit">Сохранить</v-btn>
                     </v-flex>
@@ -72,18 +72,18 @@
       next()
     },
     computed: {
-      ...mapState('ProductCategory', ['item', 'items', 'fields', 'model', 'typeFiles']),
-      ...mapGetters('ProductCategory', {getItem: GLOBAL.GET_ITEM}),
+      ...mapState('product_categories', ['items', 'fields', 'typeFiles']),
+      ...mapGetters('product_categories', {getItem: GLOBAL.GET_ITEM, getModel: 'getModel'}),
       form() {
         return _.pick(this.getItem(Number(this.id)), ['id','title', 'sort', 'description'])
-      },
+      }
     },
     components: {
       formBuilder,
       fileBox
     },
     methods: {
-      ...mapActions('ProductCategory', {
+      ...mapActions('product_categories', {
         save: GLOBAL.SAVE_DATA
       }),
       updateField(objField) {

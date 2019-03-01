@@ -10,7 +10,7 @@ export const api = {
       })
     })
   },
-  create(url, data) {
+  post(url, data) {
     return new Promise((resolve, reject) => {
       axios.post(url, data).then(response => response.data).then(response => {
         resolve(response)

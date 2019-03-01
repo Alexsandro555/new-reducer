@@ -34,14 +34,14 @@ export default {
           commit(MUTATIONS.AUTH_SUCCESS, token)
           axios.defaults.headers.common['Authorization'] = 'Bearer '+token
 
-          for(var key in rootState) {
+          /*for(var key in rootState) {
             if(rootState[key].init) {
               dispatch(key+'/GLOBAL_LOAD', null, {root:true})
             }
             if(rootState[key].needFields) {
               dispatch(key+'/GLOBAL_INITIALIZATION', null, {root: true})
             }
-          }
+          }*/
         }
         resolve(response)
       }).catch(error => {

@@ -22,7 +22,7 @@
                                             url-file="upload-file"
                                             type-file-upload="file"
                                             type-file="image-wysiwyg"
-                                            model=""
+                                            model="getModel"
                                             v-model="form.description">
                                         </wysiwyg>
                                         <v-flex text-xs-left>
@@ -69,8 +69,8 @@
             next()
         },
         computed: {
-            ...mapState('News', ['item', 'items', 'fields', 'model', 'typeFiles']),
-            ...mapGetters('News', {getItem: GLOBAL.GET_ITEM}),
+            ...mapState('news', ['items', 'fields', 'typeFiles']),
+            ...mapGetters('news', {getItem: GLOBAL.GET_ITEM, getModel: 'getModel'}),
             form() {
                 return this.getItem(Number(this.id))
             }
@@ -79,9 +79,7 @@
             formBuilder
         },
         methods: {
-            ...mapActions('News',{
-                save: GLOBAL.SAVE_DATA
-            }),
+            ...mapActions('news',{save: GLOBAL.SAVE_DATA}),
             ...mapMutations('initializer', {resetError: 'RESET_ERROR'}),
             updateField(objField) {
                 Object.assign(this.form, objField)
@@ -89,7 +87,7 @@
             init(id) {
                 this.resetError();
                 if(this.items.length == 0) {
-                    this.$router.push({name: 'products'})
+                    this.$router.push({name: 'news'})
                 }
             },
             onSubmit() {
@@ -97,6 +95,7 @@
                     this.isSending = true
                     this.save(this.form).then(response => {
                         this.isSending = false
+                        this.$router.push({name: 'news'})
                     })
                 }
             },

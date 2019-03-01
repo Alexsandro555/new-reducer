@@ -145,7 +145,7 @@
       }
     },
     methods: {
-      ...mapActions('AttributeValue', {save: ACTIONS.SAVE_DATA}),
+      ...mapActions('attribute_values', {save: ACTIONS.SAVE_DATA}),
       selectRequired(v) {
         return !!v || 'Необходимо выбрать значение'
       },

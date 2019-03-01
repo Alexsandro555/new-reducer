@@ -60,7 +60,7 @@
 </template>
 <script>
   import {ACTIONS, GLOBAL} from "@/constants";
-  import {mapActions, mapState } from 'vuex'
+  import {mapActions, mapState, mapMutations } from 'vuex'
 
   export default {
     props: {},
@@ -90,15 +90,28 @@
       }
     },
     computed: {
-      ...mapState('ProductCategory', ['items', 'loading']),
+      ...mapState('product_categories', ['items', 'loading']),
     },
     beforeRouteEnter(to, from, next) {
       next(vm => {
         vm.initialization()
-        vm.loader = false
+        vm.loadRelations().then(response => {
+          vm.load().then(response => {
+            vm.$store.commit('SET_VARIABLE',{module: 'product_categories', variable: 'loading', value: false}, {root: true})
+          })
+        })
       })
     },
     methods: {
+      ...mapActions('product_categories', {
+        load: GLOBAL.LOAD,
+        add: GLOBAL.ADD,
+        delete: GLOBAL.DELETE,
+        initialization: GLOBAL.INITIALIZATION,
+        loadAll: GLOBAL.LOAD_ALL,
+        loadRelations: GLOBAL.LOAD_RELATIONS
+      }),
+      ...mapMutations('product_categories', {setVariable: 'SET_VARIABLE'}),
       addProductCategory() {
         this.add({'title': 'По-умолчанию'}).then(response => {
           // после добавления новой записи необходимо очистить кэш и получить актуальные данные в field
@@ -114,13 +127,7 @@
         if (confirm('Вы уверены что хотите удалить запись?')) {
           this.delete(item.id)
         }
-      },
-      ...mapActions('ProductCategory', {
-        load: GLOBAL.LOAD,
-        add: GLOBAL.ADD,
-        delete: GLOBAL.DELETE,
-        initialization: GLOBAL.INITIALIZATION
-      })
+      }
     }
   }
 </script>

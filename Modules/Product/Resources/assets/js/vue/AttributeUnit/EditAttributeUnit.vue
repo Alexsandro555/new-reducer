@@ -22,7 +22,7 @@
                       url-file="upload-file"
                       type-file-upload="file"
                       type-file="image-wysiwyg"
-                      model=""
+                      model="getModel"
                       v-model="form.description">
                     </wysiwyg>
                     <v-flex text-xs-left>
@@ -70,8 +70,8 @@
       next()
     },
     computed: {
-      ...mapState('AttributeUnit', ['item', 'items', 'fields', 'model']),
-      ...mapGetters('AttributeUnit', {getItem: GLOBAL.GET_ITEM}),
+      ...mapState('attribute_units', ['items', 'fields']),
+      ...mapGetters('attribute_units', {getItem: GLOBAL.GET_ITEM, getModel: 'getModel'}),
       form() {
         return _.pick(this.getItem(Number(this.id)), ['id','title', 'sort', 'active', 'attribute_type_id', 'attribute_group_id', 'attribute_unit_id'])
       }
@@ -80,7 +80,7 @@
       formBuilder,
     },
     methods: {
-      ...mapActions('AttributeUnit', {
+      ...mapActions('attribute_units', {
         save: GLOBAL.SAVE_DATA
       }),
       ...mapMutations('initializer', {resetError: 'RESET_ERROR'}),

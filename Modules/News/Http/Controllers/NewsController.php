@@ -2,75 +2,19 @@
 
 namespace Modules\News\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Initializer\Traits\ControllerTrait;
 use Modules\News\Entities\News;
+use Modules\Initializer\Traits\DefaultTrait;
 
 class NewsController extends Controller
 {
-  use ControllerTrait;
+  use ControllerTrait, DefaultTrait;
 
   public $model;
 
   public function __construct()
   {
     $this->model = new News;
-  }
-
-
-  /**
-   * Show the form for creating a new resource.
-   * @return Response
-   */
-  public function create()
-  {
-    return view('news::create');
-  }
-
-  /**
-   * Store a newly created resource in storage.
-   * @param  Request $request
-   * @return Response
-   */
-  public function store(Request $request)
-  {
-  }
-
-  /**
-   * Show the specified resource.
-   * @return Response
-   */
-  public function show($slug)
-  {
-    $article = News::where('url_key', $slug)->first();
-    return view('article::show', compact('article'));
-  }
-
-  /**
-   * Show the form for editing the specified resource.
-   * @return Response
-   */
-  public function edit()
-  {
-    return view('news::edit');
-  }
-
-  /**
-   * Update the specified resource in storage.
-   * @param  Request $request
-   * @return Response
-   */
-  public function update(Request $request)
-  {
-  }
-
-  /**
-   * Remove the specified resource from storage.
-   * @return Response
-   */
-  public function destroy()
-  {
   }
 }

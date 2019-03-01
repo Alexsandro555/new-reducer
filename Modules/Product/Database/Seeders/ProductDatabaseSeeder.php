@@ -27,9 +27,9 @@ class ProductDatabaseSeeder extends Seeder
   public function run(Populator $populator) {
     Model::unguard();
 
-    //$this->call(AttributeTypeTableSeeder::class);
+    $this->call(AttributeTypeTableSeeder::class);
 
-    $populator->add(ProductCategory::class,4)
+    /*$populator->add(ProductCategory::class,4)
               ->add(Tnved::class, 2)
               ->add(TypeProduct::class, 4)
               ->add(LineProduct::class, 5)
@@ -39,22 +39,14 @@ class ProductDatabaseSeeder extends Seeder
               ->add(AttributeType::class, 10)
               ->add(Attribute::class, 15)
               ->add(Product::class, 30)
-              ->seed();
-    /*$populator->add(ProductCategory::class,10)
-              ->add(Tnved::class, 10)
-              ->add(TypeProduct::class, 10)
-              ->add(LineProduct::class, 10)
-              ->add(Producer::class, 2)
-              ->add(AttributeUnit::class, 10)
-              ->add(AttributeGroup::class, 2)
-              ->add(AttributeType::class, 3);*/
-    /*$this->call(TnvedTableSeeder::class);
+              ->seed();*/
+    $this->call(TnvedTableSeeder::class);
     $this->call(ProductCategoryTableSeeder::class);
     $this->call(TypeProductTableSeeder::class);
     $this->call(LineProductTableSeeder::class);
     $this->call(ProducerTableSeeder::class);
     $this->call(AttributeUnitTableSeeder::class);
     $this->call(AttributeGroupTableSeeder::class);
-    $this->call(AttributeTableSeeder::class);*/
+    $this->call(AttributeTableSeeder::class);
   }
 }

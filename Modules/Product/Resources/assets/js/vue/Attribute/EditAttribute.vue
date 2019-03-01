@@ -32,6 +32,11 @@
                             </v-btn>
                           </td>
                         </template>
+                        <template slot="no-data">
+                          <v-alert :value="true" color="error" icon="warning">
+                            Извините, нет данных для отображения :(
+                          </v-alert>
+                        </template>
                       </v-data-table>
                     </template>
                     <br>
@@ -42,7 +47,7 @@
                           label="Значение списка"
                           v-model="titleList"
                           :counter="255"
-                          :rules="[v => !!v || 'Обязательно для заполнения',v => v && v.length <=255 || 'Наименование должно иметь длину не более 255 сДобавитьимволов']"
+                          :rules="[v => !!v || 'Обязательно для заполнения',v => v && v.length <=255 || 'Наименование должно иметь длину не более 255 символов']"
                           :error-messages="messages.titleList"
                           required></v-text-field>
                           <v-btn large :class="{primary: validList, 'red lighten-3': !validList}" :disabled="isSending" @click.prevent="onSaveListVal">Добавить</v-btn>
@@ -103,10 +108,10 @@
       next()
     },
     computed: {
-      ...mapState('Attribute', ['items', 'fields', 'relations', 'model']),
-      ...mapState('AttributeListValue', {attributesListValues: 'items'}),
+      ...mapState('attributes', ['items', 'fields', 'relations']),
+      ...mapState('attribute_list_values', {attributesListValues: 'items'}),
       ...mapState('initializer', ['messages']),
-      ...mapGetters('Attribute', {getItem: GLOBAL.GET_ITEM}),
+      ...mapGetters('attributes', {getItem: GLOBAL.GET_ITEM}),
       form() {
         return Object.assign({}, this.getItem(Number(this.id)))
       },
@@ -120,10 +125,10 @@
       formBuilder,
     },
     methods: {
-      ...mapActions('Attribute', {
+      ...mapActions('attributes', {
         save: GLOBAL.SAVE_DATA,
       }),
-      ...mapActions('AttributeListValue', {add: GLOBAL.SAVE_DATA, deleteItem: GLOBAL.DELETE}),
+      ...mapActions('attribute_list_values', {add: GLOBAL.SAVE_DATA, deleteItem: GLOBAL.DELETE}),
       ...mapMutations('initializer', {resetError: 'RESET_ERROR'}),
       updateField(objField) {
         Object.assign(this.form, objField)

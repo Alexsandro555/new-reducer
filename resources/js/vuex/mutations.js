@@ -27,11 +27,12 @@ export default {
   GET_ARRAY_OBJECT_BY_ID: (state, {variable, id}) => {
     return _.get(state, variable).filter(item => item.id === id)
   },
-  SET_VARIABLE: (state,{module,variable,value}) => {
-    _.set(state,variable,value)
+  // основные мутации
+  SET_VARIABLE (state,{module,variable,value}) {
+    _.set(state[module],variable,value)
   },
   SET_VARIABLE2: (state,{module,variable,value}) => {
-    _.set(state[module],variable,value)
+    _.set(state,variable,value)
   },
   INC_VARIABLE: (state,{module,variable}) => {
     _.set(state[module],variable,_.get(state[module],variable)+1)
@@ -56,26 +57,18 @@ export default {
   ADD_TO_ARRAY_UNIQ_KEY: (state,payload) => {
     state[payload.module][payload.variable]=_.uniqBy(state[payload.module][payload.variable].concat(payload.value.filter(function (item) {return !_.isEmpty(item) })),payload.key)
   },
-  UPDATE_ARRAY_BY_KEY: (state,payload) => {
-    if (!_.isArray(payload.value))
-    {
-      state[payload.module][payload.variable]=state[payload.module][payload.variable].filter(function (item)
-      {
+  UPDATE_ARRAY_BY_KEY (state,payload) {
+    if (!_.isArray(payload.value))  {
+      state[payload.module][payload.variable]=state[payload.module][payload.variable].filter(function (item) {
         return item[payload.key]!=payload.value[payload.key]
       })
       state[payload.module][payload.variable].push(payload.value)
     } else {
-      for (var i in payload.value) {
-        let index=_.findIndex(state[payload.module][payload.variable], function(o) { return o[payload.key] == payload.value[i][payload.key]; })
-        if (index==-1) {
-          state[payload.module][payload.variable].push(payload.value[i])
-        } else {
-          state[payload.module][payload.variable][index]=payload.value[i]
-        }
-      }
+      var keys=payload.value.map(item => item[payload.key])
+      state[payload.module][payload.variable]=state[payload.module][payload.variable].filter(item => !keys.includes(item[payload.key])).concat(payload.value)
     }
   },
-  DELETE_ARRAY_BY_KEY: (state,payload) => {
+  DELETE_ARRAY_BY_KEY (state,payload) {
     state[payload.module][payload.variable]=state[payload.module][payload.variable].filter(function (item)
     {
       return item[payload.key]!=payload.value[payload.key]

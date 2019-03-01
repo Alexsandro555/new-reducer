@@ -16,14 +16,9 @@ var mutations = Object.assign({}, module_mutations, standart_mutations)
 
 const state = {
   name: 'page',
-  item: {},
   items: [],
   fields: [],
-  loading: true,
-  init: true,
-  needFields: true,
-  url: '/page',
-  model: 'Modules\\Page\\Entities\\Page'
+  loading: true
 }
 
 const module = {

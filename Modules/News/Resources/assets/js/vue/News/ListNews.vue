@@ -90,7 +90,17 @@
       }
     },
     computed: {
-      ...mapState('News', ['items', 'loading']),
+      ...mapState('news', ['items', 'loading']),
+    },
+    beforeRouteEnter(to, from, next) {
+      next(vm => {
+        vm.initialization()
+        vm.loadRelations().then(response => {
+          vm.load().then(response => {
+            vm.$store.commit('SET_VARIABLE',{module: 'news', variable: 'loading', value: false}, {root: true})
+          })
+        })
+      })
     },
     methods: {
       addNews() {
@@ -109,11 +119,13 @@
           this.delete(item.id)
         }
       },
-      ...mapActions('News', {
+      ...mapActions('news', {
         load: GLOBAL.LOAD,
         add: GLOBAL.ADD,
         delete: GLOBAL.DELETE,
-        initialization: GLOBAL.INITIALIZATION
+        initialization: GLOBAL.INITIALIZATION,
+        loadAll: GLOBAL.LOAD_ALL,
+        loadRelations: GLOBAL.LOAD_RELATIONS
       })
     }
   }

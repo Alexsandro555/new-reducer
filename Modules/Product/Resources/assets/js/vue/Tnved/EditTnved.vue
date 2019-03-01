@@ -82,15 +82,15 @@
       next()
     },
     computed: {
-      ...mapState('Tnved', ['items']),
+      ...mapState('tnveds', ['items']),
       ...mapState('initializer', ['messages']),
-      ...mapGetters('Tnved', {getItem: GLOBAL.GET_ITEM}),
+      ...mapGetters('tnveds', {getItem: GLOBAL.GET_ITEM}),
       form() {
         return _.pick(this.getItem(Number(this.id)), ['id', 'title', 'active'])
       }
     },
     methods: {
-      ...mapActions('Tnved', {
+      ...mapActions('tnveds', {
         save: GLOBAL.SAVE_DATA
       }),
       ...mapMutations('initializer', {resetError: 'RESET_ERROR'}),

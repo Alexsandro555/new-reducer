@@ -12,15 +12,10 @@ var mutations = Object.assign({}, module_mutations, standart_mutations)
 const state = {
   name: 'Attribute',
   items: [],
-  url: 'api/attribute',
-  item: {},
+  fields: [],
   bindAttributes: [],
   loading: true,
-  needFields: true,
-  init: true,
-  fields: [],
-  model: 'Modules\\Product\\Entities\\Attribute::class',
-  relations: [{column:'attribute_group_id',module:'AttributeGroup'}, {column: 'attribute_unit_id', module: 'AttributeUnit'}, {column: 'attribute_type_id', module: 'AttributeType'}]
+  relations: [{column:'attribute_group_id',module:'attribute_groups'}, {column: 'attribute_unit_id', module: 'attribute_units'}, {column: 'attribute_type_id', module: 'attribute_types'}]
 }
 
 const module = {

@@ -59,27 +59,30 @@ Vue.component('notifications', Notifications)
 const store = new Vuex.Store(createStore())
 
 //==========Router=========================================
-import VueRouter from 'vue-router'
+/*import VueRouter from 'vue-router'
 Vue.use(VueRouter)
 import { routes } from './routes'
 const router = new VueRouter({
   routes
-})
+})*/
 
-const initializer = () => import("@initializer/vuex/initializer/state")
+import router from './vue/router/vue_router'
+//const router = () => import('./vue/router/vue_router.js')
+
+//const initializer = () => import("@initializer/vuex/initializer/state")
 
 const token = localStorage.getItem('user-token')
 if (token) {
   axios.defaults.headers.common['Authorization'] = 'Bearer '+token
   // инициализируем начальное состояние
-  for(var key in store._modulesNamespaceMap) {
+  /*for(var key in store._modulesNamespaceMap) {
     if(store.state[key.substring(0, key.length - 1) ].init) {
       store.dispatch(key.substring(0, key.length - 1)+'/GLOBAL_LOAD')
     }
     if(store.state[key.substring(0, key.length - 1) ].needFields) {
       store.dispatch(key.substring(0, key.length - 1)+'/GLOBAL_INITIALIZATION')
     }
-  }
+  }*/
 }
 
 //import Registration from '@auth/vue/Register'
@@ -92,7 +95,7 @@ const app = new Vue({
   router,
   store,
   created() {
-
+    store.dispatch('initializer/init')
     /*const requreModuleVuex = require.context(
       '../../Modules', true, /state\.js$/
     )*/

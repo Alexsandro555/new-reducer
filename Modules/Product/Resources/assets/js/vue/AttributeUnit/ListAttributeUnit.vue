@@ -88,7 +88,17 @@
       }
     },
     computed: {
-      ...mapState('AttributeUnit', ['items', 'loading']),
+      ...mapState('attribute_units', ['items', 'loading']),
+    },
+    beforeRouteEnter(to, from, next) {
+      next(vm => {
+        vm.initialization()
+        vm.loadRelations().then(response => {
+          vm.load().then(response => {
+            vm.$store.commit('SET_VARIABLE',{module: 'attribute_units', variable: 'loading', value: false}, {root: true})
+          })
+        })
+      })
     },
     methods: {
       addAttributeUnit() {
@@ -106,11 +116,13 @@
           this.delete(item.id)
         }
       },
-      ...mapActions('AttributeUnit', {
+      ...mapActions('attribute_units', {
         load: GLOBAL.LOAD,
         add: GLOBAL.ADD,
         delete: GLOBAL.DELETE,
-        initialization: GLOBAL.INITIALIZATION
+        initialization: GLOBAL.INITIALIZATION,
+        loadAll: GLOBAL.LOAD_ALL,
+        loadRelations: GLOBAL.LOAD_RELATIONS
       })
     }
   }

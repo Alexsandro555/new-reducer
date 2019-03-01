@@ -16,15 +16,57 @@ trait ControllerTrait {
   {
     $values=$request->all();
     $m=$this->model;
-
+    $visible=null;
+    $methodanalize=[];
     foreach ($values as $key=>$value)
     {
-      if (is_array($value)) {
-        $m=$m->whereIn($key,(array) $value);} else {
-        $m=$m->where($key,$value);
+      switch ($key) {
+        case '_order':
+          $fields=explode("|",$value);
+          $fields[0]=str_replace(".","->",$fields[0]);
+          $m=$m->orderBy($fields[0],(count($fields)>1)?$fields[1]:'asc');
+          break;
+        case '_take':
+          $m=$m->take(intval($value));
+          break;
+        case '_function':
+          $methodanalize=explode("|",$value);
+          break;
+        case '_visible':
+          $visible=$value;
+          break;
+        default:
+          if (is_array($value)) {
+            $m=$m->whereIn($key,(array) $value);} else {
+            if (preg_match("#->#i",$key)) {
+              // if ($value==1) {$value=true;}
+            }
+            // Для передачи данных по выборке необходимо добавить в ключ управляющие выборкой символы (>,=,<= и т.д)
+            $fields=explode("|",$key);
+            if (count($fields)==1) {$fields[1]='=';}
+            switch ($fields[1]) {
+              case 'null':
+                $m=$m->whereNull($fields[0]);
+                break;
+              case 'not_null':
+                $m=$m->whereNotNull($fields[0]);
+                break;
+              default:
+                $m=$m->where($fields[0],$fields[1],$value);
+            }
+          }
       }
     }
-    return $m->get();
+    $collection=$m->get();
+    if (!is_null($visible)) {
+      $collection=$collection->each(function ($item) use ($visible) {
+        $item->makeVisible($visible);
+      });
+    }
+    if (count($methodanalize)>0) {
+      $collection=$collection->{$methodanalize[0]}($methodanalize[1]);
+    }
+    return $collection;
   }
 
   public function save(Request $request)

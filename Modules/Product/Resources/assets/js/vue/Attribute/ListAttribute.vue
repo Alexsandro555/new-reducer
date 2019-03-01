@@ -88,19 +88,17 @@
     },
     beforeRouteEnter(to, from, next) {
       next(vm => {
-        vm.load().then(response => {
-          vm.loader = false
+        vm.initialization()
+        vm.loadRelations().then(response => {
+          vm.load().then(response => {
+            vm.$store.commit('SET_VARIABLE',{module: 'attributes', variable: 'loading', value: false}, {root: true})
+          })
         })
+        vm.loadAttributeListValues()
       })
-    },
-    beforeRouteUpdate(to, from, next) {
-      this.load().then(response => {
-        this.loader = false
-      })
-      next()
     },
     computed: {
-      ...mapState('Attribute', ['items', 'loading']),
+      ...mapState('attributes', ['items', 'loading']),
     },
     methods: {
       addAttribute() {
@@ -118,7 +116,8 @@
           this.delete(item.id)
         }
       },
-      ...mapActions('Attribute', {load: GLOBAL.LOAD, add: GLOBAL.ADD, delete: GLOBAL.DELETE})
+      ...mapActions('attributes', {load: GLOBAL.LOAD, add: GLOBAL.ADD, delete: GLOBAL.DELETE, initialization: GLOBAL.INITIALIZATION,  loadAll: GLOBAL.LOAD_ALL, loadRelations: GLOBAL.LOAD_RELATIONS}),
+      ...mapActions('attribute_list_values', {loadAttributeListValues: GLOBAL.LOAD})
     }
   }
 </script>

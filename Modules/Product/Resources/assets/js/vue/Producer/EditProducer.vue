@@ -58,14 +58,14 @@
             next()
         },
         computed: {
-            ...mapState('Producer', ['item', 'items', 'fields', 'model', 'typeFiles']),
-            ...mapGetters('Producer', {getItem: GLOBAL.GET_ITEM}),
+            ...mapState('producers', ['item', 'items', 'fields', 'model', 'typeFiles']),
+            ...mapGetters('producers', {getItem: GLOBAL.GET_ITEM}),
             form() {
                 return _.pick(this.getItem(Number(this.id)), ['id','title', 'sort', 'active', 'attribute_type_id', 'attribute_group_id', 'attribute_unit_id'])
             }
         },
         methods: {
-            ...mapActions('Producer',{
+            ...mapActions('producers',{
                 save: GLOBAL.SAVE_DATA
             }),
             ...mapMutations('initializer', {resetError: 'RESET_ERROR'}),

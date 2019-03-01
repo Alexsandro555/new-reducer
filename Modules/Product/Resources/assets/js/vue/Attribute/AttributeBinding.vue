@@ -13,6 +13,7 @@
                 name="product_category_id"
                 :items="productCategories"
                 label="Категория продукта"
+                no-data-text="Нет данных"
                 item-text="title"
                 @change="changeProductCategories"
                 item-value="id"
@@ -67,10 +68,9 @@
                   </v-chip>
                 </template>
               </v-select>
-              <v-btn large color="primary" :disabled="!validRemainAttr || isSending" @click.prevent="onSaveAttributes()">Сохранить
-              </v-btn>
+              <v-btn large color="primary" :disabled="!validRemainAttr || isSending" @click.prevent="onSaveAttributes()">Сохранить</v-btn>
             </v-form>
-            <v-form ref="formProductCategoryAttr" lazy-validation v-model="validProdCatAttr">
+            <!--<v-form ref="formProductCategoryAttr" lazy-validation v-model="validProdCatAttr">
               <v-select
                 label="Атрибуты категории продукции"
                 :items="getProductCategoryAttributes"
@@ -150,7 +150,7 @@
                 </template>
               </v-select>
               <v-btn large color="primary" :disabled="!validLineProdAttr" @click.prevent="onRemoveLineProductAttributes">Исключить атрибуты</v-btn>
-            </v-form>
+            </v-form>-->
           </v-card-text>
         </v-card>
       </v-flex>
@@ -160,7 +160,8 @@
 
 <script>
   import {ACTIONS} from "@product/constants"
-  import {mapState, mapActions} from "vuex"
+  import {GLOBAL} from "@/constants"
+  import {mapState, mapActions, mapGetters} from "vuex"
   import {ValidationConvert} from '@/vue/Validations'
 
   export default {
@@ -174,18 +175,12 @@
           line_product_id: null,
           selectedRemainAttr: null
         },
-        // ProductCategory
         validProdCatAttr: false,
         formProductCategoryAttributes: null,
-        //selectedAttrProductCategory: null,
-        // TypeProduct
         validTypeProdAttr: false,
         formTypeProductAttributes: null,
-        //selectedAttrTypeProduct: null,
-        // LineProduct
         validLineProdAttr: false,
         formLineProductAttributes: null,
-        // RemainAttr
         validRemainAttr: false,
         isSending: false
 
@@ -193,36 +188,44 @@
     },
     beforeRouteEnter(to, from, next) {
       next(vm => {
-        vm.load().then(response => {
-          vm.loader = false
-        })
+        vm.initialization()
+        vm.loadProductCategories()
+        vm.loadTypeProducts()
+        vm.loadLineProducts()
+        vm.loadAttributes()
+        vm.load()
       })
     },
     computed: {
-      ...mapState('ProductCategory', {productCategories: state => state.items}),
-      ...mapState('TypeProduct', {typeProducts: state => state.items}),
-      ...mapState('LineProduct', {lineProducts: state => state.items}),
-      ...mapState('Attribute', {attributes: state => state.bindAttributes, allAttributes: state => state.items}),
+      ...mapState('product_categories', {productCategories: state => state.items}),
+      ...mapState('type_products', {typeProducts: state => state.items}),
+      ...mapState('line_products', {lineProducts: state => state.items}),
+      ...mapState('attributables', {attributables: 'items'}),
+      ...mapState('attributes', {attributes: state => state.bindAttributes, allAttributes: state => state.items}),
+      ...mapGetters('product_categories', {getProdCategoriesModel: 'getModel'}),
+      ...mapGetters('type_products', {getTypeProductModel: 'getModel'}),
+      ...mapGetters('line_products', {getLineProductModel: 'getModel'}),
+      ...mapState('initializer', ['messages']),
       getTypeProducts() {
-        return this.typeProducts ? this.typeProducts.filter(typeProduct => typeProduct.product_category_id === this.form.product_category_id) : []
+        return this.form.product_category_id?this.typeProducts.filter(item => item.product_category_id == this.form.product_category_id):[]
       },
       getLineProducts() {
-        return this.lineProducts.filter(lineProduct => lineProduct.type_product_id === this.form.type_product_id)
+        return this.form.type_product_id?this.lineProducts.filter(item => item.type_product_id == this.form.type_product_id):[]
       },
       getProductCategoryAttributes() {
-        return this.form.product_category_id?this.attributes.filter(attribute => attribute.product_categories.find(productCategory => productCategory.id === this.form.product_category_id)):[]
+        return this.attributables.filter(item => item.attributable_id == this.form.product_category_id && item.attributable_type == this.getProdCategoriesModel)
       },
       getTypeProductAttributes() {
-        return this.form.type_product_id?this.attributes.filter(attribute => attribute.type_products.find(typeProduct => typeProduct.id === this.form.type_product_id)):[]
+        return this.attributables.filter(item => item.attributable_id == this.form.type_product_id && item.attributable_type == this.getTypeProductModel)
       },
       getLineProductAttributes() {
-        return this.form.line_product_id?this.attributes.filter(attribute => attribute.line_products.find(lineProduct => lineProduct.id === this.form.line_product_id)):[]
+        return this.attributables.filter(item => item.attributable_id == this.form.line_product_id && item.attributable_type == this.getLineProductModel)
       },
       getSelAttributesIds() {
-        return this.getProductCategoryAttributes.concat(this.getTypeProductAttributes).concat(this.getLineProductAttributes).map(item => item.id)
+        return this.getProductCategoryAttributes.concat(this.getTypeProductAttributes).concat(this.getLineProductAttributes).map(item => item.attribute_id)
       },
       getRemainsAttributes() {
-        return this.allAttributes.filter(allAttribute => !this.getSelAttributesIds.includes(allAttribute.id))
+        return this.allAttributes.filter(item => !this.getSelAttributesIds.includes(item.id))
       }
     },
     watch: {
@@ -237,7 +240,6 @@
       }
     },
     methods: {
-      ...mapState('initializer', ['messages']),
       changeProductCategories() {
         this.form.type_product_id = null
         this.form.line_product_id = null
@@ -296,11 +298,15 @@
       getRules(validations) {
         return validations ? this.validationConvert.ruleValidations(validations) : []
       },
-      ...mapActions('Attribute', {
-        load: ACTIONS.LOAD_BINDING_ATTRIBUTES,
-        save: ACTIONS.SAVE_BINDINGS,
+      ...mapActions('product_categories', {loadProductCategories: GLOBAL.LOAD_ALL}),
+      ...mapActions('type_products', {loadTypeProducts: GLOBAL.LOAD_ALL}),
+      ...mapActions('line_products', {loadLineProducts: GLOBAL.LOAD_ALL}),
+      ...mapActions('attributables', {load: GLOBAL.LOAD, save: GLOBAL.SAVE_DATA}),
+      ...mapActions('attributes', {
+        initialization: GLOBAL.INITIALIZATION,
+        loadAttributes: GLOBAL.LOAD_ALL,
         removeBindAttributes: ACTIONS.REMOVE_BIND_ATTRIBUTES
-      })
+      }),
     }
   }
 </script>

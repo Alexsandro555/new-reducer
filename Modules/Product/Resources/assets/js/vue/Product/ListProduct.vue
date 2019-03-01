@@ -89,7 +89,19 @@
       }
     },
     computed: {
-      ...mapState('Product', ['items', 'loading']),
+      ...mapState('products', ['items', 'loading']),
+    },
+    beforeRouteEnter(to, from, next) {
+      next(vm => {
+        vm.loadRelations().then(response => {
+          vm.load().then(response => {
+            vm.$store.commit('SET_VARIABLE',{module: 'products', variable: 'loading', value: false}, {root: true})
+          })
+        })
+        vm.loadAttributables()
+        vm.loadAttributes()
+        vm.loadAttributeValues()
+      })
     },
     methods: {
       addProduct() {
@@ -107,7 +119,10 @@
           this.delete(item.id)
         }
       },
-      ...mapActions('Product', { add: GLOBAL.ADD, delete: GLOBAL.DELETE, load: ACTIONS.LOAD })
+      ...mapActions('products', { add: GLOBAL.ADD, delete: GLOBAL.DELETE, load: GLOBAL.LOAD, loadAll: GLOBAL.LOAD_ALL, loadRelations: GLOBAL.LOAD_RELATIONS }),
+      ...mapActions('attributables', {loadAttributables: GLOBAL.LOAD}),
+      ...mapActions('attributes', {loadAttributes: GLOBAL.LOAD}),
+      ...mapActions('attribute_values', {loadAttributeValues: GLOBAL.LOAD})
     }
   }
 </script>

@@ -88,12 +88,16 @@
       }
     },
     computed: {
-      ...mapState('TypeProduct', ['items', 'loading'])
+      ...mapState('type_products', ['items', 'loading'])
     },
     beforeRouteEnter(to, from, next) {
       next(vm => {
         vm.initialization()
-        vm.loader = false
+        vm.loadRelations().then(response => {
+          vm.load().then(response => {
+            vm.$store.commit('SET_VARIABLE',{module: 'type_products', variable: 'loading', value: false}, {root: true})
+          })
+        })
       })
     },
     methods: {
@@ -112,11 +116,13 @@
           this.delete(item.id)
         }
       },
-      ...mapActions('TypeProduct', {
+      ...mapActions('type_products', {
         load: GLOBAL.LOAD,
         add: GLOBAL.ADD,
         delete: GLOBAL.DELETE,
-        initialization: GLOBAL.INITIALIZATION
+        initialization: GLOBAL.INITIALIZATION,
+        loadAll: GLOBAL.LOAD_ALL,
+        loadRelations: GLOBAL.LOAD_RELATIONS
       })
     }
   }

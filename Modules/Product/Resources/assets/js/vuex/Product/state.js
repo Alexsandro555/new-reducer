@@ -12,13 +12,14 @@ var mutations = Object.assign({}, module_mutations, standart_mutations)
 const state = {
   name: 'Product',
   items: [],
-  item: {},
-  url: 'api/product',
-  loading: true,
   fields: [],
-  init: true,
+  loading: true,
   typeFiles: ['image-product'],
-  model: 'Modules\\Product\\Entities\\Product'
+  relations: [
+    {column:'product_category_id',module:'product_categories'},
+    {column: 'type_product_id', module: 'type_products'},
+    {column: 'line_product_id', module: 'line_products'}
+  ]
 }
 
 const module = {

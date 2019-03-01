@@ -10,13 +10,8 @@
         </v-responsive>
         <v-card-title>
           <v-flex xs12>
-            <v-alert v-if="flagError" type="error" :value="true">
-              <ul v-if="arrErrors && arrErrors.length">
-                <li v-for="(index, key) of arrErrors">
-                  {{arrErrors[key].key}}: {{arrErrors[key].val}}
-                </li>
-              </ul>
-              {{resultMessage}}
+            <v-alert v-if="errorMessage" type="error" :value="true">
+              {{errorMessage}}
             </v-alert>
             <v-form ref="form" lazy-validation v-model="valid">
               <v-text-field
@@ -42,6 +37,7 @@
         </v-card-title>
         <v-card-actions>
           <v-btn color="blue darken-4" dark @click.stop="onSubmit">Войти</v-btn>
+          <v-btn color="blue lighten-4" light @click="$router.push({name: 'registration'})">Регистрация</v-btn>
         </v-card-actions>
       </v-card>
     </v-layout>
@@ -75,8 +71,12 @@
         show: true
       }
     },
+    beforeRouteEnter(to, from, next) {
+      next(vm => {vm.resetError()})
+    },
     computed: {
-      ...mapState('Auth', ['showLoginWindow'])
+      ...mapState('Auth', ['showLoginWindow']),
+      ...mapState('initializer', {errorMessage: 'message'})
     },
     methods: {
       ...mapMutations('Auth', {setState: 'SET_VARIABLE'}),

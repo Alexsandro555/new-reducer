@@ -23,10 +23,10 @@
                       url-file="upload-file"
                       type-file-upload="file"
                       type-file="image-wysiwyg"
-                      model=""
+                      model="getModel"
                       v-model="form.description">
                     </wysiwyg>
-                    <file-box url="/files/upload" :fileable-id="Number(form.id)" :type-files="typeFiles" :model="model"></file-box>
+                    <file-box url="/files/upload" :fileable-id="Number(form.id)" :type-files="typeFiles" :model="getModel"></file-box>
                     <v-flex text-xs-left>
                       <v-btn large :class="{primary: valid, 'red lighten-3': !valid}" :disabled="isSending"
                              @click.prevent="onSubmit">Сохранить
@@ -74,8 +74,8 @@
       next()
     },
     computed: {
-      ...mapState('TypeProduct', ['item', 'items', 'fields', 'model', 'relations', 'typeFiles']),
-      ...mapGetters('TypeProduct', {getItem: GLOBAL.GET_ITEM}),
+      ...mapState('type_products', ['items', 'fields', 'model', 'relations', 'typeFiles']),
+      ...mapGetters('type_products', {getItem: GLOBAL.GET_ITEM, getModel: 'getModel'}),
       form() {
         return _.pick(this.getItem(Number(this.id)), ['id','title', 'sort', 'description', 'product_category_id', 'tnved_id'])
       }
@@ -85,7 +85,7 @@
       fileBox
     },
     methods: {
-      ...mapActions('TypeProduct', {
+      ...mapActions('type_products', {
         save: GLOBAL.SAVE_DATA
       }),
       ...mapMutations('initializer', {resetError: 'RESET_ERROR'}),

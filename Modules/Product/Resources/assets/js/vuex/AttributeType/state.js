@@ -12,13 +12,8 @@ var mutations = Object.assign({}, module_mutations, standart_mutations)
 const state = {
     name: 'AttributeType',
     items: [],
-    item: {},
-    url: 'api/attribute-type',
-    init: true,
     fields: [],
-    loading: true,
-    needFields: false,
-    model: 'Modules\\Product\\Entities\\AttributeType'
+    loading: true
 }
 
 const module = {

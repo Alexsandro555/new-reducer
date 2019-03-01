@@ -87,11 +87,13 @@
     beforeRouteEnter(to, from, next) {
       next(vm => {
         vm.initialization()
-        vm.loader = false
+        vm.loadAll().then(response => {
+          vm.$store.commit('SET_VARIABLE',{module: 'news', variable: 'loading', value: false}, {root: true})
+        })
       })
     },
     computed: {
-      ...mapState('Page', ['items', 'loading']),
+      ...mapState('pages', ['items', 'loading']),
     },
     methods: {
       addItem() {
@@ -104,7 +106,7 @@
           this.delete(item.id)
         }
       },
-      ...mapActions('Page', {load: GLOBAL.LOAD, add: GLOBAL.ADD, delete: GLOBAL.DELETE, initialization: GLOBAL.INITIALIZATION})
+      ...mapActions('pages', {load: GLOBAL.LOAD, add: GLOBAL.ADD, delete: GLOBAL.DELETE, initialization: GLOBAL.INITIALIZATION, loadAll: GLOBAL.LOAD_ALL})
     }
   }
 </script>

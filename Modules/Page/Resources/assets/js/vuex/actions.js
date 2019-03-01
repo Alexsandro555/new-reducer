@@ -1,7 +1,4 @@
 import { ACTIONS } from "@page/constants"
-import { GLOBAL } from "@/constants"
-
-import axios from "axios/index";
 import { api } from "@page/../api/index";
 
 export default {

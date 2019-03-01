@@ -25,53 +25,8 @@ class ProductController extends Controller
    *
    * @return array
    */
-  public function index()
+  /*public function index()
   {
     return $this->model::with('attributeValues')->orderBy('created_at', 'desc')->get();
-  }
-
-  /**
-   * Store a newly created resource in storage.
-   * @param  Request $request
-   * @return Response
-   */
-  public function store(Request $request)
-  {
-
-  }
-
-  /**
-   * Show the specified resource.
-   * @return Response
-   */
-  public function show()
-  {
-    return view('product::show');
-  }
-
-  /**
-   * Show the form for editing the specified resource.
-   * @return Response
-   */
-  public function edit()
-  {
-    return view('product::edit');
-  }
-
-  /**
-   * Update the specified resource in storage.
-   * @param  Request $request
-   * @return Response
-   */
-  public function update(Request $request)
-  {
-  }
-
-  /**
-   * Remove the specified resource from storage.
-   * @return Response
-   */
-  public function destroy()
-  {
-  }
+  }*/
 }

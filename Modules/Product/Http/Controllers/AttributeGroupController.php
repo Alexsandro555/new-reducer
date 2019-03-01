@@ -19,48 +19,4 @@ class AttributeGroupController extends Controller
   {
     $this->model = new AttributeGroup();
   }
-
-  /**
-   * Store a newly created resource in storage.
-   * @param  Request $request
-   * @return Response
-   */
-  public function store(Request $request)
-  {
-  }
-
-  /**
-   * Show the specified resource.
-   * @return Response
-   */
-  public function show()
-  {
-    return view('product::show');
-  }
-
-  /**
-   * Show the form for editing the specified resource.
-   * @return Response
-   */
-  public function edit()
-  {
-    return view('product::edit');
-  }
-
-  /**
-   * Update the specified resource in storage.
-   * @param  Request $request
-   * @return Response
-   */
-  public function update(Request $request)
-  {
-  }
-
-  /**
-   * Remove the specified resource from storage.
-   * @return Response
-   */
-  public function destroy()
-  {
-  }
 }

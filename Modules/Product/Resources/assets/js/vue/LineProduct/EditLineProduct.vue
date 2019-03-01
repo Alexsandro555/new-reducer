@@ -22,7 +22,7 @@
                       url-file="upload-file"
                       type-file-upload="file"
                       type-file="image-wysiwyg"
-                      model=""
+                      model="getModel"
                       v-model="form.description">
                     </wysiwyg>
                     <!--<file-box url="/files/upload" :fileable-id="Number(item.id)" :type-files="typeFiles"
@@ -74,8 +74,8 @@
       next()
     },
     computed: {
-      ...mapState('LineProduct', ['item', 'items', 'fields', 'relations', 'model']),
-      ...mapGetters('LineProduct', {getItem: GLOBAL.GET_ITEM}),
+      ...mapState('line_products', ['item', 'items', 'fields', 'relations', 'model']),
+      ...mapGetters('line_products', {getItem: GLOBAL.GET_ITEM, getModel: 'getModel'}),
       form() {
         return _.pick(this.getItem(Number(this.id)), ['id', 'title', 'sort', 'description', 'type_product_id', 'price_amount'])
       }
@@ -85,7 +85,7 @@
       //fileBox
     },
     methods: {
-      ...mapActions('LineProduct', {
+      ...mapActions('line_products', {
         save: GLOBAL.SAVE_DATA
       }),
       ...mapMutations('initializer', {resetError: 'RESET_ERROR'}),

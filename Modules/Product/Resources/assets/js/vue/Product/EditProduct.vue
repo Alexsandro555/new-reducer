@@ -115,11 +115,11 @@
                           type-file-upload="file"
                           no-data-text="Нет данных"
                           type-file="image-wysiwyg"
-                          model="model"
+                          :model="getModel"
                           v-model="form.description">
                         </wysiwyg>
                         <v-spacer></v-spacer>
-                        <file-box url="/files/upload" :fileable-id="Number(form.id)" :type-files="typeFiles" :model="model"></file-box>
+                        <file-box url="/files/upload" :fileable-id="Number(form.id)" :type-files="typeFiles" :model="getModel"></file-box>
                         <v-flex text-xs-left>
                           <v-btn text-xs-left large :class="{primary: valid, 'red lighten-3': !valid}"
                                  :disabled="isSending" @click.prevent="onSubmit">Сохранить
@@ -128,7 +128,8 @@
                       </v-form>
                     </v-flex>
                     <v-flex v-if="form" xs12>
-                      <list-sku :id="Number(id)" :attributes="getAttributes"/>
+
+                      <!--<list-sku :id="Number(id)" :attributes="getAttributes"/>-->
                     </v-flex>
                   </v-layout>
                 </v-container>
@@ -166,7 +167,7 @@
         valid: false,
         isSending: false,
         validationConvert: new ValidationConvert(),
-        attributes: []
+        //attributes: []
       }
     },
     beforeRouteEnter(to, from, next) {
@@ -201,25 +202,36 @@
       getLineProduct() {
         return this.lineProducts.find(item => item.id == this.form.line_product_id)
       },
-      getProductCategoriesAttributes() {
-        return this.getProductCategory?this.getProductCategory.attributes:[]
+      getAttributablesProductCategory() {
+        return this.attributables.filter(item => item.attributable_id == this.form.product_category_id && item.attributable_type == this.getProdCategoriesModel)
       },
-      getTypeProductsAttributes() {
-        return this.getTypeProduct?this.getTypeProduct.attributes:[]
+      getAttributablesTypeProduct() {
+        return this.attributables.filter(item => item.attributable_id == this.form.type_product_id && item.attributable_type == this.getTypeProductModel)
       },
-      getLineProductsAttributes() {
-        return this.getLineProduct?this.getLineProduct.attributes:[]
+      getAttributablesLineProduct() {
+        return this.attributables.filter(item => item.attributable_id == this.form.line_product_id && item.attributable_type == this.getLineProductModel)
+      },
+      getAttributebles() {
+        return this.getAttributablesProductCategory.concat(this.getAttributablesTypeProduct).concat(this.getAttributablesLineProduct)
       },
       getAttributes() {
-        return this.getProductCategoriesAttributes.concat(this.getTypeProductsAttributes).concat(this.getLineProductsAttributes)
+        return this.getAttributebles.map(item => {
+          return Object.assign(item, this.transformByKey(item, 'attribute_id'))
+        })
       },
-      ...mapState('Product', ['items', 'model', 'typeFiles']),
-      ...mapGetters('Product', {getItem: GLOBAL.GET_ITEM}),
-      ...mapGetters('AttributeValue', {attributesValues: GETTERS.BY_PRODUCT_ID}),
+      ...mapState('products', ['items', 'typeFiles']),
+      ...mapGetters('products', {getItem: GLOBAL.GET_ITEM, getModel: 'getModel'}),
+      ...mapGetters('product_categories', {getProdCategoriesModel: 'getModel'}),
+      ...mapGetters('type_products', {getTypeProductModel: 'getModel'}),
+      ...mapGetters('line_products', {getLineProductModel: 'getModel'}),
+      ...mapGetters('attributables', {transformByKey: 'transformByKey'}),
+      ...mapState('attributes', {attributes: 'items'}),
+      ...mapGetters('attribute_values', {attributesValues: GETTERS.BY_PRODUCT_ID}),
       ...mapState('initializer', ['messages']),
-      ...mapState('ProductCategory', {productCategories: 'items'}),
-      ...mapState('TypeProduct', {typeProducts: 'items'}),
-      ...mapState('LineProduct', {lineProducts: 'items'})
+      ...mapState('product_categories', {productCategories: 'items'}),
+      ...mapState('type_products', {typeProducts: 'items'}),
+      ...mapState('line_products', {lineProducts: 'items'}),
+      ...mapState('attributables', {attributables: 'items'})
     },
     components: {
       fileBox,
@@ -228,13 +240,8 @@
       ListSku
     },
     methods: {
-      ...mapActions('Product', {
-        save: GLOBAL.SAVE_DATA,
-        updateField: ACTIONS.UPDATE_FIELD,
-        updateRelations: ACTIONS.UPDATE_RELATIONS
-      }),
+      ...mapActions('products', {save: GLOBAL.SAVE_DATA}),
       ...mapMutations('initializer', {resetError: 'RESET_ERROR'}),
-      ...mapMutations('Product', {selectItem: 'SELECT_VARIABLE_BY_ID'}),
       changeProductCategories() {
         this.form.type_product_id = null
         this.form.line_product_id = null

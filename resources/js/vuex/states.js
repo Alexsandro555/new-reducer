@@ -22,6 +22,7 @@ import Auth from '@auth/vuex/Auth/state'
 import Article from '@article/vuex/state'
 import News from '@news/vuex/News/state'
 import Page from '@page/vuex/state'
+import Attributables from '@product/vuex/Attributables/state'
 
 //const modulesPath = '../../Modules'
 
@@ -54,25 +55,26 @@ export default function() {
     modules: {
       initializer,
       notification,
-      Product,
-      Attribute,
-      ProductCategory,
-      TypeProduct,
-      LineProduct,
-      AttributeUnit,
-      AttributeGroup,
-      Tnved,
-      AttributeListValue,
-      Producer,
+      products: Product,
+      product_categories: ProductCategory,
+      type_products: TypeProduct,
+      tnveds: Tnved,
+      line_products: LineProduct,
+      producers: Producer,
+      attribute_units: AttributeUnit,
+      attribute_groups: AttributeGroup,
+      attributes: Attribute,
+      attribute_types: AttributeType,
+      attribute_list_values: AttributeListValue,
       TradeOffer,
       Sku,
       SkuOptions,
-      AttributeType,
-      AttributeValue,
+      attribute_values: AttributeValue,
       Auth,
       Article,
-      News,
-      Page
+      news: News,
+      pages: Page,
+      attributables: Attributables
     },
     mutations,
     getters
