@@ -70,7 +70,7 @@
               </v-select>
               <v-btn large color="primary" :disabled="!validRemainAttr || isSending" @click.prevent="onSaveAttributes()">Сохранить</v-btn>
             </v-form>
-            <!--<v-form ref="formProductCategoryAttr" lazy-validation v-model="validProdCatAttr">
+            <v-form ref="formProductCategoryAttr" lazy-validation v-model="validProdCatAttr">
               <v-select
                 label="Атрибуты категории продукции"
                 :items="getProductCategoryAttributes"
@@ -82,7 +82,7 @@
                 no-data-text="Нет данных"
                 attach
                 chips
-                :rules="[v => (v && v.length>0) || 'Необходимо выбрать значение']"
+                :rules="getRules({selected: true})"
                 required>
                 <template slot="selection" slot-scope="data">
                   <v-chip
@@ -109,7 +109,7 @@
                 no-data-text="Нет данных"
                 persistent-hint
                 chips
-                :rules="[v => (v && v.length>0) || 'Необходимо выбрать значение']"
+                :rules="getRules({selected: true})"
                 required>
                 <template slot="selection" slot-scope="data">
                   <v-chip
@@ -150,7 +150,7 @@
                 </template>
               </v-select>
               <v-btn large color="primary" :disabled="!validLineProdAttr" @click.prevent="onRemoveLineProductAttributes">Исключить атрибуты</v-btn>
-            </v-form>-->
+            </v-form>
           </v-card-text>
         </v-card>
       </v-flex>
@@ -200,7 +200,7 @@
       ...mapState('product_categories', {productCategories: state => state.items}),
       ...mapState('type_products', {typeProducts: state => state.items}),
       ...mapState('line_products', {lineProducts: state => state.items}),
-      ...mapState('attributables', {attributables: 'items'}),
+      ...mapGetters('attributables', {attributables: 'items', transformByKey: 'transformByKey'}),
       ...mapState('attributes', {attributes: state => state.bindAttributes, allAttributes: state => state.items}),
       ...mapGetters('product_categories', {getProdCategoriesModel: 'getModel'}),
       ...mapGetters('type_products', {getTypeProductModel: 'getModel'}),
@@ -213,13 +213,19 @@
         return this.form.type_product_id?this.lineProducts.filter(item => item.type_product_id == this.form.type_product_id):[]
       },
       getProductCategoryAttributes() {
-        return this.attributables.filter(item => item.attributable_id == this.form.product_category_id && item.attributable_type == this.getProdCategoriesModel)
+        return this.attributables.filter(item => item.attributable_id == this.form.product_category_id && item.attributable_type == this.getProdCategoriesModel).map(item => {
+          return Object.assign(item, this.transformByKey(item, 'attribute_id'))
+        })
       },
       getTypeProductAttributes() {
-        return this.attributables.filter(item => item.attributable_id == this.form.type_product_id && item.attributable_type == this.getTypeProductModel)
+        return this.attributables.filter(item => item.attributable_id == this.form.type_product_id && item.attributable_type == this.getTypeProductModel).map(item => {
+          return Object.assign(item, this.transformByKey(item, 'attribute_id'))
+        })
       },
       getLineProductAttributes() {
-        return this.attributables.filter(item => item.attributable_id == this.form.line_product_id && item.attributable_type == this.getLineProductModel)
+        return this.attributables.filter(item => item.attributable_id == this.form.line_product_id && item.attributable_type == this.getLineProductModel).map(item => {
+          return Object.assign(item, this.transformByKey(item, 'attribute_id'))
+        })
       },
       getSelAttributesIds() {
         return this.getProductCategoryAttributes.concat(this.getTypeProductAttributes).concat(this.getLineProductAttributes).map(item => item.attribute_id)
@@ -252,7 +258,7 @@
           this.isSending = true
           this.save(this.form).then(response => {
             this.isSending = false
-            document.location.reload(true)
+            this.form.selectedRemainAttr = null
           })
         }
       },
@@ -265,7 +271,6 @@
           }
           this.removeBindAttributes(data).then(response => {
             this.isSending = false
-            document.location.reload(true)
           })
         }
       },
@@ -278,7 +283,6 @@
           }
           this.removeBindAttributes(data).then(response => {
             this.isSending = false
-            document.location.reload(true)
           })
         }
       },
@@ -291,7 +295,6 @@
           }
           this.removeBindAttributes(data).then(response => {
             this.isSending = false
-            document.location.reload(true)
           })
         }
       },
@@ -301,11 +304,10 @@
       ...mapActions('product_categories', {loadProductCategories: GLOBAL.LOAD_ALL}),
       ...mapActions('type_products', {loadTypeProducts: GLOBAL.LOAD_ALL}),
       ...mapActions('line_products', {loadLineProducts: GLOBAL.LOAD_ALL}),
-      ...mapActions('attributables', {load: GLOBAL.LOAD, save: GLOBAL.SAVE_DATA}),
+      ...mapActions('attributables', {load: GLOBAL.LOAD, save: GLOBAL.SAVE_DATA, removeBindAttributes: ACTIONS.REMOVE_BIND_ATTRIBUTES}),
       ...mapActions('attributes', {
         initialization: GLOBAL.INITIALIZATION,
-        loadAttributes: GLOBAL.LOAD_ALL,
-        removeBindAttributes: ACTIONS.REMOVE_BIND_ATTRIBUTES
+        loadAttributes: GLOBAL.LOAD_ALL
       }),
     }
   }

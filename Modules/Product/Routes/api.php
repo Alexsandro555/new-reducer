@@ -87,6 +87,7 @@ Route::middleware('auth:api')->prefix('attributables')->group(function() {
   Route::get('/', 'AttributablesController@index');
   Route::post('/', 'AttributablesController@load');
   Route::patch('/', 'AttributablesController@save');
+  Route::post('/delete', 'AttributablesController@delete');
 });
 
 Route::middleware('auth:api')->prefix('attribute_values')->group(function() {

@@ -9,6 +9,7 @@ use Modules\Product\Entities\Attributable;
 use Modules\Product\Entities\LineProduct;
 use Modules\Product\Entities\ProductCategory;
 use Modules\Product\Entities\TypeProduct;
+use MongoDB\BSON\Type;
 
 class AttributablesController extends Controller
 {
@@ -22,29 +23,35 @@ class AttributablesController extends Controller
 
   public function save(Request $request) {
     if($request->line_product_id) {
-      foreach ($request->selectedRemainAttr as $attribute_id) {
-        $this->model->attributable_type = LineProduct::class;
-        $this->model->attributable_id = $request->line_product_id;
-        $this->model->attribute_id = $attribute_id;
-        $this->model->save();
-      }
+      $lineProduct = LineProduct::findOrFail($request->line_product_id);
+      $lineProduct->attributes()->attach($request->selectedRemainAttr);
+      return Attributable::all();
     }
     if($request->type_product_id) {
-      foreach ($request->selectedRemainAttr as $attribute_id) {
-        $this->model->attributable_type = TypeProduct::class;
-        $this->model->attributable_id = $request->type_product_id;
-        $this->model->attribute_id = $attribute_id;
-        $this->model->save();
-      }
+      $typeProduct = TypeProduct::findOrFail($request->type_product_id);
+      $typeProduct->attributes()->attach($request->selectedRemainAttr);
+      return Attributable::all();
     }
     if($request->product_category_id) {
-      foreach ($request->selectedRemainAttr as $attribute_id) {
-        $this->model->attributable_type = ProductCategory::class;
-        $this->model->attributable_id = $request->product_category_id;
-        $this->model->attribute_id = $attribute_id;
-        $this->model->save();
-      }
+      $productCategory = ProductCategory::findOrFail($request->product_category_id);
+      $productCategory->attributes()->attach($request->selectedRemainAttr);
+      return Attributable::all();
     }
-    return $this->model;
+  }
+
+  public function delete(Request $request) {
+    if($request->line_product_id) {
+      $lineProduct = LineProduct::findOrFail($request->line_product_id);
+      $lineProduct->attributes()->detach($request->attr);
+    }
+    if($request->type_product_id) {
+      $typeProduct = TypeProduct::findOrFail($request->type_product_id);
+      $typeProduct->attributes()->detach($request->attr);
+    }
+    if($request->product_category_id) {
+      $productCategory = ProductCategory::findOrFail($request->product_category_id);
+      $productCategory->attributes()->detach($request->attr);
+    }
+    return Attributable::all();
   }
 }
