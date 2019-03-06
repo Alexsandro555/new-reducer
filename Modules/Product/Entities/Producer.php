@@ -25,6 +25,8 @@ class Producer extends Model
     ]
   ];
 
+  protected $table = 'producers';
+
   protected $guarded = [];
 
   protected $dates = ['deleted_at'];
