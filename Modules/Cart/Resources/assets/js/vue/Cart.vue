@@ -20,7 +20,7 @@
                     </tbody>
                 </table>
                 <div class="cart-order">
-                    <a href="#">Оформить заказ</a>
+                    <a href="/order">Оформить заказ</a>
                 </div>
             </div>
         </div>
