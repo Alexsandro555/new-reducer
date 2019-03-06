@@ -40,13 +40,13 @@ class ProductDatabaseSeeder extends Seeder
               ->add(Attribute::class, 15)
               ->add(Product::class, 30)
               ->seed();*/
-    $this->call(TnvedTableSeeder::class);
+    /*$this->call(TnvedTableSeeder::class);
     $this->call(ProductCategoryTableSeeder::class);
     $this->call(TypeProductTableSeeder::class);
     $this->call(LineProductTableSeeder::class);
     $this->call(ProducerTableSeeder::class);
     $this->call(AttributeUnitTableSeeder::class);
     $this->call(AttributeGroupTableSeeder::class);
-    $this->call(AttributeTableSeeder::class);
+    $this->call(AttributeTableSeeder::class);*/
   }
 }
