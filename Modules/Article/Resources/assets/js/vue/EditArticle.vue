@@ -23,7 +23,7 @@
                       type-file-upload="file"
                       type-file="image-wysiwyg"
                       model="getModel"
-                      v-model="form.description">
+                      v-model="form.content">
                     </wysiwyg>
                     <!--<file-box url="/files/upload" :fileable-id="Number(item.id)" :type-files="typeFiles"
                               :model="model"></file-box>-->
