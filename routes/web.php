@@ -30,3 +30,4 @@ Route::get('/find/{text?}', ['uses' => 'FindController@index', 'as' => 'find']);
 
 
 //Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/{slug}', '\Modules\Page\Http\Controllers\PageController@show');
