@@ -5,7 +5,8 @@ export default {
   namespaced: true,
   state: {
     messages: {},
-    message: ''
+    message: '',
+    darkColor: true
   },
   actions: {
     init({commit, dispatch}) {

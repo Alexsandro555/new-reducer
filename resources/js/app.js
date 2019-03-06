@@ -49,7 +49,7 @@ files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(
  */
 
 import createStore from './vuex/states.js'
-import { mapActions, mapMutations } from 'vuex'
+import { mapActions, mapMutations, mapState } from 'vuex'
 
 import Notifications from '@/vue/Notifications.vue'
 Vue.component('notifications', Notifications)
@@ -71,9 +71,17 @@ const app = new Vue({
   created() {
     store.dispatch('initializer/init')
   },
+  computed: {
+    ...mapState('initializer', ['darkColor']),
+  },
   data() {
     return {
-      dark: false
+      dark: true
+    }
+  },
+  methods: {
+    chengeColor() {
+      this.dark = !this.dark
     }
   }
 });

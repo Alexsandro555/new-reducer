@@ -30,6 +30,7 @@
       <v-text-field solo-inverted flat label="Поиск" prepend-icon="search"></v-text-field>
       <v-btn light @click.stop="exit">Выход</v-btn>
       <v-btn light @click.stop="goToSite">На главную</v-btn>
+      <v-btn light @click.stop="changeColor">Сменить цвет</v-btn>
       <v-spacer></v-spacer>
     </v-toolbar>
     <v-content>
@@ -43,7 +44,7 @@
   </div>
 </template>
 <script>
-  import {mapActions} from 'vuex'
+  import {mapActions, mapState} from 'vuex'
   import {ACTIONS} from '@auth/constants'
 
   export default {
@@ -58,10 +59,10 @@
             text: 'Категории продуктов',
             path: '/categories'
           },
-          {
+          /*{
             text: 'ТНВЭД',
             path: '/tnved'
-          },
+          },*/
           {
             text: 'Типы продуктов',
             path: '/types'
@@ -111,12 +112,19 @@
         ]
       }
     },
+    computed: {
+
+    },
     methods: {
       ...mapActions('Auth', {logout: ACTIONS.AUTH_LOGOUT}),
+      ...mapState('initializer', ['darkColor']),
       exit() {
         this.logout().then(() => {
           window.location.href='/'
         })
+      },
+      changeColor() {
+        this.$root.chengeColor()
       }
     }
   }
