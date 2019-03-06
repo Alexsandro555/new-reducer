@@ -76,7 +76,7 @@
       ...mapState('articles', ['items', 'fields', 'relations']),
       ...mapGetters('articles', {getItem: GLOBAL.GET_ITEM, getModel: 'getModel'}),
       form() {
-        return _.pick(this.getItem(Number(this.id)), ['id', 'title', 'sort', 'description', 'type_product_id', 'price_amount'])
+        return _.pick(this.getItem(Number(this.id)), ['id','title','content'])
       }
     },
     components: {

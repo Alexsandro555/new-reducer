@@ -5,7 +5,7 @@
             <v-flex v-if="!loader">
                 <v-card>
                     <v-card-title>
-                        <h1>Редактирование Page</h1>
+                        <h1>Редактирование</h1>
                     </v-card-title>
                     <v-card-text>
                         <v-container>
@@ -74,7 +74,7 @@
             ...mapState('pages', ['items', 'fields', 'relations', 'typeFiles']),
             ...mapGetters('pages', {getItem: GLOBAL.GET_ITEM, getModel: 'getModel'}),
             form() {
-                return _.pick(this.getItem(Number(this.id)), ['id','title', 'sort', 'active', 'attribute_type_id', 'attribute_group_id', 'attribute_unit_id'])
+                return _.pick(this.getItem(Number(this.id)), ['id','title','url_key','content'])
             }
         },
         components: {

@@ -72,7 +72,7 @@
             ...mapState('news', ['items', 'fields', 'typeFiles']),
             ...mapGetters('news', {getItem: GLOBAL.GET_ITEM, getModel: 'getModel'}),
             form() {
-                return this.getItem(Number(this.id))
+              return _.pick(this.getItem(Number(this.id)), ['id','title','content'])
             }
         },
         components: {
