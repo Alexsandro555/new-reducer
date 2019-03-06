@@ -46,6 +46,8 @@ class Page extends Model
     $this->attributes['title'] = strip_tags($value);
   }
 
+  protected $table = 'pages';
+
   public function files() {
     return $this->morphMany(File::class, 'fileable');
   }

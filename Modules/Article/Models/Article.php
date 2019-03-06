@@ -34,6 +34,8 @@ class Article extends Model
     ]
   ];
 
+  protected $table = 'articles';
+
   public function setTitleAttribute($value) {
     $this->attributes['title'] = strip_tags($value);
   }
