@@ -20,6 +20,9 @@ export default {
   SET_ARRAY_VARIABLE: (state, {variable, value}) => {
     _.set(state, variable, value)
   },
+  SET_ARRAY_VARIABLE2: (state, {module, variable, value}) => {
+    _.set(state[module], variable, value)
+  },
   SELECT_VARIABLE_BY_ID: (state, {source, receiver, id}) => {
     const variable = _.get(state, source).find(item => item.id === id)
     _.set(state, receiver, variable)

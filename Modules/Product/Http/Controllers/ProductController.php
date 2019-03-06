@@ -19,14 +19,4 @@ class ProductController extends Controller
   {
     $this->model = new Product;
   }
-
-  /**
-   * Display listing Products
-   *
-   * @return array
-   */
-  /*public function index()
-  {
-    return $this->model::with('attributeValues')->orderBy('created_at', 'desc')->get();
-  }*/
 }

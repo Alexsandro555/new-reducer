@@ -7,7 +7,7 @@
         <v-text-field v-model="search" append-icon="search" label="Поиск" single-line hide-details></v-text-field>
       </v-card-title>
       <v-card-text>
-        <v-data-table :headers="headers" :items="productSkus" :search="search" :loading="loading"
+        <v-data-table :headers="headers" :items="productSkus" :search="search"
                       :rows-per-page-items="[10, 20, 50, { 'text': '$vuetify.dataIterator.rowsPerPageAll', 'value': -1 } ]"
                       rows-per-page-text="Строк на странице:"
                       class="elevation-1">
@@ -28,13 +28,7 @@
               </v-btn>-->
             </td>
           </template>
-          <template v-if="loading" slot="no-data">
-            <br>
-            <v-progress-circular indeterminate :size="100" color="primary"></v-progress-circular>
-            <br>
-            <br>
-          </template>
-          <template v-if="!loading" slot="no-data">
+          <template slot="no-data">
             <v-alert :value="true" color="error" icon="warning">
               Извините, нет данных для отображения :(
             </v-alert>
@@ -91,7 +85,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" flat @click.native="close">Отмена</v-btn>
-          <v-btn color="blue darken-1" @click="onSave" flat :disabled="loading" type="submit">Сохранить</v-btn>
+          <v-btn color="blue darken-1" @click="onSave" flat type="submit">Сохранить</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -150,11 +144,11 @@
       }
     },
     computed: {
-      ...mapState('Sku', ['items', 'loading']),
-      ...mapState('SkuOptions', {skyOptions: 'items'}),
+      ...mapState('skus', ['items']),
+      ...mapState('attribute_sku_options', {skyOptions: 'items'}),
       ...mapState('initializer', ['messages']),
-      ...mapGetters('Sku', {getSku: GLOBAL.GET_ITEM}),
-      ...mapGetters('SkuOptions', {transformByKey: GLOBAL.TRANSFORM_BY_KEY}),
+      ...mapGetters('skus', {getSku: GLOBAL.GET_ITEM}),
+      ...mapGetters('attribute_sku_iptions', {transformByKey: GLOBAL.TRANSFORM_BY_KEY}),
       productSkus() {
         return this.items.filter(item => item.product_id == this.id)
       }
@@ -187,46 +181,40 @@
         }
       },
       onSave() {
-        if (this.$refs.form.validate()) {
+        if(this.$refs.form.validate()) {
           this.isSending = true
-          this.saveSku(this.sku).then(response => {
-              let result = []
-              for(let val in this.options) {
-                result.push(this.options[val])
-              }
-              this.saveSkuOption({id: response.id, options: result}).then(response => {
-                this.isSending = false
-                this.$refs.form.reset()
-                this.dialog = false
-              })
-            })
-
+          this.saveSku({sku: this.sku, options: _.values(this.options)}).then(response => {
+            this.isSending = false
+            this.dialog = false
+          })
         }
       },
       onEdit(id) {
         this.editedIndex = id
         this.sku = Object.assign({}, this.getSku(id))
-        this.options = Object.assign({},this.skyOptions.filter(item => item.sku_id == id).reduce((acc, item, i) =>
-        {
-          acc[item.attribute_id] = {
-            sku_id: item.sku_id,
-            attribute_list_value_id: item.attribute_list_value_id,
-            attribute_id: item.attribute_id,
-            id: item.id
-          };
-          return acc;
-        }, {}));
+        let skyOptions = this.skyOptions.filter(item => item.sku_id == id)
+        if(skyOptions) {
+          this.options = Object.assign({},skyOptions.reduce((acc, item, i) =>
+          {
+            acc[item.attribute_id] = {
+              sku_id: item.sku_id,
+              attribute_list_value_id: item.attribute_list_value_id,
+              attribute_id: item.attribute_id,
+              id: item.id
+            };
+            return acc;
+          }, {}));
+        }
         this.dialog = true
       },
       ...mapMutations('initializer', {resetError: 'RESET_ERROR'}),
-      ...mapActions('Sku', {
+      ...mapActions('skus', {
         addNewSku: GLOBAL.ADD,
-        saveSku: GLOBAL.SAVE_DATA,
+        saveSku: ACTIONS.SAVE_DATA,
         delete: GLOBAL.DELETE
       }),
-      ...mapActions('SkuOptions', {
-        addNewSkyOption: GLOBAL.ADD,
-        saveSkuOption: ACTIONS.SAVE_DATA
+      ...mapActions('attribute_sku_options', {
+        addNewSkyOption: GLOBAL.ADD
       })
     }
   }

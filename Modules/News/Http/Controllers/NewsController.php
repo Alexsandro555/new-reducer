@@ -17,4 +17,14 @@ class NewsController extends Controller
   {
     $this->model = new News;
   }
+
+  public function list() {
+    $news = News::with('files')->get();
+    return view('news::index', compact('news'));
+  }
+
+  public function show($slug) {
+    $news = News::where('url_key', $slug)->first();
+    return view('news::show', compact('news'));
+  }
 }

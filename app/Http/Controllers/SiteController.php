@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Modules\Product\Entities\Product;
-use Modules\Article\Entities\Article;
+//use Modules\Article\Entities\Article;
 use Modules\Product\Entities\ProductCategory;
 use Modules\Product\Entities\TypeProduct;
 use Modules\Product\Entities\LineProduct;
+use Modules\News\Entities\News;
 
 class SiteController extends Controller
 {
@@ -15,7 +16,8 @@ class SiteController extends Controller
   {
     $ourProducts = Product::with('files', 'typeProduct', 'lineProduct')->inRandomOrder()->take(4)->get();
     $specialProducts = Product::with('files', 'typeProduct', 'lineProduct')->where('special', 1)->inRandomOrder()->take(5)->get();
-    $news = Article::inRandomOrder()->take(4)->get();
+    $news = [];
+    $news = News::inRandomOrder()->take(4)->get();
     return view('index', compact('ourProducts', 'specialProducts', 'news'));
   }
 

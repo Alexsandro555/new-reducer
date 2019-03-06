@@ -4,7 +4,7 @@ namespace Modules\Page\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
-use Modules\Page\Entities\Page;
+use Modules\Page\Models\Page;
 
 class PageServiceProvider extends ServiceProvider
 {
@@ -36,9 +36,10 @@ class PageServiceProvider extends ServiceProvider
      */
     public function register()
     {
-      $this->app->bind('page', function($app) {
-        return new Page();
-      });
+        $this->app->register(RouteServiceProvider::class);
+        $this->app->bind('Page', function ($app) {
+          return new Page();
+        });
     }
 
     /**
@@ -94,7 +95,8 @@ class PageServiceProvider extends ServiceProvider
 
     /**
      * Register an additional directory of factories.
-     * @source https://github.com/sebastiaanluca/laravel-resource-flow/blob/develop/src/Modules/ModuleServiceProvider.php#L66
+     * 
+     * @return void
      */
     public function registerFactories()
     {

@@ -1,5 +1,3 @@
-import ListProduct2 from '@product/vue/Product/ListProduct2'
-import EditProduct2 from '@product/vue/Product/EditProduct2'
 import ListProduct from '@product/vue/Product/ListProduct'
 import EditProduct from '@product/vue/Product/EditProduct'
 import ProductCategory from '@product/vue/ProductCategory/ListProductCategory'
@@ -23,12 +21,12 @@ import ListAttributeValue from '@product/vue/AttributeValue/ListAttributeValue'
 import AdminLoginForm from '@auth/vue/AdminLoginForm'
 import AdminRegister from '@auth/vue/AdminRegister'
 import Admin from '@/components/Admin'
-import Articles from '@article/vue/Articles'
-import EditArticle from '@article/vue/Edit'
+import ListArticles from '@article/vue/ListArticles'
+import EditArticle from '@article/vue/EditArticle'
 import News from '@news/vue/News/ListNews'
 import EditNews from '@news/vue/News/EditNews'
-import Pages from '@page/vue/List'
-import EditPage from '@page/vue/Edit'
+import ListPage from '@pages/vue/pages/ListPage'
+import EditPage from '@pages/vue/pages/EditPage'
 //const EditProducer = () => import('@product/vue/Producer/EditProducer')
 
 import store from '@/vuex/states'
@@ -180,11 +178,11 @@ export const routes = [
       {
         path: '/articles',
         name: 'articles',
-        component: Articles
+        component: ListArticles
       },
       {
-        path: '/article/edit/:id',
-        name: 'edit-article',
+        path: '/articles/edit/:id',
+        name: 'edit-articles',
         component: EditArticle,
         props: true
       },
@@ -202,11 +200,11 @@ export const routes = [
       {
         path: '/pages',
         name: 'pages',
-        component: Pages
+        component: ListPage
       },
       {
-        path: '/page/edit/:id',
-        name: 'edit-page',
+        path: '/pages/edit/:id',
+        name: 'edit-pages',
         component: EditPage,
         props: true
       }

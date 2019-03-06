@@ -13,7 +13,7 @@
                                 <v-flex>
                                     <v-form ref="form" lazy-validation v-model="valid">
                                         <template v-for="(field, num) in fields">
-                                            <form-builder :field="field" v-if="num!=='description'" :num="num" :items="form" @update="updateField"></form-builder>
+                                            <form-builder :field="field" v-if="num!=='description'" :relations="relations" :num="num" :items="form" @update="updateField"></form-builder>
                                         </template>
                                         <wysiwyg
                                             :element-id="id"
@@ -22,10 +22,10 @@
                                             url-file="upload-file"
                                             type-file-upload="file"
                                             type-file="image-wysiwyg"
-                                            model=""
+                                            model="getModel"
                                             v-model="form.description">
                                         </wysiwyg>
-                                        <file-box url="/files/upload" :fileable-id="Number(form.id)" :type-files="typeFiles" :model="model"></file-box>
+                                        <file-box url="/files/upload" :fileable-id="Number(form.id)" :type-files="typeFiles" :model="getModel"></file-box>
                                         <v-flex text-xs-left>
                                             <v-btn large :class="{primary: valid, 'red lighten-3': !valid}" :disabled="isSending" @click.prevent="onSubmit">Сохранить</v-btn>
                                         </v-flex>
@@ -41,7 +41,7 @@
 </template>
 <script>
     import { mapActions, mapState, mapGetters, mapMutations } from 'vuex'
-    import { ACTIONS, GLOBAL } from '@/constants'
+    import { GLOBAL } from '@/constants'
     import formBuilder from '@/vue/FormBuilder'
     import Wysiwyg from '@/vue/Wysiwyg.vue'
     import fileBox from '@file/components/file-box/FileBox'
@@ -71,18 +71,18 @@
             next()
         },
         computed: {
-            ...mapState('$NAME$', ['item', 'items', 'fields', 'model', 'typeFiles']),
-            ...mapGetters('AttributeUnit', {getItem: GLOBAL.GET_ITEM}),
+            ...mapState('$TABLE$', ['items', 'fields', 'relations', 'typeFiles']),
+            ...mapGetters('$TABLE$', {getItem: GLOBAL.GET_ITEM, getModel: 'getModel'}),
             form() {
                 return _.pick(this.getItem(Number(this.id)), ['id','title', 'sort', 'active', 'attribute_type_id', 'attribute_group_id', 'attribute_unit_id'])
             }
         },
         components: {
             formBuilder,
-            fileBox
+            //fileBox
         },
         methods: {
-            ...mapActions('$NAME$',{
+            ...mapActions('$TABLE$',{
                 save: GLOBAL.SAVE_DATA
             }),
             ...mapMutations('initializer', {resetError: 'RESET_ERROR'}),
@@ -92,7 +92,7 @@
             init(id) {
                 this.resetError();
                 if(this.items.length == 0) {
-                    this.$router.push({name: 'products'})
+                    this.$router.push({name: '$TABLE$'})
                 }
             },
             onSubmit() {
@@ -100,6 +100,7 @@
                     this.isSending = true
                     this.save(this.form).then(response => {
                         this.isSending = false
+                        this.$router.push({name: '$TABLE$'})
                     })
                 }
             },

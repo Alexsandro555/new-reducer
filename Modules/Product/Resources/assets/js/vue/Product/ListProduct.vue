@@ -101,6 +101,7 @@
         vm.loadAttributables()
         vm.loadAttributes()
         vm.loadAttributeValues()
+        vm.loadSkus()
       })
     },
     methods: {
@@ -122,7 +123,8 @@
       ...mapActions('products', { add: GLOBAL.ADD, delete: GLOBAL.DELETE, load: GLOBAL.LOAD, loadAll: GLOBAL.LOAD_ALL, loadRelations: GLOBAL.LOAD_RELATIONS }),
       ...mapActions('attributables', {loadAttributables: GLOBAL.LOAD}),
       ...mapActions('attributes', {loadAttributes: GLOBAL.LOAD}),
-      ...mapActions('attribute_values', {loadAttributeValues: GLOBAL.LOAD})
+      ...mapActions('attribute_values', {loadAttributeValues: GLOBAL.LOAD}),
+      ...mapActions('skus', {loadSkus: GLOBAL.LOAD})
     }
   }
 </script>

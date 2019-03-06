@@ -9,10 +9,10 @@ trait AttributeValueDeleteTrait {
   use PivotEventTrait;
 
   protected static function bootAttributeValueDeleteTrait() {
-    static::pivotDetached(function ($model, $relationName, $pivotIds) {
+    static::pivotDetaching(function ($model, $relationName, $pivotIds) {
       if($relationName == 'attributes') {
         foreach($pivotIds as $attribute_id) {
-          $attributeValues = AttributeValue::where('attribute_id', $attribute_id)->get();
+          $attributeValues = AttributeValue::where('attribute_id', $attribute_id)->whereIn('product_id',$model->products->pluck('id'))->get();
           foreach ($attributeValues as $attributeValue) {
             $attributeValue->delete();
           }

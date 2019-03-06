@@ -82,7 +82,6 @@ Route::middleware('auth:api')->prefix('products')->group(function() {
   Route::patch('/', 'ProductController@save');
 });
 
-
 Route::middleware('auth:api')->prefix('attributables')->group(function() {
   Route::get('/', 'AttributablesController@index');
   Route::post('/', 'AttributablesController@load');
@@ -108,16 +107,10 @@ Route::middleware('auth:api')->prefix('category')->group(function() {
   Route::patch('/', 'CategoryController@store');
 });
 
-
-
-Route::middleware('auth:api')->prefix('trade-offer')->group(function() {
-  Route::get('/', 'TradeOfferController@index');
-  Route::post('/', 'TradeOfferController@create');
-});
-
-Route::middleware('auth:api')->prefix('sku')->group(function() {
+Route::middleware('auth:api')->prefix('skus')->group(function() {
   Route::get('/', 'SkuController@index');
   Route::post('/', 'SkuController@save');
+  Route::post('/default', 'SkuController@create');
   Route::patch('/', 'SkuController@save');
 });
 

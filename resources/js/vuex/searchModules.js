@@ -1,4 +1,4 @@
-const requireModule = require.context("../../../../Modules/", true, /store\.js$/); //extract js files inside modules folder
+const requireModule = require.context("../../../Modules/", true, /state\.js$/); //extract js files inside modules folder
 const modules = {};
 
 requireModule.keys().forEach(fileName => {

@@ -50,7 +50,7 @@
                   <a href="/"><img src="{{asset('images/logo.png')}}"/></a>
                 </v-flex>
                 <v-flex xs4 text-xs-left class="find top-20">
-                  <input placeholder="Поиск по сайту" class="find-input" type="text"><br><br>
+                  <input placeholder="Поиск по сайту" @keyup.enter="search" v-model="searchText" class="find-input" type="text"><br><br>
                   <v-layout row wrap>
                     <v-flex xs2 text-xs-center>
                       <a href="/cart"><img src="{{asset('images/cart.png')}}" align="middle"/></a>

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\Initializer\Traits\ControllerTrait;
 use Modules\Product\Entities\Attributable;
+use Modules\Product\Entities\AttributeValue;
 use Modules\Product\Entities\LineProduct;
 use Modules\Product\Entities\ProductCategory;
 use Modules\Product\Entities\TypeProduct;
@@ -52,6 +53,6 @@ class AttributablesController extends Controller
       $productCategory = ProductCategory::findOrFail($request->product_category_id);
       $productCategory->attributes()->detach($request->attr);
     }
-    return Attributable::all();
+    return ['attributable' => Attributable::all(), 'attribute_values' => AttributeValue::all()];
   }
 }

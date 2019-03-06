@@ -11,3 +11,7 @@
 |
 */
 
+Route::prefix('news')->group(function() {
+  Route::get('/list', 'NewsController@list');
+  Route::get('/{slug}', 'NewsController@show');
+});

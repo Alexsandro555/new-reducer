@@ -9,8 +9,6 @@
         "Modules\\Article\\Providers\\ArticleServiceProvider"
     ],
     "aliases": {},
-    "files": [
-        "start.php"
-    ],
+    "files": [],
     "requires": []
 }

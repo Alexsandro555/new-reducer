@@ -90,13 +90,13 @@
         })
         if (_.isEmpty(this.errors)) {
           axios.post('/callback', this.form).then(response => {
-            this.$store.commit('SET_VARIABLE2', {module: 'callback', variable: 'form', value: {}})
+            this.$store.commit('SET_VARIABLE', {module: 'callback', variable: 'form', value: {}})
           })
         }
       },
       close() {
-        this.$store.commit('SET_VARIABLE2', {module: 'callback', variable: 'isVisible', value: false})
-        this.$store.commit('SET_VARIABLE2', {module: 'callback', variable: 'form', value: {}})
+        this.$store.commit('SET_VARIABLE', {module: 'callback', variable: 'isVisible', value: false})
+        this.$store.commit('SET_VARIABLE', {module: 'callback', variable: 'form', value: {}})
       }
     }
   }

@@ -4,6 +4,7 @@ namespace Modules\Initializer\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
+use Modules\Initializer\Console\MakeVuexModule;
 
 class InitializerServiceProvider extends ServiceProvider
 {
@@ -26,6 +27,9 @@ class InitializerServiceProvider extends ServiceProvider
         $this->registerViews();
         $this->registerFactories();
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
+        $this->commands([
+          MakeVuexModule::class
+        ]);
     }
 
     /**

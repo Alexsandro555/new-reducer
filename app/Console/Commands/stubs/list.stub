@@ -23,7 +23,7 @@
                                     <v-btn @click="goToPage(props.item)" icon class="mx-0">
                                         <v-icon>find_in_page</v-icon>
                                     </v-btn>
-                                    <v-btn icon class="mx-0" @click="$router.push('/$LOWER_NAME$/edit/'+props.item.id)">
+                                    <v-btn icon class="mx-0" @click="$router.push('/$TABLE$/edit/'+props.item.id)">
                                         <v-icon color="teal">edit</v-icon>
                                     </v-btn>
                                     <v-btn :disabled="props.item.url_key === 'po-umolchaniyu'" icon class="mx-0" @click="deleteItem(props.item)">
@@ -58,7 +58,7 @@
     </v-container>
 </template>
 <script>
-    import { ACTIONS, GLOBAL } from "@/constants";
+    import { ACTIONS, GLOBAL } from "@$TABLE$/constants";
     import { mapActions, mapState, mapGetters } from 'vuex'
 
     export default {
@@ -89,26 +89,31 @@
             }
         },
         computed: {
-            ...mapState('$NAME$', ['items', 'loading']),
+            ...mapState('$TABLE$', ['items', 'loading']),
         },
+        beforeRouteEnter(to, from, next) {
+              next(vm => {
+                vm.initialization()
+                vm.loadRelations().then(response => {
+                  vm.load().then(response => {
+                    vm.$store.commit('SET_VARIABLE',{module: '$TABLE$', variable: 'loading', value: false}, {root: true})
+                  })
+                })
+              })
+            },
         methods: {
             add$NAME$() {
                 this.add()
                     .then(response => {
-                        this.$router.push({name: 'edit-$LOWER_NAME$', params: { id: response.id.toString()}})
+                        this.$router.push({name: 'edit-$TABLE$', params: { id: response.id.toString()}})
                     })
-            },
-            goToPage(item) {
-                let url = '/$LOWER_NAME$/detail/'
-                url = url + item.url_key
-                window.open(url, '_blank')
             },
             deleteItem (item) {
                 if(confirm('Вы уверены что хотите удалить запись?')) {
                     this.delete(item.id)
                 }
             },
-            ...mapActions('$NAME$',{load: GLOBAL.LOAD, add: GLOBAL.ADD, delete: GLOBAL.DELETE, initialization: GLOBAL.INITIALIZATION})
+            ...mapActions('$TABLE$',{load: GLOBAL.LOAD, add: GLOBAL.ADD, delete: GLOBAL.DELETE, initialization: GLOBAL.INITIALIZATION})
         }
      }
 </script>

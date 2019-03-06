@@ -38,7 +38,7 @@ Vue.component('cart-page', CartPage)
 
 // Обратный звонок
 import Callback from '@callback/vue/Callback.vue'
-import callback from '@callback/vuex/Callback/state'
+import callback from '@callback/vuex/callbacks/state'
 Vue.component('callback', Callback)
 
 import cart from '@cart/vuex/store'
@@ -54,6 +54,9 @@ const store = new Vuex.Store({
 
 const app = new Vue({
   el: '#app',
+  data: {
+    searchText: '',
+  },
   store,
   methods: {
     addCart(id) {
@@ -61,8 +64,13 @@ const app = new Vue({
       this.addCartItem({id, count})
       this.showCartModal()
     },
+    search() {
+      const text = this.searchText.replace('/','_')
+      window.location.href='/find/'+ text
+      this.searchText = ''
+    },
     showCallback() {
-      this.$store.commit('SET_VARIABLE2', {module: 'callback', variable: 'isVisible', value: true})
+      this.$store.commit('SET_VARIABLE', {module: 'callback', variable: 'isVisible', value: true})
     },
     ...mapActions('cart',{addCartItem: ACTIONS.ADD_CART}),
     ...mapMutations('cart', {showCartModal: MUTATIONS.SHOW_MODAL})

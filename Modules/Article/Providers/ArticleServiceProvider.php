@@ -4,7 +4,7 @@ namespace Modules\Article\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
-use Modules\Article\Entities\Article;
+use Modules\Article\Models\Article;
 
 class ArticleServiceProvider extends ServiceProvider
 {
@@ -36,9 +36,10 @@ class ArticleServiceProvider extends ServiceProvider
      */
     public function register()
     {
-      $this->app->bind('article', function($app) {
-        return new Article();
-      });
+        $this->app->register(RouteServiceProvider::class);
+        $this->app->bind('Article', function ($app) {
+          return new Article();
+        });
     }
 
     /**
@@ -94,7 +95,8 @@ class ArticleServiceProvider extends ServiceProvider
 
     /**
      * Register an additional directory of factories.
-     * @source https://github.com/sebastiaanluca/laravel-resource-flow/blob/develop/src/Modules/ModuleServiceProvider.php#L66
+     * 
+     * @return void
      */
     public function registerFactories()
     {

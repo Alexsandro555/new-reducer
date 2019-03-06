@@ -19,15 +19,6 @@ class SkuOptionsController extends Controller
   }
 
   public function save(Request $request) {
-    /*$arrF = [];
-    $options = $request->all();
-    foreach($options as $option) {
-      $f=$this->model->firstOrNew(['id' => $option['id'], 'sku_id' => $option['sku_id'], 'attribute_id' => $option['attribute_id']]);
-      $f->fill($option);
-      $f->save();
-      array_push($arrF, $f);
-    }
-    return $arrF;*/
     $options = $this->model->where('sku_id', $request->id)->get();
     foreach($options as $option) {
       $option->delete();
@@ -36,49 +27,5 @@ class SkuOptionsController extends Controller
       $this->model::create($option);
     }
     return $this->model->all();
-  }
-
-  /**
-   * Store a newly created resource in storage.
-   * @param  Request $request
-   * @return Response
-   */
-  public function store(Request $request)
-  {
-  }
-
-  /**
-   * Show the specified resource.
-   * @return Response
-   */
-  public function show()
-  {
-    return view('product::show');
-  }
-
-  /**
-   * Show the form for editing the specified resource.
-   * @return Response
-   */
-  public function edit()
-  {
-    return view('product::edit');
-  }
-
-  /**
-   * Update the specified resource in storage.
-   * @param  Request $request
-   * @return Response
-   */
-  public function update(Request $request)
-  {
-  }
-
-  /**
-   * Remove the specified resource from storage.
-   * @return Response
-   */
-  public function destroy()
-  {
   }
 }

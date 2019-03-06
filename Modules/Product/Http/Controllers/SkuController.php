@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 use Modules\Initializer\Traits\ControllerTrait;
+use Modules\Product\Entities\AttributeSkuOption;
 use Modules\Product\Entities\Sku;
 
 class SkuController extends Controller
@@ -19,56 +20,14 @@ class SkuController extends Controller
     $this->model = new Sku;
   }
 
-  /**
-   * Show the form for creating a new resource.
-   * @return Response
-   */
-  public function create()
-  {
-    return view('product::create');
-  }
-
-  /**
-   * Store a newly created resource in storage.
-   * @param  Request $request
-   * @return Response
-   */
-  public function store(Request $request)
-  {
-  }
-
-  /**
-   * Show the specified resource.
-   * @return Response
-   */
-  public function show()
-  {
-    return view('product::show');
-  }
-
-  /**
-   * Show the form for editing the specified resource.
-   * @return Response
-   */
-  public function edit()
-  {
-    return view('product::edit');
-  }
-
-  /**
-   * Update the specified resource in storage.
-   * @param  Request $request
-   * @return Response
-   */
-  public function update(Request $request)
-  {
-  }
-
-  /**
-   * Remove the specified resource from storage.
-   * @return Response
-   */
-  public function destroy()
-  {
+  public function save(Request $request) {
+    $tt = collect($request->options)->pluck(['attribute_id'])->toArray();
+    $tab = AttributeSkuOption::where('sku_id', $request->sku_id)->pluck('attribute_id')->toArray();
+    $res = array_diff($tab, $tt);
+    $result = AttributeSkuOption::where('sku_id', $request->sku_id)->pluck('attribute_id')->diff(collect($request->options)->pluck(['attribute_id']));
+    if($result->count()>0) {
+      $temp = 0;
+    }
+    $temp = 'mas';
   }
 }
