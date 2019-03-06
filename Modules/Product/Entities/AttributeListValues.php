@@ -12,6 +12,8 @@ class AttributeListValues extends Model
 
   protected $guarded = [];
 
+  protected $table = 'attribute_list_values';
+
   public function attributes() {
     return $this->bolongsTo(Attribute::class);
   }

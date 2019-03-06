@@ -43,6 +43,8 @@ class Attribute extends Model
     ]
   ];
 
+  protected $table = 'attributes';
+
   protected $dates = ['deleted_at'];
 
   protected $guarded = [];

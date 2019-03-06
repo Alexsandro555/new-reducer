@@ -15,6 +15,8 @@ class AttributeType extends Model
 
   protected $guarded = [];
 
+  protected $table = 'attribute_types';
+
   public function attributes() {
     return $this->hasMany(Attribute::class);
   }

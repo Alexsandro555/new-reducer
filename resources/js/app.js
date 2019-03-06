@@ -73,7 +73,7 @@ const app = new Vue({
   },
   data() {
     return {
-      dark: true
+      dark: false
     }
   }
 });

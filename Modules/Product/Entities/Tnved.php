@@ -13,6 +13,8 @@ class Tnved extends Model
 
   protected $dates = ['deleted_at'];
 
+  protected $table = 'tnveds';
+
   protected $guarded = [];
 
   public $form = [
