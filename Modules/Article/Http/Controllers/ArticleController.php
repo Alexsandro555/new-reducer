@@ -15,7 +15,7 @@ class ArticleController extends Controller
   }
 
   public function show($slug) {
-    $article = Article::where('url_key', $slug)->first();
+    $article = Article::where('url_key', $slug)->firstOrFail();
     return view('article::show', compact('article'));
   }
 }

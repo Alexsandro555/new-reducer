@@ -14,9 +14,14 @@ class PagesController extends Controller
 	Use ControllerTrait, DefaultTrait;
 
   public $model;
+
   public function __construct()
   {
       $this->model=new Page;
   }
 
+  public function show($slug) {
+    $page = Page::where('url_key', $slug)->firstOrFail();
+    return view('page::show', compact('page'));
+  }
 }

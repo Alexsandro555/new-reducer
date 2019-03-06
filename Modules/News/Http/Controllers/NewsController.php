@@ -24,7 +24,7 @@ class NewsController extends Controller
   }
 
   public function show($slug) {
-    $news = News::where('url_key', $slug)->first();
+    $news = News::where('url_key', $slug)->firstOrFail();
     return view('news::show', compact('news'));
   }
 }
