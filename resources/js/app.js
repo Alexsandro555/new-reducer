@@ -58,7 +58,6 @@ const store = new Vuex.Store(createStore())
 
 import router from './vue/router/vue_router'
 
-
 const token = localStorage.getItem('user-token')
 if (token) {
   axios.defaults.headers.common['Authorization'] = 'Bearer '+token
