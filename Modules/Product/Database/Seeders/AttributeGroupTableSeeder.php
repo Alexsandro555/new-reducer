@@ -18,14 +18,21 @@ class AttributeGroupTableSeeder extends Seeder
       Model::unguard();
       DB::table('attribute_groups')->insert([
         [
-          'title' => 'Техн. характеристики',
-          'url_key' => 'tech-characteristics'
+          'title' => 'Характеристики',
+          'url_key' => 'harakteristiki',
+          'sort' => 1
         ],
         [
-          'title' => 'Размеры',
-          'url_key' => 'sizes'
+          'title' => 'Механические свойства',
+          'url_key' => 'mekhanicheskie-svojstva',
+          'sort' => 4
+        ],
+        [
+          'title' => 'Электрические свойства',
+          'url_key' => 'ehlektricheskie-svojstva',
+          'sort' => 6
         ]
       ]);
-        // $this->call("OthersTableSeeder");
+
     }
 }

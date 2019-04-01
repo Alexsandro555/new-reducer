@@ -19,10 +19,30 @@ class ProductCategoryTableSeeder extends Seeder
 
     DB::table('product_categories')->insert([
       [
-        'title' => 'Вибраторы',
-        'url_key' => 'vibrators'
+        'title' => 'Площадочные вибраторы',
+        'sort' => 1,
+        'url_key' => 'mve'
+      ],
+      [
+        'title' => 'Пневматические вибраторы',
+        'sort' => 2,
+        'url_key' => 'pnevmo'
+      ],
+      [
+        'title' => 'Системы виброаэрации',
+        'sort' => 3,
+        'url_key' => 'aeration'
+      ],
+      [
+        'title' => 'Глубинные вибратороы',
+        'sort' => 4,
+        'url_key' => 'concrete'
+      ],
+      [
+        'title' => 'Гидравлические вибраторы',
+        'sort' => 5,
+        'url_key' => 'hydro'
       ]
     ]);
-    // $this->call("OthersTableSeeder");
   }
 }

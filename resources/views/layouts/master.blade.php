@@ -20,6 +20,9 @@
     <v-container pa-0 fluid grid-list-xs text-xs-center>
       <v-layout column wrap>
         <header>
+          <v-flex xs1>
+            <navigation-menu/>
+          </v-flex>
           <!--Верхнее меню-->
           <div class="header-menu hidden-sm-and-down">
             <div class="wrapper header-menu--center">
@@ -34,7 +37,9 @@
                   </v-list>
                 </v-flex>
                 <v-flex xs4 text-xs-right>
-                  <auth-widget/>
+                  <div>
+                    <a href="/admin" class="header-menu__auth-btn">Личный кабинет</a>
+                  </div>
                 </v-flex>
               </v-layout>
             </div>
@@ -55,7 +60,12 @@
                     <v-flex xs2 text-xs-center>
                       <a href="/cart"><img src="{{asset('images/cart.png')}}" align="middle"/></a>
                     </v-flex>
-                    <cart-widget/>
+                    <cart-widget>
+                      <template slot-scope="slotProps">
+                          <span class="cart__gold">@{{slotProps.count}}</span> товара на<br>
+                          <span class="cart__gold">@{{slotProps.total}}</span> руб.
+                      </template>
+                    </cart-widget>
                   </v-layout>
                 </v-flex>
               </v-layout>
@@ -111,7 +121,7 @@
               <br>
               <v-layout row wrap>
                 <v-flex xs4 class="footer__copyright">
-                  Copyright 2018. Все права защищены
+                  Copyright 2019. Все права защищены
                 </v-flex>
                 <v-flex xs8 text-xs-right>
                   <v-list class="top-menu">
@@ -128,7 +138,7 @@
         </footer>
       </v-layout>
     </v-container>
-    <cart-modal></cart-modal>
+    <cart-modal/>
     <callback></callback>
   </v-app>
 </div>

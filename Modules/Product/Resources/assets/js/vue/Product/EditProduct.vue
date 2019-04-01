@@ -13,6 +13,7 @@
             <v-card>
               <v-card-title>
                 <h1>Редактирование продукта</h1>
+                &nbsp;&nbsp;&nbsp;<a v-if="getProductCategory" :href="getProductCategory.url_key+'.php?id='+form.old_id" target="_blank" style="text-decoration: none">к товару</a>
               </v-card-title>
               <v-card-text>
                 <v-container>
@@ -122,13 +123,13 @@
                         <file-box url="/files/upload" :fileable-id="Number(form.id)" :type-files="typeFiles" :model="getModel"></file-box>
                         <v-flex text-xs-left>
                           <v-btn text-xs-left large :class="{primary: valid, 'red lighten-3': !valid}"
-                                 :disabled="isSending" @click.prevent="onSubmit">Сохранить
+                                 :disabled="isSending" @click.prevent="onSubmit">Сохранить продукт
                           </v-btn>
                         </v-flex>
                       </v-form>
                     </v-flex>
                     <v-flex v-if="form" xs12>
-                      <!--<list-sku :id="Number(id)" :attributes="getAttributes"/>-->
+                      <list-sku :id="Number(id)" :attributes="getAttributes"/>
                     </v-flex>
                   </v-layout>
                 </v-container>
@@ -136,7 +137,7 @@
             </v-card>
           </v-tab-item>
           <v-tab-item key="attributes" v-if="form" :value="'attributes'">
-            <product-attributes :attributes="getAttributes" :values="attributesValues(Number(id))" :id="Number(id)"></product-attributes>
+            <product-attributes :attributes="getAttributes" :id="Number(id)"></product-attributes>
           </v-tab-item>
         </v-tabs-items>
       </v-flex>
@@ -214,9 +215,9 @@
         return this.getAttributablesProductCategory.concat(this.getAttributablesTypeProduct).concat(this.getAttributablesLineProduct)
       },
       getAttributes() {
-        return this.getAttributebles.map(item => {
+        return _.sortBy(this.getAttributebles.map(item => {
           return Object.assign(item, this.transformByKey(item, 'attribute_id'))
-        })
+        }),[function(o) {return o.sort}])
       },
       ...mapState('products', ['items', 'typeFiles']),
       ...mapGetters('products', {getItem: GLOBAL.GET_ITEM, getModel: 'getModel'}),
@@ -225,7 +226,6 @@
       ...mapGetters('line_products', {getLineProductModel: 'getModel'}),
       ...mapGetters('attributables', {transformByKey: 'transformByKey'}),
       ...mapState('attributes', {attributes: 'items'}),
-      ...mapGetters('attribute_values', {attributesValues: GETTERS.BY_PRODUCT_ID}),
       ...mapState('initializer', ['messages']),
       ...mapState('product_categories', {productCategories: 'items'}),
       ...mapState('type_products', {typeProducts: 'items'}),
@@ -257,9 +257,11 @@
       onSubmit() {
         if (this.$refs.form.validate()) {
           this.isSending = true
-          this.save(this.form).then(response => {
+          this.save(_.pick(this.form, [
+            'id', 'title', 'price', 'description','qty', 'active', 'sort', 'onsale', 'special', 'need_order', 'product_category_id', 'type_product_id', 'line_product_id', 'vendor', 'IEC'
+          ])).then(response => {
             this.isSending = false
-            this.$router.push('list-product')
+            //this.$router.push('list-product')
           })
         }
       },

@@ -13,7 +13,7 @@
                                 <v-flex>
                                     <v-form ref="form" lazy-validation v-model="valid">
                                         <template v-for="(field, num) in fields">
-                                            <form-builder :field="field" v-if="num!=='description'" :num="num" :items="item" @update="updateField"></form-builder>
+                                            <form-builder :field="field" v-if="num!=='description'" :relations="relations" :num="num" :items="form" @update="updateField"></form-builder>
                                         </template>
                                         <wysiwyg
                                             :element-id="id"
@@ -22,10 +22,10 @@
                                             url-file="upload-file"
                                             type-file-upload="file"
                                             type-file="image-wysiwyg"
-                                            model=""
-                                            v-model="item.description">
+                                            model="getModel"
+                                            v-model="form.description">
                                         </wysiwyg>
-                                        <file-box url="/files/upload" :fileable-id="Number(item.id)" :type-files="typeFiles" :model="model"></file-box>
+                                        <!--<file-box url="/files/upload" :fileable-id="Number(form.id)" :type-files="typeFiles" :model="getModel"></file-box>-->
                                         <v-flex text-xs-left>
                                             <v-btn large :class="{primary: valid, 'red lighten-3': !valid}" :disabled="isSending" @click.prevent="onSubmit">Сохранить</v-btn>
                                         </v-flex>
@@ -40,11 +40,11 @@
     </v-container>
 </template>
 <script>
-    import { mapActions, mapState, mapMutations } from 'vuex'
-    import { ACTIONS, GLOBAL } from '@/constants'
+    import { mapActions, mapState, mapGetters, mapMutations } from 'vuex'
+    import { GLOBAL } from '@/constants'
     import formBuilder from '@/vue/FormBuilder'
     import Wysiwyg from '@/vue/Wysiwyg.vue'
-    //import fileBox from '@file/components/file-box/FileBox'
+    import fileBox from '@file/components/file-box/FileBox'
     export default {
         props: {
             id: {
@@ -71,13 +71,10 @@
             next()
         },
         computed: {
-            ...mapState('Callback', ['item', 'items', 'fields', 'model'])
-        },
-        watch: {
-            'fields' (to, from) {
-                if(!_.isEmpty(to)) {
-                    this.updateRelations(this.item.type_product_id)
-                }
+            ...mapState('callbacks', ['items', 'fields', 'relations', 'typeFiles']),
+            ...mapGetters('callbacks', {getItem: GLOBAL.GET_ITEM, getModel: 'getModel'}),
+            form() {
+                return _.pick(this.getItem(Number(this.id)), ['id','title', 'sort', 'active', 'attribute_type_id', 'attribute_group_id', 'attribute_unit_id'])
             }
         },
         components: {
@@ -85,24 +82,25 @@
             //fileBox
         },
         methods: {
-            ...mapActions('Callback',{
-                save: ACTIONS.SAVE_DATA,
-                updateField: ACTIONS.UPDATE_FIELD,
-                getAttributes: ACTIONS.ATTRIBUTES,
-                updateRelations: ACTIONS.UPDATE_RELATIONS
+            ...mapActions('callbacks',{
+                save: GLOBAL.SAVE_DATA
             }),
             ...mapMutations('initializer', {resetError: 'RESET_ERROR'}),
+            updateField(objField) {
+                Object.assign(this.form, objField)
+            },
             init(id) {
                 this.resetError();
                 if(this.items.length == 0) {
-                    this.$router.push({name: 'products'})
+                    this.$router.push({name: 'callbacks'})
                 }
             },
             onSubmit() {
                 if(this.$refs.form.validate()) {
                     this.isSending = true
-                    this.save(this.item).then(response => {
+                    this.save(this.form).then(response => {
                         this.isSending = false
+                        this.$router.push({name: 'callbacks'})
                     })
                 }
             },

@@ -37,7 +37,7 @@ Vue.component('cart-page', CartPage)
 
 
 // Обратный звонок
-import Callback from '@callback/vue/Callback.vue'
+import Callback from '@callback/vue/callbacks/Callback.vue'
 import callback from '@callback/vuex/callbacks/state'
 Vue.component('callback', Callback)
 
@@ -51,6 +51,9 @@ const store = new Vuex.Store({
   getters
   }
 )
+
+import NavigationMenu from '@initializer/vue/NavigationMenu'
+Vue.component('navigation-menu', NavigationMenu)
 
 const app = new Vue({
   el: '#app',

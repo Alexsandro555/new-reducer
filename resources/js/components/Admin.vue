@@ -108,6 +108,10 @@
           {
             text: 'Страницы',
             path: '/pages'
+          },
+          {
+            text: 'Обратные звонки',
+            path: '/callbacks'
           }
         ]
       }

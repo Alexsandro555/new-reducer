@@ -12,7 +12,7 @@
   <div class="content">
     <div class="wrapper content-wrapper">
       <v-layout row wrap>
-        <v-flex xs2>
+        <v-flex class="hidden-md-and-down" xs2>
           <div class="left-banner">
             <div class="left-banner__content text-xs-left">
                             <span>
@@ -151,7 +151,7 @@
   <div class="about">
     <div class="wrapper about__content">
       <v-layout row wrap>
-        <v-flex xs3>
+        <v-flex xs3 class="hidden-md-and-down">
           <p class="about__brands">
             Наши бренды
           </p>

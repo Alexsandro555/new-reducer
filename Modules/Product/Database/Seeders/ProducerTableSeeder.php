@@ -18,10 +18,13 @@ class ProducerTableSeeder extends Seeder
       Model::unguard();
       DB::table('producers')->insert([
         [
-          'title' => 'kem-p',
-          'url_key' => 'kem-p'
+          'title' => 'Красный маяк',
+          'url_key' => 'krasnyj_mayak'
+        ],
+        [
+          'title' => 'Wacker Neuson',
+          'url_key' => 'wacker_neuson'
         ]
       ]);
-        // $this->call("OthersTableSeeder");
     }
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="menu-left">
+  <div class="menu-left hidden-sm-and-down">
     <div class="menu-left--shadow">
       <div class="menu-left__header">
         Каталог продукции
@@ -15,8 +15,12 @@
                         {{ itemMenu.title }}
                     </div>
                 </v-list-tile>
-                <v-list class="menu-left__list tom" v-if="itemMenu.line_products && itemMenu.line_products.length>0">
-                    <v-list-tile @click="goToPage(`/catalog/${itemMenu.url_key}/${submenu.url_key}`)" :class="key%2?'menu-left__sub--dark':'menu-left__sub--light'" v-for="(submenu, key) in itemMenu.line_products" :key="submenu.id">
+                <v-list class="menu-left__list tom" onmouseover="this.style.backgroundColor='#29435c';" v-if="itemMenu.line_products && itemMenu.line_products.length>0">
+                    <v-list-tile @click="goToPage(`/catalog/${itemMenu.url_key}/${submenu.url_key}`)"
+                                 :class="key%2?'menu-left__sub--dark'
+                                 :'menu-left__sub--light'"
+                                 v-for="(submenu, key) in itemMenu.line_products"
+                                 :key="submenu.id">
                         <div class="menu-left__sub__list--text">
                             {{submenu.title}}
                         </div>

@@ -7,12 +7,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Initializer\Traits\SortTrait;
 use Modules\Initializer\Traits\TableColumnsTrait;
 use Modules\Initializer\Traits\RelationTrait;
-use Modules\Initializer\Traits\ClearCacheTrait;
+use Modules\Product\Traits\ProductCategoryActiveTrait;
+
 //use Fico7489\Laravel\Pivot\Traits\PivotEventTrait;
 
 class ProductCategory extends Model
 {
-  use SoftDeletes, TableColumnsTrait, RelationTrait, ClearCacheTrait, SortTrait;  //, PivotEventTrait;
+  use SoftDeletes, TableColumnsTrait, RelationTrait, SortTrait, ProductCategoryActiveTrait;  //, PivotEventTrait;
 
   protected $dates = ['deleted_at'];
 
@@ -31,10 +32,22 @@ class ProductCategory extends Model
         'max' => 255
       ]
     ],
+    'active' => [
+      'enabled' => true
+    ],
     'description' => [
       'enabled' => true
     ]
   ];
+
+  public $fields = ['id','title','active','description'];
+
+  public function getRules()
+  {
+    return [
+      'title' => 'required|max:255'
+    ];
+  }
 
   protected $table = 'product_categories';
 

@@ -19,102 +19,132 @@ class AttributeTableSeeder extends Seeder
       DB::table('attributes')->insert([
         [
           'title' => 'Вес',
-          'url_key' => 'Ves',
+          'url_key' => 'ves',
+          'sort' => 1,
           'attribute_type_id' => 4,
           'attribute_unit_id' => 1,
-          'attribute_group_id' => 1
+          'attribute_group_id' => 2
         ],
         [
           'title' => 'Вынуждающая сила',
-          'url_key' => 'vinugdaushaia-power',
+          'url_key' => 'vyinujdayuschaya-sila',
+          'sort' => 2,
           'attribute_type_id' => 4,
           'attribute_unit_id' => 3,
-          'attribute_group_id' => 1
-        ],
-        [
-          'title' => 'Статический момент',
-          'url_key' => 'static-moment',
-          'attribute_type_id' => 4,
-          'attribute_unit_id' => 4,
-          'attribute_group_id' => 1
-        ],
-        [
-          'title' => 'Потребляемая мощность',
-          'url_key' => 'potreb-power',
-          'attribute_type_id' => 4,
-          'attribute_unit_id' => 5,
-          'attribute_group_id' => 1
+          'attribute_group_id' => 2
         ],
         [
           'title' => 'Номинальный ток',
-          'url_key' => 'nominal-tok',
+          'url_key' => 'nominalnyiy-tok',
+          'sort' => 3,
           'attribute_type_id' => 4,
-          'attribute_unit_id' => 6,
-          'attribute_group_id' => 1
+          'attribute_unit_id' => 10,
+          'attribute_group_id' => 3
+        ],
+        [
+          'title' => 'Обороты',
+          'url_key' => 'oborotyi',
+          'sort' => 4,
+          'attribute_type_id' => 4,
+          'attribute_unit_id' => 11,
+          'attribute_group_id' => 2
+        ],
+        [
+          'title' => 'Потребляемая мощность',
+          'url_key' => 'potreblyaemaya-moschnost',
+          'sort' => 5,
+          'attribute_type_id' => 4,
+          'attribute_unit_id' => 12,
+          'attribute_group_id' => 3
         ],
         [
           'title' => 'Размер A',
           'url_key' => 'razmer-a',
+          'sort' => 6,
           'attribute_type_id' => 3,
-          'attribute_unit_id' => 7,
-          'attribute_group_id' => 2
+          'attribute_unit_id' => 13,
+          'attribute_group_id' => 1
         ],
         [
           'title' => 'Размер B',
           'url_key' => 'razmer-b',
+          'sort' => 7,
           'attribute_type_id' => 3,
-          'attribute_unit_id' => 7,
-          'attribute_group_id' => 2
+          'attribute_unit_id' => 13,
+          'attribute_group_id' => 1
         ],
         [
           'title' => 'Размер C',
           'url_key' => 'razmer-c',
+          'sort' => 8,
           'attribute_type_id' => 3,
-          'attribute_unit_id' => 7,
-          'attribute_group_id' => 2
+          'attribute_unit_id' => 13,
+          'attribute_group_id' => 1
         ],
         [
           'title' => 'Размер D',
           'url_key' => 'razmer-d',
+          'sort' => 9,
           'attribute_type_id' => 3,
-          'attribute_unit_id' => 7,
-          'attribute_group_id' => 2
+          'attribute_unit_id' => 13,
+          'attribute_group_id' => 1
+        ],
+        [
+          'title' => 'Размер d N',
+          'url_key' => 'razmer-d-n',
+          'sort' => 10,
+          'attribute_type_id' => 3,
+          'attribute_unit_id' => 13,
+          'attribute_group_id' => 1
         ],
         [
           'title' => 'Размер E',
           'url_key' => 'razmer-e',
+          'sort' => 11,
           'attribute_type_id' => 3,
-          'attribute_unit_id' => 7,
-          'attribute_group_id' => 2
+          'attribute_unit_id' => 13,
+          'attribute_group_id' => 1
         ],
         [
           'title' => 'Размер F',
           'url_key' => 'razmer-f',
+          'sort' => 12,
           'attribute_type_id' => 3,
-          'attribute_unit_id' => 7,
+          'attribute_unit_id' => 13,
+          'attribute_group_id' => 1
+        ],
+        [
+          'title' => 'Размер G',
+          'url_key' => 'razmer-g',
+          'sort' => 13,
+          'attribute_type_id' => 3,
+          'attribute_unit_id' => 13,
+          'attribute_group_id' => 1
+        ],
+        [
+          'title' => 'Размер L',
+          'url_key' => 'razmer-l',
+          'sort' => 14,
+          'attribute_type_id' => 3,
+          'attribute_unit_id' => 13,
+          'attribute_group_id' => 1
+        ],
+        [
+          'title' => 'Размер M',
+          'url_key' => 'razmer-m',
+          'sort' => 15,
+          'attribute_type_id' => 3,
+          'attribute_unit_id' => 13,
+          'attribute_group_id' => 1
+        ],
+        [
+          'title' => 'Статический момент',
+          'url_key' => 'staticheskiy-moment',
+          'sort' => 16,
+          'attribute_type_id' => 3,
+          'attribute_unit_id' => 14,
           'attribute_group_id' => 2
-        ],
-        [
-          'title' => 'Срок годности',
-          'url_key' => 'sroc-godnosti',
-          'attribute_type_id' => 5,
-          'attribute_unit_id' => 8,
-          'attribute_group_id' => 1
-        ],
-        [
-          'title' => 'Стоимость годового обслуживания',
-          'url_key' => 'pay-year-obslugivanie',
-          'attribute_type_id' => 7,
-          'attribute_unit_id' => 9,
-          'attribute_group_id' => 1
-        ],
-        /*[
-          'title' => 'Форсированный',
-          'url_key' => 'forcing',
-          'attribute_type_id' => 1,
-          'attribute_group_id' => 1
-        ],*/
+        ]
       ]);
-        // $this->call("OthersTableSeeder");
     }
 }

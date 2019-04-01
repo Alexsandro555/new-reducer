@@ -14,14 +14,14 @@
                     <v-layout col wrap>
                       <v-text-field
                         v-if="attribute.attribute_type_id==2"
-                        :name="attribute.alias"
+                        :name="attribute.url_key"
                         :label="attribute.title"
                         :value="form[attribute.id]?form[attribute.id].value:null"
                         @input="updateAttribute($event, attribute.id)">
                       </v-text-field>
                       <v-text-field
                         v-else-if="attribute.attribute_type_id==7"
-                        :name="attribute.alias"
+                        :name="attribute.url_key"
                         :label="attribute.title"
                         :value="form[attribute.id]?form[attribute.id].value:null"
                         @input="updateAttribute($event, attribute.id)"
@@ -29,31 +29,31 @@
                       </v-text-field>
                       <v-text-field
                         v-else-if="attribute.attribute_type_id==3"
-                        :name="attribute.alias"
+                        :name="attribute.url_key"
                         :label="attribute.title"
                         @input="updateAttribute($event, attribute.id)"
                         :value="form[attribute.id]?form[attribute.id].value:null">
                       </v-text-field>
                       <v-text-field
                         v-else-if="attribute.attribute_type_id==4"
-                        :name="attribute.alias"
+                        :name="attribute.url_key"
                         :label="attribute.title"
                         @input="updateAttribute($event, attribute.id)"
                         :value="form[attribute.id]?form[attribute.id].value:null">
                       </v-text-field>
                       <v-checkbox
                         v-else-if="attribute.attribute_type_id==1"
-                        :name="attribute.alias"
+                        :name="attribute.url_key"
                         :label="attribute.title"
                         @change="updateAttribute($event, attribute.id)"
                         :value="form[attribute.id]?form[attribute.id].value:null">
                       </v-checkbox>
                       <v-select
                         v-else-if="attribute.attribute_type_id==8"
-                        :name="attribute.alias"
+                        :name="attribute.url_key"
                         :items="attribute.attribute_list_value"
                         :label="attribute.title"
-                        :id="attribute.alias"
+                        :id="attribute.url_key"
                         no-data-text="Нет данных"
                         @input="updateAttribute($event, attribute.id)"
                         :value="form[attribute.id]?form[attribute.id].value:null"
@@ -86,7 +86,7 @@
                   </v-container>
                 </template>
                 <v-flex xs12 text-xs-left>
-                  <v-btn :disabled="!attributes.length>0" large color="primary" @click.prevent="onSave()">Сохранить</v-btn>
+                  <v-btn :disabled="isSending || !attributes.length>0" large color="primary" @click.prevent="onSave()">Сохранить атрибуты</v-btn>
                 </v-flex>
               </v-form>
             </div>
@@ -97,17 +97,13 @@
   </div>
 </template>
 <script>
-  import {mapActions} from 'vuex'
-  import {ACTIONS} from '@product/constants'
+  import {mapActions, mapGetters} from 'vuex'
+  import {ACTIONS, GETTERS} from '@product/constants'
   import {GLOBAL} from '@/constants'
 
   export default {
     props: {
       attributes: {
-        type: Array,
-        default: []
-      },
-      values: {
         type: Array,
         default: []
       },
@@ -118,17 +114,9 @@
     },
     computed: {
       form() {
-        return this.values.reduce((acc, item, i) =>
-            {
-              acc[item.attribute_id] = {
-                product_id: item.product_id,
-                value: item.value,
-                attribute_id: item.attribute_id,
-                id: item.id
-              };
-              return acc;
-            }, {});
-      }
+        return this.attributesValues(Number(this.id));
+      },
+      ...mapGetters('attribute_values', {attributesValues: GETTERS.BY_PRODUCT_ID}),
     },
     data: function() {
       return {
@@ -142,6 +130,7 @@
         menu: false,
         date: null,
         changed: [],
+        isSending: false
       }
     },
     methods: {
@@ -153,7 +142,7 @@
         return !!v || 'Обязательное для заполнения'
       },
       getValue(id) {
-        const value = this.values.find(item => item.attribute_id == id)
+        const value = this.attributesValues.find(item => item.attribute_id == id)
         return value?value.value:null
       },
       updateAttribute(value, id) {
@@ -170,11 +159,11 @@
       },
       onSave() {
         if(this.$refs.form.validate()) {
+          this.isSending = true
           let result = []
           for(let val in this.form) {
             result.push(this.form[val])
           }
-          this.isSending = true
           this.save({product_id: this.id, attributes: result}).then(response => {
             this.isSending = false
           })

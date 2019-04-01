@@ -10,7 +10,7 @@
           </v-card-title>
           <v-card-text>
             <v-data-table :headers="headers"
-                          :items="items"
+                          :items="getProducts"
                           :loading="loading"
                           :search="search"
                           :rows-per-page-items="[10, 20, 50, { 'text': '$vuetify.dataIterator.rowsPerPageAll', 'value': -1 } ]"
@@ -19,6 +19,10 @@
               <template slot="items" slot-scope="props">
                 <td>{{ props.item.id }}</td>
                 <td class="text-xs-left">{{ props.item.title }}</td>
+                <td class="text-xs-left">{{ props.item.product_category.title }}</td>
+                <td class="text-xs-left">{{ props.item.type_product.title }}</td>
+                <td class="text-xs-left">{{ props.item.line_product.title }}</td>
+                <td>{{props.item.sort}}</td>
                 <td class="justify-center layout px-0">
                   <v-btn @click="goToPage(props.item)" icon class="mx-0">
                     <v-icon>find_in_page</v-icon>
@@ -61,7 +65,7 @@
 <script>
   import { ACTIONS } from "@product/constants"
   import {GLOBAL} from "@/constants";
-  import {mapActions, mapState} from 'vuex'
+  import {mapActions, mapState, mapGetters} from 'vuex'
 
   export default {
     props: {},
@@ -71,17 +75,40 @@
           {
             text: '#',
             align: 'left',
-            sortable: true,
+            sortable: false,
             value: 'id'
           },
           {
             text: 'Наименование',
             value: 'title',
-            sortable: true
+            sortable: false
+          },
+          {
+            text: 'Категория',
+            value: 'product_category.title',
+            sortable: false
+          },
+          {
+            text: 'Тип продукта',
+            value: 'type_product.title',
+            sortable: false
+          },
+          {
+            text: 'Линейка продукта',
+            value: 'line_product.title',
+            sortable: false
+          },
+          {
+            text: 'Сорт',
+            value: 'sort',
+            sortable: true,
+            align: 'right',
+            width: '10'
           },
           {
             text: 'Действия',
             value: 'title',
+            align: 'center',
             sortable: false
           }
         ],
@@ -90,6 +117,17 @@
     },
     computed: {
       ...mapState('products', ['items', 'loading']),
+      ...mapGetters('products', {transformByKey: 'transformByKey'}),
+      getProducts() {
+        return this.items.map(item => {
+          return Object.assign(
+            item,
+            {type_product: this.transformByKey(item, 'type_product_id')},
+            {line_product: this.transformByKey(item, 'line_product_id')},
+            {product_category: this.transformByKey(item, 'product_category_id')}
+          )
+        })
+      }
     },
     beforeRouteEnter(to, from, next) {
       next(vm => {
@@ -102,6 +140,7 @@
         vm.loadAttributes()
         vm.loadAttributeValues()
         vm.loadSkus()
+        vm.loadAttributeSkuOptions()
       })
     },
     methods: {
@@ -124,7 +163,8 @@
       ...mapActions('attributables', {loadAttributables: GLOBAL.LOAD}),
       ...mapActions('attributes', {loadAttributes: GLOBAL.LOAD}),
       ...mapActions('attribute_values', {loadAttributeValues: GLOBAL.LOAD}),
-      ...mapActions('skus', {loadSkus: GLOBAL.LOAD})
+      ...mapActions('skus', {loadSkus: GLOBAL.LOAD}),
+      ...mapActions('attribute_sku_options', {loadAttributeSkuOptions: GLOBAL.LOAD})
     }
   }
 </script>

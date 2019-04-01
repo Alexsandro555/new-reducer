@@ -50,6 +50,5 @@ class AttributeTypeTableSeeder extends Seeder
         'sort' => 8
       ]
     ]);
-    // $this->call("OthersTableSeeder");
   }
 }

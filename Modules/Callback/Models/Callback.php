@@ -1,6 +1,5 @@
 <?php
-
-namespace Modules\Callback\Entities;
+namespace Modules\Callback\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -9,11 +8,11 @@ use Modules\Initializer\Traits\TableColumnsTrait;
 
 class Callback extends Model
 {
-  use SoftDeletes, RelationTrait, TableColumnsTrait;
+	use SoftDeletes, RelationTrait, TableColumnsTrait;
 
-  protected $dates = ['deleted_at'];
+	protected $guarded=[];
 
-  protected $guarded = [];
+	protected $dates = ['deleted_at','updated_at'];
 
   public $form = [
     'id' => [
@@ -28,10 +27,6 @@ class Callback extends Model
     ],
     'company_name' => [
       'enabled' => true,
-      'validations' => [
-        'required' => true,
-        'max' => 50
-      ]
     ],
     'telephone' => [
       'enabled' => true,

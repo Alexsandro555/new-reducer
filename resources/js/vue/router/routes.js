@@ -27,6 +27,7 @@ import News from '@news/vue/News/ListNews'
 import EditNews from '@news/vue/News/EditNews'
 import ListPage from '@pages/vue/pages/ListPage'
 import EditPage from '@pages/vue/pages/EditPage'
+import ListCallback from '@callback/vue/callbacks/ListCallback'
 //const EditProducer = () => import('@product/vue/Producer/EditProducer')
 
 import store from '@/vuex/states'
@@ -207,6 +208,11 @@ export const routes = [
         name: 'edit-pages',
         component: EditPage,
         props: true
+      },
+      {
+        path: '/callbacks',
+        name: 'callbacks',
+        component: ListCallback
       }
     ]
   }

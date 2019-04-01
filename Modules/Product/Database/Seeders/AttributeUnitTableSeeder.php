@@ -19,41 +19,74 @@ class AttributeUnitTableSeeder extends Seeder
       DB::table('attribute_units')->insert([
         [
           'title' => 'кг',
-          'url_key' => 'kg'
+          'url_key' => 'kg',
+          'sort' => 1
         ],
         [
-          'title' => 'л',
-          'url_key' => 'l'
+          'title' => 'Гц',
+          'url_key' => 'gc',
+          'sort' => 2
         ],
         [
           'title' => 'kH',
-          'url_key' => 'kh'
+          'url_key' => 'kh',
+          'sort' => 3
         ],
         [
-          'title' => 'кг/мм',
-          'url_key' => 'kg-mm'
+          'title' => 'кг/см',
+          'url_key' => 'kg-sm',
+          'sort' => 4
         ],
         [
-          'title' => 'Вт',
-          'url_key' => 'vt'
+          'title' => 'л/мин',
+          'url_key' => 'l-min',
+          'sort' => 5
+        ],
+        [
+          'title' => 'Дж.',
+          'url_key' => 'dg',
+          'sort' => 6
+        ],
+        [
+          'title' => 'H',
+          'url_key' => 'h',
+          'sort' => 7
+        ],
+        [
+          'title' => '°С',
+          'url_key' => 'grad-c',
+          'sort' => 8
+        ],
+        [
+          'title' => 'кВт',
+          'url_key' => 'kvt',
+          'sort' => 9
         ],
         [
           'title' => 'А',
-          'url_key' => 'a'
+          'url_key' => 'a',
+          'sort' => 10
+        ],
+        [
+          'title' => 'обор./мин.',
+          'url_key' => 'obor-min',
+          'sort' => 11
+        ],
+        [
+          'title' => 'Вт',
+          'url_key' => 'vt',
+          'sort' => 12
         ],
         [
           'title' => 'мм',
-          'url_key' => 'mm'
+          'url_key' => 'mm',
+          'sort' => 13
         ],
         [
-          'title' => 'сек.',
-          'url_key' => 'sec'
-        ],
-        [
-          'title' => '₽',
-          'url_key' => 'rub'
+          'title' => 'кг/мм',
+          'url_key' => 'kg-mm',
+          'sort' => 14
         ]
       ]);
-        // $this->call("OthersTableSeeder");
     }
 }
