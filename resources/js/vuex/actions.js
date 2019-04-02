@@ -5,7 +5,6 @@ export default {
   [GLOBAL.INITIALIZATION] : ({ state, dispatch, commit }) => {
     return new Promise((resolve, reject) => {
       api.get('/initializer/fields/'+state.name).then(response => {
-        console.log(response)
         commit('SET_ARRAY_VARIABLE', {variable: 'fields', value: response})
         resolve(response)
       }).catch(error => {

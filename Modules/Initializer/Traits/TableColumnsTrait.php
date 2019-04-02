@@ -18,7 +18,7 @@ trait TableColumnsTrait
       foreach ($columns as $column) {
         $collection = collect([]);
         $collection->put('type',Schema::getColumnType($tableName, $column));
-        $collection->put('label',\DB::select(\DB::raw("SELECT COLUMN_COMMENT FROM information_schema.COLUMNS WHERE TABLE_NAME = '" . $tableName . "' AND COLUMN_NAME='" . $column . "'"))[0]->COLUMN_COMMENT);
+        $collection->put('label',\DB::select(\DB::raw("SELECT COLUMN_COMMENT FROM information_schema.COLUMNS WHERE TABLE_SCHEMA='".env('DB_DATABASE')."' AND TABLE_NAME = '" . $tableName . "' AND COLUMN_NAME='" . $column . "'"))[0]->COLUMN_COMMENT);
         if ($column === $primaryKey) {
           $collection->put('primary',true);
         }
