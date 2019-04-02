@@ -61,7 +61,7 @@ class ModelService
           $collection = collect([]);
           $collection->put('type','selectbox');
           $collection->put('title',$modelRel->name?$modelRel->name:'title');
-          $collection->put('label', \DB::select(\DB::raw("SELECT TABLE_COMMENT FROM information_schema.TABLES WHERE TABLE_NAME = '".$relationship["table"]."'"))[0]->TABLE_COMMENT);
+          $collection->put('label', \DB::select(\DB::raw("SELECT TABLE_COMMENT FROM information_schema.TABLES WHERE TABLE_SCHEMA='".env('DB_DATABASE')."' AND TABLE_NAME = '".$relationship["table"]."'"))[0]->TABLE_COMMENT);
           if(array_key_exists('validations',$model->form[$key])) {
             $collection->put('validations', $model->form[$key]['validations']);
           }
