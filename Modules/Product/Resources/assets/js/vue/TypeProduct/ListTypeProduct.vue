@@ -92,10 +92,11 @@
     },
     beforeRouteEnter(to, from, next) {
       next(vm => {
-        vm.initialization()
-        vm.loadRelations().then(response => {
-          vm.load().then(response => {
-            vm.$store.commit('SET_VARIABLE',{module: 'type_products', variable: 'loading', value: false}, {root: true})
+        vm.initialization().then(response => {
+          vm.loadRelations().then(response => {
+            vm.load().then(response => {
+              vm.$store.commit('SET_VARIABLE',{module: 'type_products', variable: 'loading', value: false}, {root: true})
+            })
           })
         })
       })
