@@ -62,8 +62,7 @@
       :required="getRequired(field.validations)"
       :error-messages="messages[''+num+'_id']"
       :value="items[num+'_id']"
-      @change="updateItem($event,num+'_id')"
-      single-line></v-select>
+      @change="updateItem($event,num+'_id')"></v-select>
   </div>
 </template>
 <script>

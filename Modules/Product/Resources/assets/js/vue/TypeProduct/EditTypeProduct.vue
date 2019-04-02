@@ -11,7 +11,6 @@
             <v-container>
               <v-layout row wrap>
                 <v-flex>
-                  {{fields}}
                   <v-form ref="form" lazy-validation v-model="valid">
                     <template v-for="(field, num) in fields">
                       <form-builder :field="field" v-if="num!=='description'" :relations="relations" :num="num" :items="form"
