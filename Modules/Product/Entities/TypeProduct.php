@@ -37,11 +37,11 @@ class TypeProduct extends Model
     'description' => [
       'enabled' => true
     ],
-    'product_category' => [
-      'enabled' => true,
-    ],
     'active' => [
       'enabled' => true
+    ],
+    'product_category' => [
+      'enabled' => true,
     ],
     'tnved' => [
       'enabled' => true,
