@@ -68,6 +68,7 @@ Route::middleware('auth:api')->prefix('attributes')->group(function() {
   Route::post('/save', 'AttributeController@store');
   Route::patch('/', 'AttributeController@save');
   Route::patch('/remove-bind-attributes', 'AttributeController@removeBindAttributes');
+  Route::post('/load-pdf', 'AttributeController@loadPdf');
 });
 
 Route::middleware('auth:api')->prefix('attribute_types')->group(function() {

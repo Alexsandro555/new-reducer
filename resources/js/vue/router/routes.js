@@ -28,6 +28,7 @@ import EditNews from '@news/vue/News/EditNews'
 import ListPage from '@pages/vue/pages/ListPage'
 import EditPage from '@pages/vue/pages/EditPage'
 import ListCallback from '@callback/vue/callbacks/ListCallback'
+import AttibutesAutoLoading from '@product/vue/Attribute/AttributesAutoLoading'
 //const EditProducer = () => import('@product/vue/Producer/EditProducer')
 
 import store from '@/vuex/states'
@@ -213,6 +214,11 @@ export const routes = [
         path: '/callbacks',
         name: 'callbacks',
         component: ListCallback
+      },
+      {
+        path: '/attributes/loading',
+        name: 'AttributesAutoLoading',
+        component: AttibutesAutoLoading
       }
     ]
   }

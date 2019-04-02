@@ -82,6 +82,9 @@
       formBuilder,
       fileBox
     },
+    mounted() {
+      console.log(this.fields)
+    },
     methods: {
       ...mapActions('product_categories', {
         save: GLOBAL.SAVE_DATA

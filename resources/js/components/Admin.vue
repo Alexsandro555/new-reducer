@@ -112,6 +112,10 @@
           {
             text: 'Обратные звонки',
             path: '/callbacks'
+          },
+          {
+            text: 'Загрузка атрибутов',
+            path: '/attributes/loading'
           }
         ]
       }

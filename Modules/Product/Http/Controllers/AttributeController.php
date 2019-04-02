@@ -12,6 +12,8 @@ use Modules\Product\Entities\AttributeValue;
 use Modules\Initializer\Traits\ControllerTrait;
 use Modules\Product\Entities\LineProduct;
 use Modules\Initializer\Traits\DefaultTrait;
+use Spatie\PdfToText\Pdf;
+use Illuminate\Support\Facades\Storage;
 
 class AttributeController extends Controller
 {
@@ -128,7 +130,8 @@ class AttributeController extends Controller
     return AttributeValue::all();
   }
 
-  public function removeBindAttributes(Request $request) {
+  public function removeBindAttributes(Request $request)
+  {
     if($request->type_product_id) {
       foreach ($request->attr as $attribute_id) {
         DB::table('attributables')->where('attribute_id', $attribute_id)->where('attributable_type', 'Modules\Product\Entities\TypeProduct')->where('attributable_id',$request->type_product_id)->delete();
@@ -142,6 +145,19 @@ class AttributeController extends Controller
     if($request->line_product_id) {
       foreach ($request->attr as $attribute_id) {
         DB::table('attributables')->where('attribute_id', $attribute_id)->where('attributable_type', LineProduct::class)->where('attributable_id',$request->line_product_id)->delete();
+      }
+    }
+  }
+
+  public function loadPdf(Request $request)
+  {
+    if($request->hasFile('file')) {
+      if ($request->file('file')->isValid()) {
+        try {
+          return response((new Pdf('/usr/local/bin/pdftotext'))->setPdf($request->file('file'))->text())->withHeaders([
+            'Content-Type' => 'text/plain'
+          ]);
+        } catch (FileNotFoundException $e) { }
       }
     }
   }

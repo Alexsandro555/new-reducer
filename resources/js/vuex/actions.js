@@ -3,8 +3,14 @@ import { api } from '@/api/main.js'
 
 export default {
   [GLOBAL.INITIALIZATION] : ({ state, dispatch, commit }) => {
-    api.get('/initializer/fields/'+state.name).then(response => {
-      commit('SET_ARRAY_VARIABLE', {variable: 'fields', value: response})
+    return new Promise((resolve, reject) => {
+      api.get('/initializer/fields/'+state.name).then(response => {
+        commit('SET_ARRAY_VARIABLE', {variable: 'fields', value: response})
+        //console.log(state.fields)
+        resolve(response)
+      }).catch(error => {
+        reject(error)
+      })
     })
   },
   [GLOBAL.LOAD]: ({commit, getters, dispatch, state}) => {
