@@ -18,12 +18,20 @@ class AttributeTableSeeder extends Seeder
       Model::unguard();
       DB::table('attributes')->insert([
         [
-          'title' => 'Вес',
-          'url_key' => 'ves',
+          'title' => 'Передаточное число',
+          'url_key' => 'peredatochnoe-chislo',
           'sort' => 1,
           'attribute_type_id' => 4,
-          'attribute_unit_id' => 1,
-          'attribute_group_id' => 2
+          'attribute_unit_id' => null,
+          'attribute_group_id' => 1
+        ],
+        [
+          'title' => 'Передаточное число быстроходной ступени',
+          'url_key' => 'peredatochnoe-chislo',
+          'sort' => 1,
+          'attribute_type_id' => 4,
+          'attribute_unit_id' => null,
+          'attribute_group_id' => 1
         ],
         [
           'title' => 'Вынуждающая сила',

@@ -8,7 +8,7 @@
           </v-card-title>
           <v-card-text>
             <v-flex xs12>
-              <v-autocomplete
+              <!--<v-autocomplete
                 v-model="form.productIds"
                 :items="items"
                 :loading="isLoading"
@@ -22,12 +22,11 @@
                 placeholder="Введите продукт для поиска"
                 prepend-icon="mdi-database-search"
                 return-object
-                ></v-autocomplete>
+                ></v-autocomplete>-->
             </v-flex>
-            <hr>
             <v-flex xs12>
               <v-form ref="form" lazy-validation v-model="valid">
-                <input type="file" ref="file" @change="onUpload" style="display: none"/>
+                <input type="file" ref="pdf" @change="onUpload" style="display: none"/>
                 <v-btn
                   :loading="loading"
                   :disabled="loading"
@@ -38,9 +37,9 @@
                   <v-icon right dark>cloud_upload</v-icon>
                 </v-btn>
               </v-form>
+              <v-alert v-if="status.type">{{status.message}}</v-alert>
             </v-flex>
-            <v-flex xs12 class="content-wrapper">
-              <plaintext ref="content"></plaintext>
+            <v-flex id="html-result">
             </v-flex>
           </v-card-text>
         </v-card>
@@ -49,7 +48,10 @@
   </v-container>
 </template>
 <script>
-  import axios from 'axios'
+  import PDFJS from 'pdfjs-dist'
+  import {pdfTableExtractor} from './PdfTableExtractor/pdf_table_extractor'
+  //require('table-selection/dist/js/table-selection')
+  require('./PdfTableExtractor/cellSelection.min.js')
 
   export default {
     props: {},
@@ -61,32 +63,77 @@
         search: null,
         form: {
           productIds: []
+        },
+        status: {
+          message: '',
+          type: null
         }
       }
     },
     methods: {
       onShowWindow() {
-        this.$refs.file.click()
+        this.$refs.pdf.click()
       },
       onUpload() {
         if (this.$refs.form.validate()) {
-          let formData = new FormData()
-          let file = this.$refs.file
-          formData.append("file", file.files[0])
           this.loading = true
-          axios.post('/api/attributes/load-pdf', formData, {
-            headers: {
-              'Content-type': 'multipart/form-data'
+          this.status.message = 'Перемещение файла'
+          this.status.type = 'info'
+          let file = this.$refs.pdf.files[0]
+          {
+            let reader = new FileReader()
+            let name = file.name
+            reader.onload = (e) => {
+              let data = e.target.result
+              this.status.message = 'Парсинг PDF'
+              this.parseContent(data)
             }
-          })
-            .then(response => response.data)
-            .then(response => {
-              this.loading = false
-              this.$refs.content.innerHTML = response
-            }).catch(error => {
-            console.error(error)
-          })
+            reader.readAsArrayBuffer(file)
+          }
         }
+      },
+      parseContent(content) {
+        PDFJS.GlobalWorkerOptions.workerSrc = './js/pdf.worker.js'
+        PDFJS.cMapUrl = './../node_modules/pdfjs-dist/cmaps/'
+        PDFJS.cMapPacked = true
+
+        PDFJS.getDocument(content).then(pdfTableExtractor).then(result => {
+          var all_tables = [];
+          var page_tables;
+          while (page_tables = result.pageTables.shift()) {
+            var timestamp = new Date().getUTCMilliseconds();
+            var table_dom = $('<table id="'+timestamp+'" style="border-collapse: collapse; table-layout: fixed; margin-bottom: 50px; border-spacing: 2px; border-color: grey;"></table>').attr('border', 1);
+            var tables = page_tables.tables;
+            var merge_alias = page_tables.merge_alias;
+            var merges = page_tables.merges;
+
+            for (var r = 0; r < tables.length; r ++) {
+              var tr_dom = $('<tr></tr>');
+              for (var c = 0; c < tables[r].length; c ++) {
+                var r_c = [r, c].join('-');
+                if (merge_alias[r_c]) {
+                  continue;
+                }
+                var td_dom = $('<td></td>');
+                if (merges[r_c]) {
+                  if (merges[r_c].width > 1) {
+                    td_dom.attr('colspan', merges[r_c].width);
+                  }
+                  if (merges[r_c].height > 1) {
+                    td_dom.attr('rowspan', merges[r_c].height);
+                  }
+                }
+                td_dom.text(tables[r][c]);
+                tr_dom.append(td_dom);
+              }
+              table_dom.append(tr_dom);
+            }
+            $('#html-result').append(table_dom);
+            console.log(timestamp)
+            $('#'+timestamp).cellSelection('selectAll');
+          }
+          this.loading = false;
+        })
       }
     }
   }

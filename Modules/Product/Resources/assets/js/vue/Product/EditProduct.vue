@@ -87,8 +87,7 @@
                           :rules="getRules({required: true})"
                           required
                           :error-messages="messages.product_category_id"
-                          v-model="form.product_category_id"
-                          single-line></v-select>
+                          v-model="form.product_category_id"></v-select>
                         <v-select
                           name="type_product_id"
                           :items="getTypeProducts"
@@ -97,8 +96,7 @@
                           no-data-text="Нет данных"
                           @change="changeTypeProducts"
                           item-value="id"
-                          v-model="form.type_product_id"
-                          single-line></v-select>
+                          v-model="form.type_product_id"></v-select>
                         <v-select
                           name="line_product_id"
                           :items="getLineProducts"
@@ -106,8 +104,7 @@
                           item-text="title"
                           no-data-text="Нет данных"
                           item-value="id"
-                          v-model="form.line_product_id"
-                          single-line></v-select>
+                          v-model="form.line_product_id"></v-select>
                         <wysiwyg
                           :element-id="id"
                           name="description"
