@@ -116,6 +116,10 @@
           {
             text: 'Загрузка атрибутов',
             path: '/attributes/loading'
+          },
+          {
+            text: 'Ипорт продукции',
+            path: '/import'
           }
         ]
       }

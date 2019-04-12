@@ -38,8 +38,8 @@ class SiteController extends Controller
 
   public function menuLeft() {
     return ProductCategory::with(['typeProducts' => function($query) {
-      $query->orderBy('sort');
-    }, 'typeProducts.lineProducts'])->get();
+      $query->where('active',1)->orderBy('sort');
+    }])->where('active',1)->get();
   }
 
   public function detail($slug) {

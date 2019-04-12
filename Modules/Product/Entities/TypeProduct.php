@@ -9,11 +9,13 @@ use Modules\Initializer\Traits\SortTrait;
 use Modules\Initializer\Traits\TableColumnsTrait;
 use Modules\Initializer\Traits\RelationTrait;
 use Modules\Initializer\Traits\ClearCacheTrait;
+use Modules\Initializer\Traits\UrlKeyTrait;
+
 //use Fico7489\Laravel\Pivot\Traits\PivotEventTrait;
 
 class TypeProduct extends Model
 {
-  use SoftDeletes, TableColumnsTrait, RelationTrait, ClearCacheTrait, SortTrait; //, PivotEventTrait;
+  use SoftDeletes, TableColumnsTrait, RelationTrait, ClearCacheTrait, SortTrait, UrlKeyTrait; //, PivotEventTrait;
 
   protected $dates = ['deleted_at'];
 

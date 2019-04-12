@@ -7,22 +7,22 @@
         <img v-else @click="clickToggle" src="/images/menu-left-arrow-up.png"/>
       </div>
       <div v-show="toggle">
-        <div class="menu-left__items" v-if="menu.length>0" v-for="menuItem in menu">
-          <v-list class="menu-left__list" v-if="menuItem.type_products && menuItem.type_products.length>0">
-            <v-menu offset-x open-on-hover v-for="itemMenu in menuItem.type_products" :key="itemMenu.id">
-                <v-list-tile @click="goToPage(`/catalog/${itemMenu.url_key}`)" slot="activator">
+        <div class="menu-left__items">
+          <v-list class="menu-left__list">
+            <v-menu offset-x open-on-hover v-for="menuItem in menu" :key="menuItem.id">
+                <v-list-tile @click="goToPage(`/catalog/${menuItem.url_key}`)" slot="activator">
                     <div class="menu-left__list--text">
-                        {{ itemMenu.title }}
+                        {{ menuItem.title }}
                     </div>
                 </v-list-tile>
-                <v-list class="menu-left__list tom" onmouseover="this.style.backgroundColor='#29435c';" v-if="itemMenu.line_products && itemMenu.line_products.length>0">
-                    <v-list-tile @click="goToPage(`/catalog/${itemMenu.url_key}/${submenu.url_key}`)"
+                <v-list class="menu-left__list tom" onmouseover="this.style.backgroundColor='#29435c';" v-if="menuItem.type_products && menuItem.type_products.length>0">
+                    <v-list-tile @click="goToPage(`/catalog/${menuItem.url_key}/${subMenu.url_key}`)"
                                  :class="key%2?'menu-left__sub--dark'
                                  :'menu-left__sub--light'"
-                                 v-for="(submenu, key) in itemMenu.line_products"
-                                 :key="submenu.id">
+                                 v-for="(subMenu, key) in menuItem.type_products"
+                                 :key="subMenu.id">
                         <div class="menu-left__sub__list--text">
-                            {{submenu.title}}
+                            {{subMenu.title}}
                         </div>
                     </v-list-tile>
                 </v-list>

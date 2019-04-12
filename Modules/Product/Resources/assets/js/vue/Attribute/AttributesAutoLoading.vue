@@ -2,27 +2,73 @@
   <v-container>
     <v-layout align-center justify-center full-height wrap row>
       <v-flex>
-        <v-card>
+        <v-progress-circular v-if="isLoading" indeterminate :size="100" color="primary"></v-progress-circular>
+        <v-card v-else>
           <v-card-title>
             <h1>Загрузка атрибутов</h1>
           </v-card-title>
           <v-card-text>
+            <v-alert :type="status.type" :value="status.type">{{status.message}}</v-alert>
             <v-flex xs12>
-              <!--<v-autocomplete
-                v-model="form.productIds"
-                :items="items"
-                :loading="isLoading"
-                :search-input.sync="search"
-                color="white"
-                hide-no-data
-                hide-selected
-                item-text="title"
-                item-value="id"
-                label="Продукты"
-                placeholder="Введите продукт для поиска"
-                prepend-icon="mdi-database-search"
-                return-object
-                ></v-autocomplete>-->
+              <v-form ref="form-attributes" lazy-validation v-model="valid">
+                <v-autocomplete
+                  v-model="form.productIds"
+                  :items="items"
+                  :search-input.sync="searchProducts"
+                  color="white"
+                  v-if="items"
+                  chips
+                  hide-no-data
+                  item-text="title"
+                  item-value="id"
+                  label="Продукты"
+                  placeholder="Введите продукт для поиска"
+                  multiple>
+                  <template slot="selection" slot-scope="data">
+                    <v-chip
+                      close
+                      @input="data.parent.selectItem(data.item)"
+                      :selected="data.selected"
+                      class="chip--select-multi"
+                      :key="JSON.stringify(data.item)">
+                      {{ data.item.title }}
+                    </v-chip>
+                  </template>
+                </v-autocomplete>
+                <v-autocomplete
+                  v-model="form.attributeIds"
+                  :items="attributes"
+                  :search-input.sync="searchAttributes"
+                  v-if="attributes"
+                  color="white"
+                  chips
+                  hide-no-data
+                  item-text="title"
+                  item-value="id"
+                  label="Атрибуты"
+                  placeholder="Введите название атрибута для поиска"
+                  multiple>
+                  <template slot="selection" slot-scope="data">
+                    <v-chip
+                      close
+                      @input="data.parent.selectItem(data.item)"
+                      :selected="data.selected"
+                      class="chip--select-multi"
+                      :key="JSON.stringify(data.item)">
+                      {{ data.item.title }}
+                    </v-chip>
+                  </template>
+                </v-autocomplete>
+                <v-checkbox
+                  label="Атрибуты по-горизонтали"
+                  v-model="form.direction">
+                </v-checkbox>
+                <v-flex text-xs-left>
+                  <v-btn text-xs-left large :class="{primary: valid, 'red lighten-3': !valid}" :disabled="isSaving" @click.prevent="onSave">
+                    Сохранить
+                  </v-btn>
+                </v-flex>
+              </v-form>
             </v-flex>
             <v-flex xs12>
               <v-form ref="form" lazy-validation v-model="valid">
@@ -37,7 +83,6 @@
                   <v-icon right dark>cloud_upload</v-icon>
                 </v-btn>
               </v-form>
-              <v-alert v-if="status.type">{{status.message}}</v-alert>
             </v-flex>
             <v-flex id="html-result">
             </v-flex>
@@ -48,10 +93,12 @@
   </v-container>
 </template>
 <script>
+  import { mapActions, mapState } from 'vuex'
+  import { GLOBAL } from '@/constants'
+  import { ACTIONS } from '@product/constants'
   import PDFJS from 'pdfjs-dist'
   import {pdfTableExtractor} from './PdfTableExtractor/pdf_table_extractor'
-  //require('table-selection/dist/js/table-selection')
-  require('./PdfTableExtractor/cellSelection.min.js')
+  import TableSelection from './PdfTableExtractor/TableSelection'
 
   export default {
     props: {},
@@ -60,17 +107,45 @@
         loading: false,
         valid: false,
         isLoading: false,
-        search: null,
+        isSaving: false,
+        searchProducts: null,
+        searchAttributes: null,
         form: {
-          productIds: []
+          productIds: [],
+          attributeIds: [],
+          direction: false
         },
+        products: [],
         status: {
           message: '',
           type: null
-        }
+        },
+        ts: null
       }
     },
+    mounted() {
+      this.isLoading = true
+      let loadProducts = this.load()
+      let loadAttributes = this.loadAttributes()
+      Promise.all([loadProducts,loadAttributes]).then(result => {
+        this.isLoading = false
+      })
+    },
+    computed: {
+      ...mapState('products', ['items']),
+      ...mapState('attributes', {attributes: state => state.items})
+    },
     methods: {
+      onSave() {
+        if (this.$refs['form-attributes'].validate()) {
+          if(!this.ts || !this.ts.getArraySelectionText().length>0) {
+            this.status.message = 'Не выбраны значения атрибутов'
+            this.status.type = 'error'
+            return
+          }
+          this.save(Object.assign({}, this.form, {values: JSON.stringify(this.ts.getArraySelectionText())}))
+        }
+      },
       onShowWindow() {
         this.$refs.pdf.click()
       },
@@ -98,11 +173,14 @@
         PDFJS.cMapPacked = true
 
         PDFJS.getDocument(content).then(pdfTableExtractor).then(result => {
+          this.status.type = null
+          this.status.message = ''
           var all_tables = [];
           var page_tables;
           while (page_tables = result.pageTables.shift()) {
             var timestamp = new Date().getUTCMilliseconds();
-            var table_dom = $('<table id="'+timestamp+'" style="border-collapse: collapse; table-layout: fixed; margin-bottom: 50px; border-spacing: 2px; border-color: grey;"></table>').attr('border', 1);
+            var table_dom = $('<table id="'+timestamp+'" style="border-collapse: collapse; table-layout: fixed; margin-bottom: 50px; border-spacing: 2px; border-color: grey;" '+
+              'class="table-selection"><tbody></tbody></table>').attr('border', 1);
             var tables = page_tables.tables;
             var merge_alias = page_tables.merge_alias;
             var merges = page_tables.merges;
@@ -129,23 +207,37 @@
               table_dom.append(tr_dom);
             }
             $('#html-result').append(table_dom);
-            console.log(timestamp)
-            $('#'+timestamp).cellSelection('selectAll');
+
           }
           this.loading = false;
+          this.ts = new TableSelection();
         })
-      }
+      },
+      ...mapActions('products', { load: GLOBAL.LOAD }),
+      ...mapActions('attributes', { loadAttributes: GLOBAL.LOAD }),
+      ...mapActions('attribute_values', {save: ACTIONS.SAVE_MULTIPLE})
     }
   }
 </script>
 
-<style scoped>
+<style>
   .content-wrapper {
     overflow: scroll;
     height: 400px;
     margin-top: 100px;
-    /*width: 1200px;
-    display: block;
-    position: fixed;*/
+  }
+
+  .table-selection *::selection {
+    background: transparent;
+    color: inherit;
+  }
+
+  .table-selection *::-moz-selection {
+    background: transparent;
+    color: inherit;
+  }
+
+  .table-selection td.selected {
+    background: rgba(0, 123, 255, .25);
   }
 </style>

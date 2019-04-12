@@ -3,14 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
-use Modules\Product\Entities\Product;
+use Modules\Product\Services\ProductService;
 
 class FindController extends Controller
 {
-  public function index($text='')
+  public function index($text='', ProductService $service)
   {
-    $text = str_replace("_", "/", $text);
-    $products = Product::whereRaw("MATCH (title,description) AGAINST ('\"".$text."\"' IN BOOLEAN MODE) OR title LIKE '%".$text."%'")->get();
+    $products = $service->find($text);
     return view('find', compact('products', 'text'));
   }
 }

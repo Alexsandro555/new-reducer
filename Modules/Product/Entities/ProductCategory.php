@@ -8,12 +8,13 @@ use Modules\Initializer\Traits\SortTrait;
 use Modules\Initializer\Traits\TableColumnsTrait;
 use Modules\Initializer\Traits\RelationTrait;
 use Modules\Product\Traits\ProductCategoryActiveTrait;
+use Modules\Initializer\Traits\UrlKeyTrait;
 
 //use Fico7489\Laravel\Pivot\Traits\PivotEventTrait;
 
 class ProductCategory extends Model
 {
-  use SoftDeletes, TableColumnsTrait, RelationTrait, SortTrait, ProductCategoryActiveTrait;  //, PivotEventTrait;
+  use SoftDeletes, TableColumnsTrait, RelationTrait, SortTrait, ProductCategoryActiveTrait, UrlKeyTrait;  //, PivotEventTrait;
 
   protected $dates = ['deleted_at'];
 

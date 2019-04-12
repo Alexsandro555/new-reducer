@@ -84,6 +84,10 @@ class Attribute extends Model
     return $this->hasMany(AttributeValue::class);
   }
 
+  public function prod() {
+    return $this->belongsToMany(Product::class, 'attribute_values')->withPivot('boolean_value', 'date_value', 'integer_value', 'string_value', 'decimal_value', 'text_value', 'list_value', 'double_value')->using(AttrVal::class);
+  }
+
   public function products() {
     return $this->belongsToMany(Product::class, 'attribute_values')->withPivot('boolean_value', 'date_value', 'integer_value', 'string_value', 'decimal_value', 'text_value', 'list_value');
   }

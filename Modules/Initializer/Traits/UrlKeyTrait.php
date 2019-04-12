@@ -2,6 +2,8 @@
 
 namespace Modules\Initializer\Traits;
 
+use Illuminate\Http\Request;
+
 trait UrlKeyTrait {
   protected static function bootUrlKeyTrait() {
     static::creating(function ($model) {
@@ -10,8 +12,10 @@ trait UrlKeyTrait {
     });
 
     static::updating(function ($model) {
-      $normTitle = str_replace("/"," ",$model->title);
-      $model->url_key = \Slug::make($normTitle);
+      /*if($request->has('title')) {
+        $normTitle = str_replace("/"," ",$model->title);
+        $model->url_key = \Slug::make($normTitle);
+      }*/
     });
   }
 }
