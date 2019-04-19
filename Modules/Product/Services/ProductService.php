@@ -20,4 +20,13 @@ class ProductService
       ->whereRaw("MATCH (title,description) AGAINST ('\"".$search."\"' IN BOOLEAN MODE) OR title LIKE '%".$search."%'")
       ->get();
   }
+
+  // TODO: возможно в будущем стоит убрать
+  public function getImages($product)
+  {
+    return $images =$product->productCategory()->files()->with('typeFile')->get()
+      .concat($product->typeProduct()->files()->with('typeFile')->get())
+      .concat($product->lineProduct()->files()->with('typeFile')->get())
+      .concat($product->files()->with('typeFile')->get());
+  }
 }

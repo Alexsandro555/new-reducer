@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 class AttrVal extends Pivot
 {
   public function getValueAttribute() {
-    $attributeTypeId = Attribute::find($this->attributes['attribute_id'])->attribute_type_id;
+    $attributeTypeId = $this->pivotParent->attributes['attribute_type_id'];
+    //$attributeTypeId = Attribute::find($this->attributes['attribute_id'])->attribute_type_id;
     switch ($attributeTypeId) {
       case 1:
         return $this->attributes['boolean_value'];
@@ -30,7 +31,8 @@ class AttrVal extends Pivot
   }
 
   public function setValueAttribute($value) {
-    $attributeTypeId = Attribute::find($this->attributes['attribute_id'])->attribute_type_id;
+    //$attributeTypeId = Attribute::find($this->attributes['attribute_id'])->attribute_type_id;
+    $attributeTypeId = $this->pivotParent->attributes['attribute_type_id'];
     $this->attributes['boolean_value'] = null;
     $this->attributes['string_value'] = null;
     $this->attributes['integer_value'] = null;

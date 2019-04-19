@@ -3,6 +3,7 @@
 namespace Modules\Files\Classes;
 
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\File;
 
 class ImageHandler extends AbstractImageManipulation
 {
@@ -13,36 +14,38 @@ class ImageHandler extends AbstractImageManipulation
 
   public function handling($file, $config)
   {
-    $image = $this->manager->make($file);
     // Получаем оригинальное название файла
-    $original = $image->getClientOriginalName();
+    $original = $file->getClientOriginalName();
     // сохраняем оригинальны файл
     $fileName = $this->getAllowedFilename($original);
-    Storage::put('/public', $file, $fileName);
+    Storage::putFileAs('/public/', $file, $fileName);
 
     $fileCollect = collect();
 
     $collection = collect();
     $collection->put('filename', $fileName);
     $collection->put('size', $file->getClientSize());
-    $collection->put('width', $file->width());
-    $collection->put('height', $file->height());
+    $fileCollect->put('original ', $collection);
+    //$collection->put('width', $file->width());
+    //$collection->put('height', $file->height());
 
     // если необходим resize выполняем его
     if (isset($config['resize'])) {
       foreach ($config['resize'] as $type) {
         $image = isset($type["absolute"]) && $type["absolute"] ? $this->resizeAbsolute($file, $type["width"], $type["height"]) : $this->resizeRelative($file, $type["width"], $type["height"]);
         $fileName = $this->getAllowedFilename($original);
-        Storage::put('/public', $image, $fileName);
+        $image->save(storage_path('/app/public/').$fileName);
         $collection = collect();
-        $collection->put('size', $image->size($image));
+        $collection->put('filename', $fileName);
+        $collection->put('size', $this->size($image));
         $collection->put('width', $type["width"]);
         $collection->put('height', $type["height"]);
-        $resize = $config->get('resize');
-        $fileCollect->put('files', $collection);
-
+        $collection->put('resize', $type);
+        $fileCollect->put($type['name'], $collection);
       }
     }
-    return $fileCollect;
+    $result = collect();
+    $result->put('files',$fileCollect);
+    return $result;
   }
 }

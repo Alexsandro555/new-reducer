@@ -4,7 +4,7 @@ namespace Modules\Product\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
+use Modules\Product\Entities\Attribute;
 
 class AttributeTableSeeder extends Seeder
 {
@@ -16,143 +16,72 @@ class AttributeTableSeeder extends Seeder
     public function run()
     {
       Model::unguard();
-      DB::table('attributes')->insert([
-        [
-          'title' => 'Передаточное число',
-          'url_key' => 'peredatochnoe-chislo',
-          'sort' => 1,
-          'attribute_type_id' => 4,
-          'attribute_unit_id' => null,
-          'attribute_group_id' => 1
-        ],
-        [
-          'title' => 'Передаточное число быстроходной ступени',
-          'url_key' => 'peredatochnoe-chislo',
-          'sort' => 1,
-          'attribute_type_id' => 4,
-          'attribute_unit_id' => null,
-          'attribute_group_id' => 1
-        ],
-        [
-          'title' => 'Вынуждающая сила',
-          'url_key' => 'vyinujdayuschaya-sila',
-          'sort' => 2,
-          'attribute_type_id' => 4,
-          'attribute_unit_id' => 3,
-          'attribute_group_id' => 2
-        ],
-        [
-          'title' => 'Номинальный ток',
-          'url_key' => 'nominalnyiy-tok',
-          'sort' => 3,
-          'attribute_type_id' => 4,
-          'attribute_unit_id' => 10,
-          'attribute_group_id' => 3
-        ],
-        [
-          'title' => 'Обороты',
-          'url_key' => 'oborotyi',
-          'sort' => 4,
-          'attribute_type_id' => 4,
-          'attribute_unit_id' => 11,
-          'attribute_group_id' => 2
-        ],
-        [
-          'title' => 'Потребляемая мощность',
-          'url_key' => 'potreblyaemaya-moschnost',
-          'sort' => 5,
-          'attribute_type_id' => 4,
-          'attribute_unit_id' => 12,
-          'attribute_group_id' => 3
-        ],
-        [
-          'title' => 'Размер A',
-          'url_key' => 'razmer-a',
-          'sort' => 6,
-          'attribute_type_id' => 3,
-          'attribute_unit_id' => 13,
-          'attribute_group_id' => 1
-        ],
-        [
-          'title' => 'Размер B',
-          'url_key' => 'razmer-b',
-          'sort' => 7,
-          'attribute_type_id' => 3,
-          'attribute_unit_id' => 13,
-          'attribute_group_id' => 1
-        ],
-        [
-          'title' => 'Размер C',
-          'url_key' => 'razmer-c',
-          'sort' => 8,
-          'attribute_type_id' => 3,
-          'attribute_unit_id' => 13,
-          'attribute_group_id' => 1
-        ],
-        [
-          'title' => 'Размер D',
-          'url_key' => 'razmer-d',
-          'sort' => 9,
-          'attribute_type_id' => 3,
-          'attribute_unit_id' => 13,
-          'attribute_group_id' => 1
-        ],
-        [
-          'title' => 'Размер d N',
-          'url_key' => 'razmer-d-n',
-          'sort' => 10,
-          'attribute_type_id' => 3,
-          'attribute_unit_id' => 13,
-          'attribute_group_id' => 1
-        ],
-        [
-          'title' => 'Размер E',
-          'url_key' => 'razmer-e',
-          'sort' => 11,
-          'attribute_type_id' => 3,
-          'attribute_unit_id' => 13,
-          'attribute_group_id' => 1
-        ],
-        [
-          'title' => 'Размер F',
-          'url_key' => 'razmer-f',
-          'sort' => 12,
-          'attribute_type_id' => 3,
-          'attribute_unit_id' => 13,
-          'attribute_group_id' => 1
-        ],
-        [
-          'title' => 'Размер G',
-          'url_key' => 'razmer-g',
-          'sort' => 13,
-          'attribute_type_id' => 3,
-          'attribute_unit_id' => 13,
-          'attribute_group_id' => 1
-        ],
-        [
-          'title' => 'Размер L',
-          'url_key' => 'razmer-l',
-          'sort' => 14,
-          'attribute_type_id' => 3,
-          'attribute_unit_id' => 13,
-          'attribute_group_id' => 1
-        ],
-        [
-          'title' => 'Размер M',
-          'url_key' => 'razmer-m',
-          'sort' => 15,
-          'attribute_type_id' => 3,
-          'attribute_unit_id' => 13,
-          'attribute_group_id' => 1
-        ],
-        [
-          'title' => 'Статический момент',
-          'url_key' => 'staticheskiy-moment',
-          'sort' => 16,
-          'attribute_type_id' => 3,
-          'attribute_unit_id' => 14,
-          'attribute_group_id' => 2
-        ]
-      ]);
+
+      $arrAttributes = [
+        ['title' => 'Общее передаточное число редуктора (i)', 'attribute_type_id' => 3, 'attribute_group_id' => 1],
+        ['title' => 'Передаточное число быстроходной ступени редуктора (i₁)', 'attribute_type_id' => 3, 'attribute_group_id' => 1],
+        ['title' => 'Передаточное число тихоходной ступени редуктора (i₂)', 'attribute_type_id' => 3, 'attribute_group_id' => 1],
+        ['title' => 'Номинальный (табличный) крутящий момент на выходном валу редуктора (T₂)', 'attribute_type_id' => 4, 'attribute_unit_id' => 1, 'attribute_group_id' => 1],
+        ['title' => 'Номинальная (табличная) частота вращения входного вала редуктора (n₁)', 'attribute_type_id' => 3, 'attribute_unit_id' => 2, 'attribute_group_id' => 1],
+        ['title' => 'Номинальная (табличная) частота вращения выходного вала редуктора (n₂)', 'attribute_type_id' => 3, 'attribute_unit_id' => 2, 'attribute_group_id' => 1],
+        ['title' => 'Номинальная (табличная) мощность электродвигателя (P₁)', 'attribute_type_id' => 4, 'attribute_unit_id' => 3, 'attribute_group_id' => 2],
+        ['title' => 'Допускаемая радиальная консольная нагрузка, приложенная в середине посадочной поверхности входного вала (FRa₁)', 'attribute_type_id' => 3, 'attribute_unit_id' => 4, 'attribute_group_id' => 1],
+        ['title' => 'Допускаемая радиальная консольная нагрузка, приложенная в середине посадочной поверхности выходного вала (FRa₂)', 'attribute_type_id' => 3, 'attribute_unit_id' => 4, 'attribute_group_id' => 1],
+        ['title' => 'Коэффициент эксплуатации редуктора (сервис-фактор) (f𝑠)', 'attribute_type_id' => 4, 'attribute_group_id' => 1],
+        ['title' => 'Вес (m)', 'attribute_type_id' => 4, 'attribute_unit_id' => 5, 'attribute_group_id' => 1],
+        ['title' => 'z1', 'attribute_type_id' => 3, 'attribute_group_id' => 3],
+        ['title' => 'mx', 'attribute_type_id' => 4, 'attribute_group_id' => 3],
+        ['title' => 'γ', 'attribute_type_id' => 2, 'attribute_group_id' => 3],
+        ['title' => 'η𝑑', 'attribute_type_id' => 4, 'attribute_group_id' => 3],
+        ['title' => 'η𝗌', 'attribute_type_id' => 4, 'attribute_group_id' => 3],
+        ['title' => 'Размер фланца (N)', 'attribute_type_id' => 3, 'attribute_unit_id' => 7, 'attribute_group_id' => 4],
+        ['title' => 'Размер фланца (M)', 'attribute_type_id' => 3, 'attribute_unit_id' => 7, 'attribute_group_id' => 4],
+        ['title' => 'Размер фланца (P)', 'attribute_type_id' => 3, 'attribute_unit_id' => 7, 'attribute_group_id' => 4],
+        ['title' => 'Диаметр входного полого вала (D)', 'attribute_type_id' => 3, 'attribute_unit_id' => 7, 'attribute_group_id' => 4],
+        ['title' => 'Габарит фланца', 'attribute_type_id' => 8, 'attribute_group_id' => 4],
+        ['title' => 'Вхоной вал', 'attribute_type_id' => 8, 'attribute_group_id' => 5],
+        ['title' => 'Расположение выходного фланца', 'attribute_type_id' => 8, 'attribute_group_id' => 5],
+        ['title' => 'Выходной вал', 'attribute_type_id' => 8, 'attribute_group_id' => 5],
+        ['title' => 'Типоразмер фланца под двигатель(без двигателя)', 'attribute_type_id' => 8, 'attribute_group_id' => 5],
+        ['title' => 'Вариант сборки (монтажное исполнение)', 'attribute_type_id' => 8, 'attribute_group_id' => 5],
+        ['title' => 'Электродвигатель', 'attribute_type_id' => 8, 'attribute_group_id' => 5],
+        ['title' => 'Расположение клеммной коробки', 'attribute_type_id' => 8, 'attribute_group_id' => 5],
+        ['title' => 'A', 'attribute_type_id' => 4, 'attribute_unit_id' => 7, 'attribute_group_id' => 6],
+        ['title' => 'A1', 'attribute_type_id' => 4, 'attribute_unit_id' => 7, 'attribute_group_id' => 6],
+        ['title' => 'B', 'attribute_type_id' => 4, 'attribute_unit_id' => 7, 'attribute_group_id' => 6],
+        ['title' => 'D', 'attribute_type_id' => 4, 'attribute_unit_id' => 7, 'attribute_group_id' => 6],
+        ['title' => 'D1', 'attribute_type_id' => 4, 'attribute_unit_id' => 7, 'attribute_group_id' => 6],
+        ['title' => 'G', 'attribute_type_id' => 4, 'attribute_unit_id' => 7, 'attribute_group_id' => 6],
+        ['title' => 'G1', 'attribute_type_id' => 4, 'attribute_unit_id' => 7, 'attribute_group_id' => 6],
+        ['title' => 'G3', 'attribute_type_id' => 4, 'attribute_unit_id' => 7, 'attribute_group_id' => 6],
+        ['title' => 'H', 'attribute_type_id' => 4, 'attribute_unit_id' => 7, 'attribute_group_id' => 6],
+        ['title' => 'H1', 'attribute_type_id' => 4, 'attribute_unit_id' => 7, 'attribute_group_id' => 6],
+        ['title' => 'I', 'attribute_type_id' => 4, 'attribute_unit_id' => 7, 'attribute_group_id' => 6],
+        ['title' => 'K', 'attribute_type_id' => 4, 'attribute_unit_id' => 7, 'attribute_group_id' => 6],
+        ['title' => 'KE', 'attribute_type_id' => 4, 'attribute_unit_id' => 7, 'attribute_group_id' => 6],
+        ['title' => 'L', 'attribute_type_id' => 4, 'attribute_unit_id' => 7, 'attribute_group_id' => 6],
+        ['title' => 'M', 'attribute_type_id' => 4, 'attribute_unit_id' => 7, 'attribute_group_id' => 6],
+        ['title' => 'N', 'attribute_type_id' => 4, 'attribute_unit_id' => 7, 'attribute_group_id' => 6],
+        ['title' => 'N1', 'attribute_type_id' => 4, 'attribute_unit_id' => 7, 'attribute_group_id' => 6],
+        ['title' => 'O', 'attribute_type_id' => 4, 'attribute_unit_id' => 7, 'attribute_group_id' => 6],
+        ['title' => 'P', 'attribute_type_id' => 4, 'attribute_unit_id' => 7, 'attribute_group_id' => 6],
+        ['title' => 'Q', 'attribute_type_id' => 4, 'attribute_unit_id' => 7, 'attribute_group_id' => 6],
+        ['title' => 'R', 'attribute_type_id' => 4, 'attribute_unit_id' => 7, 'attribute_group_id' => 6],
+        ['title' => 'S', 'attribute_type_id' => 4, 'attribute_unit_id' => 7, 'attribute_group_id' => 6],
+        ['title' => 'S1', 'attribute_type_id' => 4, 'attribute_unit_id' => 7, 'attribute_group_id' => 6],
+        ['title' => 'T', 'attribute_type_id' => 4, 'attribute_unit_id' => 7, 'attribute_group_id' => 6],
+        ['title' => 'V', 'attribute_type_id' => 4, 'attribute_unit_id' => 7, 'attribute_group_id' => 6],
+        ['title' => 'W', 'attribute_type_id' => 4, 'attribute_unit_id' => 7, 'attribute_group_id' => 6],
+        ['title' => 'b', 'attribute_type_id' => 4, 'attribute_unit_id' => 7, 'attribute_group_id' => 6],
+        ['title' => 't', 'attribute_type_id' => 4, 'attribute_unit_id' => 7, 'attribute_group_id' => 6],
+        ['title' => 'b1', 'attribute_type_id' => 4, 'attribute_unit_id' => 7, 'attribute_group_id' => 6],
+        ['title' => 't1', 'attribute_type_id' => 4, 'attribute_unit_id' => 7, 'attribute_group_id' => 6],
+        ['title' => 'f', 'attribute_type_id' => 4, 'attribute_unit_id' => 7, 'attribute_group_id' => 6],
+        ['title' => 'Масса', 'attribute_type_id' => 4, 'attribute_unit_id' => 5, 'attribute_group_id' => 1]
+      ];
+
+      foreach ($arrAttributes as $arrAttribute) {
+        Attribute::create($arrAttribute);
+      }
     }
 }

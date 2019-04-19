@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Initializer\Traits\RelationTrait;
 use Modules\Initializer\Traits\SortTrait;
 use Modules\Initializer\Traits\TableColumnsTrait;
+use Modules\Initializer\Traits\UrlKeyTrait;
 
 class AttributeGroup extends Model
 {
-  use SoftDeletes, RelationTrait, TableColumnsTrait, SortTrait;
+  use SoftDeletes, RelationTrait, TableColumnsTrait, SortTrait, UrlKeyTrait;
 
   protected $table = 'attribute_groups';
 

@@ -5,9 +5,12 @@ namespace Modules\Product\Entities;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Initializer\Traits\SortTrait;
+use Modules\Files\Entities\File;
 
 class Product extends Model
 {
+  protected $table = 'products';
+
   use SoftDeletes, \Staudenmeir\EloquentHasManyDeep\HasRelationships, SortTrait;
 
   protected $dates = ['deleted_at'];

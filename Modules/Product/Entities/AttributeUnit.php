@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Modules\Initializer\Traits\SortTrait;
 use Modules\Initializer\Traits\TableColumnsTrait;
 use Modules\Initializer\Traits\RelationTrait;
+use Modules\Initializer\Traits\UrlKeyTrait;
 
 class AttributeUnit extends Model
 {
-  use SoftDeletes, TableColumnsTrait, RelationTrait, SortTrait;
+  use SoftDeletes, TableColumnsTrait, RelationTrait, SortTrait, UrlKeyTrait;
 
   protected $guarded = [];
 

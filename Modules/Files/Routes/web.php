@@ -30,6 +30,7 @@ Route::prefix('files')->group(function() {
   Route::get('/delete-file/{id}', 'FilesController@deleteFile');
 
   Route::get('/product-image/{id}', 'FilesController@productImage');
+  Route::get('/figure/{name}', 'FilesController@figure');
 
 
   // манипуляция типом файла

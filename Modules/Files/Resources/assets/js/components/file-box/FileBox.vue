@@ -48,7 +48,7 @@
                     previewTemplate: this.template(),
                     addRemoveLinks: true,
                     headers: { 'X-CSRF-TOKEN': window.token },
-                    maxFiles: 5,
+                    maxFiles: 30,
                 },
                 errorMessage: ''
             }

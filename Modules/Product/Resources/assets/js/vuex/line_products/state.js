@@ -14,6 +14,7 @@ const state = {
   items: [],
   fields: [],
   loading: true,
+  typeFiles: ['image-product'],
   relations: [{column:'type_product_id',module:'type_products'}]
 }
 

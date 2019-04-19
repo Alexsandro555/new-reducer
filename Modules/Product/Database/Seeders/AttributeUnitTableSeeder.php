@@ -4,7 +4,7 @@ namespace Modules\Product\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
+use Modules\Product\Entities\AttributeUnit;
 
 class AttributeUnitTableSeeder extends Seeder
 {
@@ -16,77 +16,19 @@ class AttributeUnitTableSeeder extends Seeder
     public function run()
     {
       Model::unguard();
-      DB::table('attribute_units')->insert([
-        [
-          'title' => 'кг',
-          'url_key' => 'kg',
-          'sort' => 1
-        ],
-        [
-          'title' => 'Гц',
-          'url_key' => 'gc',
-          'sort' => 2
-        ],
-        [
-          'title' => 'kH',
-          'url_key' => 'kh',
-          'sort' => 3
-        ],
-        [
-          'title' => 'кг/см',
-          'url_key' => 'kg-sm',
-          'sort' => 4
-        ],
-        [
-          'title' => 'л/мин',
-          'url_key' => 'l-min',
-          'sort' => 5
-        ],
-        [
-          'title' => 'Дж.',
-          'url_key' => 'dg',
-          'sort' => 6
-        ],
-        [
-          'title' => 'H',
-          'url_key' => 'h',
-          'sort' => 7
-        ],
-        [
-          'title' => '°С',
-          'url_key' => 'grad-c',
-          'sort' => 8
-        ],
-        [
-          'title' => 'кВт',
-          'url_key' => 'kvt',
-          'sort' => 9
-        ],
-        [
-          'title' => 'А',
-          'url_key' => 'a',
-          'sort' => 10
-        ],
-        [
-          'title' => 'обор./мин.',
-          'url_key' => 'obor-min',
-          'sort' => 11
-        ],
-        [
-          'title' => 'Вт',
-          'url_key' => 'vt',
-          'sort' => 12
-        ],
-        [
-          'title' => 'мм',
-          'url_key' => 'mm',
-          'sort' => 13
-        ],
-        [
-          'title' => 'кг/мм',
-          'url_key' => 'kg-mm',
-          'sort' => 14
-        ]
-      ]);
+
+      $arrAttributeUnits = [
+        ['title' => 'Нм'],
+        ['title' => 'об/мин.'],
+        ['title' => 'кВт'],
+        ['title' => 'H'],
+        ['title' => 'кг'],
+        ['title' => 'л'],
+        ['title' => 'мм'],
+      ];
+
+      foreach ($arrAttributeUnits as $arrAttributeUnit) {
+        AttributeUnit::create(['title' => $arrAttributeUnit['title']]);
+      }
     }
 }

@@ -24,11 +24,12 @@ Route::get('/find/{text?}', ['uses' => 'FindController@index', 'as' => 'find']);
 
 Route::get('/test', function () {
   $fileNames = Illuminate\Support\Facades\Storage::files('/public/source');
+  $typeProduct = Modules\Files\Entities\TypeFile::where('name', 'image-product')->firstOrFail();
   foreach($fileNames as $fileName) {
-    $typeProduct = Modules\Files\Entities\TypeFile::where('name', 'image-product')->first();
-    $file = Illuminate\Support\Facades\Storage::get($fileName);
+    $file = new \Illuminate\Http\UploadedFile(storage_path('app/'.$fileName), basename($fileName));
     $fileHandler = new  Modules\Files\Classes\ImageHandler();
     $fileHandler->handling($file, $typeProduct->config);
+    $model = new \Modules\Files\Entities\File;
   }
 });
 

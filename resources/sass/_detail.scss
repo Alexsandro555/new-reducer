@@ -4,7 +4,7 @@
 }
 
 .detail__image {
-  width: 313px;
+  width: 363px;
   height: 400px;
   top: 1px;
   left: 1px;
@@ -15,7 +15,7 @@
 }
 
 .image-wrapper {
-  height: 280px;
+  height: 270px;
   position: relative;
   display: table-cell;
   vertical-align: middle;
@@ -76,4 +76,34 @@
 }
 
 .detail__image-carousel {
+}
+
+
+// carousel
+
+.thumbnails-slider {
+  height: 120px;
+  width: 320px;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  display: inline-block;
+  position:relative;
+}
+
+.thumbnails-slider .owl-carousel.owl-loaded{
+  width: 310px;
+  display: inline-block;
+}
+
+.nav-arrow-left, .nav-arrow-right {
+  position: absolute;
+  margin-top: 30px;
+}
+
+.nav-arrow-left {
+  left: -15px;
+}
+
+.nav-arrow-right {
+  right: -15px;
 }

@@ -22,6 +22,11 @@ class File extends Model
     return $this->belongsTo('Modules\Files\Entities\TypeFile');
   }
 
+  public function figure()
+  {
+    return $this->belongsTo(Figure::class)->withDefault();
+  }
+
   protected $casts = [
     'config' => 'collection',
   ];

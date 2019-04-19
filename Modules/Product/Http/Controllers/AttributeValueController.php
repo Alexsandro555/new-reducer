@@ -56,41 +56,50 @@ class AttributeValueController extends Controller
   public function saveMultiple(Request $request)
   {
     // Получаем значения
-    $values = $request->values;
+    $values = json_decode($request->values);
 
     if ($request->direction) {
       $products = Product::findOrFail($request->productIds);
+      $nextAttributeValues = current($values);
+      if(!$nextAttributeValues) return abort(404);
       foreach($products as $product) {
-        $nextAttributeValues = next($values);
-        foreach($product->attr as $attribute) {
-          if(in_array($attribute->id, $request->attributeIds)) {
-            $nextValue = next($nextAttributeValues);
-            $value = $this->checkValue($attribute->id,trim($nextValue));
-            if($value) {
-              $product->attr()->attach($attribute->id, ['value' => $value]);
-            } else {
-              return abort(404);
-            }
+        $nextValue = current($nextAttributeValues);
+        if(!$nextValue) return abort(404);
+        $attributes = Attribute::findOrFail($request->attributeIds);
+        foreach($attributes as $attribute) {
+          $value = $this->checkValue($attribute->attribute_type_id,trim($nextValue));
+          if($value) {
+            $attribute->prod()->attach($product->id, ['value' => $value]);
+          } else {
+            return abort(404);
           }
+          $nextValue = next($nextAttributeValues);
+          if(!$nextValue) break;
         }
+        $nextAttributeValues = next($values);
+        if(!$nextAttributeValues) break;
       }
     } else {
       // Получаем атрибуты и по атрибутам сохраняем значения - так как атрибуты у нас расположены в строках
       $attributes = Attribute::findOrFail($request->attributeIds);
+      $nextAttributeValues = current($values);
+      if(!$nextAttributeValues) return abort(404);
       foreach ($attributes as $attribute) {
-        $nextAttributeValues = next($values);
-        foreach($attribute->prod as $product) {
-          if(in_array($product->id, $request->productIds)) {
-            $nextValue = next($nextAttributeValues);
+        $nextValue = current($nextAttributeValues);
+        if(!$nextValue) return abort(404);
+        foreach($request->productIds as $productId) {
             // проверки на соответствие атрибута типу и приведение
-            $value = $this->checkValue($attribute->id,trim($nextValue));
+            $value = $this->checkValue($attribute->attribute_type_id,trim($nextValue));
             if($value) {
-              $attribute->prod()->attach($product->id, ['value' => $value]);
+              $attribute->prod()->attach($productId, ['value' => $value]);
             } else {
               return abort(404);
             }
-          }
+          $nextValue = next($nextAttributeValues);
+          if(!$nextValue) break;
         }
+        $nextAttributeValues = next($values);
+        if(!$nextAttributeValues) break;
       }
     }
     return AttributeValue::all();

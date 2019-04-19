@@ -25,8 +25,8 @@
                       model="getModel"
                       v-model="form.description">
                     </wysiwyg>
-                    <!--<file-box url="/files/upload" :fileable-id="Number(item.id)" :type-files="typeFiles"
-                              :model="model"></file-box>-->
+                    <file-box url="/files/upload" :fileable-id="Number(form.id)" :options="dropzoneOptions" :type-files="typeFiles"
+                              :model="getModel"></file-box>
                     <v-flex text-xs-left>
                       <v-btn large :class="{primary: valid, 'red lighten-3': !valid}" :disabled="isSending"
                              @click.prevent="onSubmit">Сохранить
@@ -47,7 +47,7 @@
   import {ACTIONS, GLOBAL} from '@/constants'
   import formBuilder from '@/vue/FormBuilder'
   import Wysiwyg from '@/vue/Wysiwyg.vue'
-  //import fileBox from '@file/components/file-box/FileBox'
+  import fileBox from '@file/components/file-box/FileBox'
   export default {
     props: {
       id: {
@@ -59,7 +59,10 @@
       return {
         valid: false,
         loader: true,
-        isSending: false
+        isSending: false,
+        dropzoneOptions: {
+          maxFiles: 10
+        }
       }
     },
     beforeRouteEnter(to, from, next) {
@@ -74,7 +77,7 @@
       next()
     },
     computed: {
-      ...mapState('line_products', ['item', 'items', 'fields', 'relations', 'model']),
+      ...mapState('line_products', ['items', 'fields', 'relations','typeFiles']),
       ...mapGetters('line_products', {getItem: GLOBAL.GET_ITEM, getModel: 'getModel'}),
       form() {
         return _.pick(this.getItem(Number(this.id)), ['id', 'title', 'sort', 'active', 'description', 'type_product_id', 'price_amount'])
@@ -82,7 +85,7 @@
     },
     components: {
       formBuilder,
-      //fileBox
+      fileBox
     },
     methods: {
       ...mapActions('line_products', {

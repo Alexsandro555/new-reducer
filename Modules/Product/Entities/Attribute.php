@@ -7,10 +7,11 @@ use Modules\Initializer\Traits\RelationTrait;
 use Modules\Initializer\Traits\SortTrait;
 use Modules\Initializer\Traits\TableColumnsTrait;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Initializer\Traits\UrlKeyTrait;
 
 class Attribute extends Model
 {
-  use SoftDeletes, RelationTrait, TableColumnsTrait, SortTrait;
+  use SoftDeletes, RelationTrait, TableColumnsTrait, SortTrait, UrlKeyTrait;
 
   public $form = [
     'id' => [

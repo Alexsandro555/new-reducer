@@ -4,6 +4,7 @@ namespace Modules\Product\Entities;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Modules\Files\Entities\File;
 use Modules\Initializer\Traits\SortTrait;
 use Modules\Initializer\Traits\TableColumnsTrait;
 use Modules\Initializer\Traits\RelationTrait;
@@ -62,6 +63,10 @@ class ProductCategory extends Model
 
   public function products() {
     return $this->hasMany(Product::class);
+  }
+
+  public function files() {
+    return $this->morphMany(File::class, 'fileable');
   }
 
   /*protected static function boot()

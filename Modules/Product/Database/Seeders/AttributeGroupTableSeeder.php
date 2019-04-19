@@ -4,7 +4,7 @@ namespace Modules\Product\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
+use Modules\Product\Entities\AttributeGroup;
 
 class AttributeGroupTableSeeder extends Seeder
 {
@@ -16,23 +16,19 @@ class AttributeGroupTableSeeder extends Seeder
     public function run()
     {
       Model::unguard();
-      DB::table('attribute_groups')->insert([
-        [
-          'title' => 'Характеристики',
-          'url_key' => 'harakteristiki',
-          'sort' => 1
-        ],
-        [
-          'title' => 'Механические свойства',
-          'url_key' => 'mekhanicheskie-svojstva',
-          'sort' => 4
-        ],
-        [
-          'title' => 'Электрические свойства',
-          'url_key' => 'ehlektricheskie-svojstva',
-          'sort' => 6
-        ]
-      ]);
+
+      $arrAttributeGroups = [
+        ['title' => 'Механические свойства'],
+        ['title' => 'Электрические свойства'],
+        ['title' => 'Характеристики червячного зацепления'],
+        ['title' => 'Конструктивные размеры червячных редукторов серии NMRV c фланцами под двигатель'],
+        ['title' => 'Конструктивные особенности'],
+        ['title' => 'Габаритные и присоединительные размеры'],
+      ];
+
+      foreach ($arrAttributeGroups as $arrAttributeGroup) {
+        AttributeGroup::create(['title' => $arrAttributeGroup['title']]);
+      }
 
     }
 }
