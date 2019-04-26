@@ -35,7 +35,6 @@ Vue.component('cart-modal', CartModal)
 import CartPage from '@cart/vue/Cart'
 Vue.component('cart-page', CartPage)
 
-
 // Обратный звонок
 import Callback from '@callback/vue/callbacks/Callback.vue'
 import callback from '@callback/vuex/callbacks/state'

@@ -55,34 +55,47 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-      $product = Product::with('files')->with('typeProduct','lineProduct')->findOrFail($request->id);
-      $filename = "";
-      foreach($product->files as $file)
-      {
-        if(!$file->figure) {
-          foreach ($file->config as $filesItem)
-          {
-            foreach ($filesItem as $key=>$fileItem)
-            {
-              if($key === "small")
-              {
-                $filename = $fileItem["filename"];
-                break;
-              }
+      $product = Product::with(['files', 'lineProduct.files' => function($query) {
+        $query->doesntHave('figure');
+      }, 'typeProduct.files' => function($query) {
+        $query->doesntHave('figure');
+      }, 'productCategory.files' => function($query) {
+        $query->doesntHave('figure');
+      }])->findOrFail($request->id);
+
+      /*if($product->productCategory && $product->productCategory->files->count()>0) {
+        foreach($product->productCategory->files->random()->config as $filesItem) {
+          foreach($filesItem as $key => $fileItem) {
+            if($key == 'medium') {
+              $filename = $fileItem['filename'];
             }
           }
         }
-      }
-      $typeProductUrl = $product->typeProduct->url_key;
-      $lineProductUrl = $product->lineProduct?$product->lineProduct->url_key:'empty';
-      $productUrl = $product->url_key;
-      $slug = '/catalog/'.$typeProductUrl.'/'.$lineProductUrl.'/'.$productUrl;
+      } else if($product->typeProduct && $product->typeProduct->files->count()>0) {
+        foreach($product->typeProduct->files->random()->config as $filesItem) {
+          foreach($filesItem as $key => $fileItem) {
+            if($key == 'medium') {
+              $filename = $fileItem['filename']
+            }
+          }
+        }
+      } else if($product->lineProduct && $product->lineProduct->files->count()>0) {
+        foreach($product->lineProduct->files->random()->config as $filesItem) {
+          foreach($filesItem as $key => $fileItem) {
+            if($key == 'medium') {
+              $filename = $fileItem['filename']
+            }
+          }
+        }
+      } else {
+        $filename = "/images/no-image-small.png";
+      }*/
+
       Cart::add($product->id, $product->title, $request->count, $product->price,
         [
-          'article'=>$product->vendor,
-          'type'=>$product->typeProduct->title,
-          'slug'=> $slug,
-          'filename'=>$filename!=""?'/storage/'.$filename:"/images/no-image-small.png"
+          'type'=>$product->productCategory->title,
+          'slug'=> '/catalog/detail/'.$product->url_key,
+          'filename'=>'/images/no-image-small.png'
         ]
       );
       $total = Cart::subtotal();

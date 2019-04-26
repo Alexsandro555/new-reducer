@@ -1,0 +1,16 @@
+.content-links {
+  display: block;
+  margin-left: 20px;
+}
+
+.pagination li.active  {
+  background-color: #434377;
+  color: white;
+  padding: 8px 16px;
+}
+
+.pagination a {
+  color: black;
+  padding: 8px 16px;
+  text-decoration: none;
+}

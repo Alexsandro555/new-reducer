@@ -43,46 +43,7 @@
               </v-flex>
             </v-layout>
             <v-layout row wrap>
-              @foreach($ourProducts as $ourProduct)
-                <div class="product-wrapper">
-                  <div class="product">
-                    <div class="product-image-wrapper">
-                      <div class="product-image">
-                        @if($ourProduct->files->count()>0)
-                          @foreach($ourProduct->files as $fileRecord)
-                            @foreach($fileRecord->config as $files)
-                              @foreach($files as $key => $file)
-                                @if($key == 'medium')
-                                  <img src="/storage/{{$file['filename']}}"/>
-                                @endif
-                              @endforeach
-                            @endforeach
-                            @break
-                          @endforeach
-                        @else
-                          <img src="{{asset('images/no-image-medium.png')}}"/>
-                        @endif
-                      </div>
-                    </div>
-                    <div class="product__title">
-                      <a href="/catalog/detail/{{$ourProduct->url_key}}">
-                        {{str_limit($ourProduct->title, $limit = 27, $end="...")}}
-                      </a>
-                    </div>
-                    <v-layout row wrap>
-                      <v-flex xs8 text-xs-center>
-                        <span class="product-old-price">{{$ourProduct->price}} руб.</span><br>
-                        <span class="product-price-wrapper">
-                                                        <span class="product-price">{{$ourProduct->price}}</span> руб.
-                                                    </span>
-                      </v-flex>
-                      <v-flex xs4>
-                        <img class="btn-sale" @click="addCart({{$ourProduct->id}})" src="{{asset('images/btn-sale.png')}}"/>
-                      </v-flex>
-                    </v-layout>
-                  </div>
-                </div>
-              @endforeach
+              @include('products',['products' => $ourProducts])
             </v-layout>
           </div>
         </v-flex>

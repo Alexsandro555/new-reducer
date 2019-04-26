@@ -30,6 +30,8 @@ import EditPage from '@pages/vue/pages/EditPage'
 import ListCallback from '@callback/vue/callbacks/ListCallback'
 import AttibutesAutoLoading from '@product/vue/Attribute/AttributesAutoLoading'
 import ProductImport from '@product/vue/Product/ProductImport'
+import Images from '@file/vue/Images'
+import EditImages from '@file/vue/EditImages'
 //const EditProducer = () => import('@product/vue/Producer/EditProducer')
 
 import store from '@/vuex/states'
@@ -225,6 +227,17 @@ export const routes = [
         path: '/import',
         name: 'ProductImport',
         component: ProductImport
+      },
+      {
+        path: '/images',
+        name: 'images',
+        component: Images
+      },
+      {
+        path: '/images/edit/:id',
+        name: 'edit-images',
+        component: EditImages,
+        props: true
       }
     ]
   }

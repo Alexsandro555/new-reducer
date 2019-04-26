@@ -14,7 +14,13 @@ class SiteController extends Controller
 {
   public function index()
   {
-    $ourProducts = Product::with('files', 'typeProduct', 'lineProduct')->inRandomOrder()->take(4)->get();
+    $ourProducts = Product::with(['files', 'lineProduct.files' => function($query) {
+      $query->doesntHave('figure');
+    }, 'typeProduct.files' => function($query) {
+      $query->doesntHave('figure');
+    }, 'productCategory.files' => function($query) {
+      $query->doesntHave('figure');
+    }])->inRandomOrder()->take(4)->get();
     $specialProducts = Product::with('files', 'typeProduct', 'lineProduct')->where('special', 1)->inRandomOrder()->take(5)->get();
     $news = [];
     $news = News::inRandomOrder()->take(4)->get();
@@ -23,17 +29,28 @@ class SiteController extends Controller
 
   public function catalog($slug)
   {
-    $products = Product::with('typeProduct')->with('files')->whereHas('typeProduct', function ($query) use ($slug) {
-      $query->where('url_key', $slug);
-    })->whereNull('line_product_id')->get();
-    $typeProduct = TypeProduct::where('url_key', $slug)->first();
-    $id = $typeProduct->id;
-    return view('catalog', compact('products', 'typeProduct', 'id'));
+    $model = ProductCategory::where('url_key', $slug)->firstOrFail();
+    $products = Product::with(['files', 'lineProduct.files' => function($query) {
+      $query->doesntHave('figure');
+    }, 'typeProduct.files' => function($query) {
+      $query->doesntHave('figure');
+    }, 'productCategory.files' => function($query) {
+      $query->doesntHave('figure');
+    }])->where('product_category_id', $model->id)->paginate(30);
+    return view('catalog', compact('model', 'products'));
   }
 
-  public function lineProduct($slugTypeProduct, $slugLineProduct) {
-    $lineProduct = LineProduct::with('products.files','type_product')->where('url_key', $slugLineProduct)->first();
-    return view('lineProduct', compact('lineProduct'));
+  public function lineProduct($slugProductCategory, $slug)
+  {
+    $model = TypeProduct::with('products.files')->where('url_key', $slug)->firstOrFail();
+    $products = Product::with(['files', 'lineProduct.files' => function($query) {
+      $query->doesntHave('figure');
+    }, 'typeProduct.files' => function($query) {
+      $query->doesntHave('figure');
+    }, 'productCategory.files' => function($query) {
+      $query->doesntHave('figure');
+    }])->where('type_product_id', $model->id)->paginate(30);
+    return view('catalog', compact('model', 'products'));
   }
 
   public function menuLeft() {

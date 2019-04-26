@@ -1,24 +1,39 @@
 <template>
-  <div v-if="items.length>0" class="detail__image--wrapper">
-    <div v-if="stock" class="detail__image-label">
-      Акция!
-    </div>
-    <div class="detail__image">
-      <div class="image-wrapper">
-        <img v-if="curImage" :src="curImage"/>
-        <img v-else src="/images/no-image.png"/>
+  <div class="detail__image--wrapper">
+      <div v-if="stock" class="detail__image-label">
+        Акция!
       </div>
-      <div class="thumbnails-slider">
-        <carousel :items="3" :nav="false" :dots="false" :margin="5">
-          <div  v-for="item of items" :key="item.id">
-            <img @click="selectSlide(item.id)"  :src="'/storage/'+item.file"/>
+      <div class="detail__image">
+        <v-container v-if="loading" fill-height>
+          <v-layout row wrap align-center>
+            <v-flex class="text-xs-center">
+              <v-progress-circular  indeterminate  style="vertical-align: middle" :size="100" color="primary"></v-progress-circular>
+            </v-flex>
+          </v-layout>
+        </v-container>
+        <template v-else>
+          <div class="image-wrapper">
+            <img v-if="curImage" :src="curImage"/>
+            <img v-else src="/images/no-image.png"/>
           </div>
-          <template slot="prev"><img class="nav-arrow-left" src="/images/slider-left-arrow.png"/></template>
-          <template slot="next">
-            <img  align="center" class="nav-arrow-right" src="/images/slider-right-arrow.png"/></template>
-        </carousel>
+          <div v-if="items.length>0" class="thumbnails-slider">
+            <carousel :items="3" :nav="false" :dots="false" :margin="5">
+              <div  v-for="item of items" :key="item.id">
+                <v-container fill-height>
+                  <v-layout row wrap align-center>
+                    <v-flex class="text-xs-center">
+                      <img @click="selectSlide(item.id)"  :src="'/storage/'+item.file"/>
+                    </v-flex>
+                  </v-layout>
+                </v-container>
+              </div>
+              <template slot="prev"><img class="nav-arrow-left" src="/images/slider-left-arrow.png"/></template>
+              <template slot="next">
+                <img  align="center" class="nav-arrow-right" src="/images/slider-right-arrow.png"/></template>
+            </carousel>
+          </div>
+        </template>
       </div>
-    </div>
   </div>
 </template>
 <script>
@@ -31,6 +46,10 @@
       stock: {
         Type: Boolean,
         default: false
+      },
+      id: {
+        Type: Number,
+        required: true
       }
     },
     data: function () {
@@ -38,6 +57,7 @@
         elements: [],
         items: [],
         curImage: '',
+        loading: true
       }
     },
     mounted() {
@@ -48,6 +68,9 @@
         });
         // TODO:: утсранить дублирование
         this.curImage = this.items.length > 0 ? '/storage/' + this.elements[0].config.files.medium.filename : null
+        this.loading = false
+      }).catch(error => {
+        this.loading = false
       });
     },
     components: {
@@ -57,9 +80,9 @@
       selectSlide: function (id, event) {
         this.elements.forEach(element => {
           if (element.id === id) {
-            if(element.figure_id) {
+            if(element.figure.length > 0) {
               let config = {
-                url: '/files/figure/'+element.id,
+                url: '/files/figure/'+element.id+'/'+'medium'+'/'+this.id,
                 method: 'GET',
                 responseType: 'blob'
               }

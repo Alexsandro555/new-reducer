@@ -24,7 +24,7 @@ class File extends Model
 
   public function figure()
   {
-    return $this->belongsTo(Figure::class)->withDefault();
+    return $this->hasMany(Figure::class);
   }
 
   protected $casts = [

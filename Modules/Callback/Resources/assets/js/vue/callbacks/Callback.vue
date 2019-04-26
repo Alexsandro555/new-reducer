@@ -1,7 +1,6 @@
 <template>
   <div>
-    <a v-if="visible" href="#" id="popup__toggle"
-       @click="close">
+    <a v-if="visible" href="#" id="popup__toggle" @click="close">
       <!--<div class="circlephone" style="transform-origin: center;">
       </div>
       <div class="circle-fill" style="transform-origin: center;">
@@ -66,6 +65,9 @@
         errors: {}
       }
     },
+    mounted() {
+      console.log('mounted')
+    },
     computed: {
       ...mapState('callback', {visible: 'isVisible', form: 'form'})
     },
@@ -105,16 +107,10 @@
 <style scoped>
   .callbackwindow {
     position: fixed;
-  / / background-color: #FFCA00;
     background-color: #1f1e3f;
     width: 20%;
     right: 0;
     height: 100%;
-  / / min-height: 250 px;
-    -webkit-transition: all 1s;
-    -moz-transition: all 1s;
-    -ms-transition: all 1s;
-    -o-transition: all 1s;
     transition: all 1s;
     bottom: 0px;
   }
@@ -144,7 +140,6 @@
   .img-circle {
     background-color: #29AEE3;
     box-sizing: content-box;
-    -webkit-box-sizing: content-box;
   }
 
   .circlephone {
@@ -156,55 +151,33 @@
     bottom: -25px;
     right: 10px;
     position: absolute;
-    -webkit-border-radius: 100%;
-    -moz-border-radius: 100%;
     border-radius: 100%;
     opacity: .5;
-    -webkit-animation: circle-anim 2.4s infinite ease-in-out !important;
-    -moz-animation: circle-anim 2.4s infinite ease-in-out !important;
-    -ms-animation: circle-anim 2.4s infinite ease-in-out !important;
-    -o-animation: circle-anim 2.4s infinite ease-in-out !important;
     animation: circle-anim 2.4s infinite ease-in-out !important;
-    -webkit-transition: all .5s;
-    -moz-transition: all .5s;
-    -o-transition: all .5s;
     transition: all 0.5s;
   }
 
   .circle-fill {
     box-sizing: content-box;
-    -webkit-box-sizing: content-box;
     background-color: #29AEE3;
     width: 100px;
     height: 100px;
     bottom: 0px;
     right: 35px;
     position: absolute;
-    -webkit-border-radius: 100%;
-    -moz-border-radius: 100%;
     border-radius: 100%;
     border: 2px solid transparent;
-    -webkit-animation: circle-fill-anim 2.3s infinite ease-in-out;
-    -moz-animation: circle-fill-anim 2.3s infinite ease-in-out;
-    -ms-animation: circle-fill-anim 2.3s infinite ease-in-out;
-    -o-animation: circle-fill-anim 2.3s infinite ease-in-out;
     animation: circle-fill-anim 2.3s infinite ease-in-out;
-    -webkit-transition: all .5s;
-    -moz-transition: all .5s;
-    -o-transition: all .5s;
     transition: all 0.5s;
   }
 
   .img-circle {
     box-sizing: content-box;
-    -webkit-box-sizing: content-box;
     width: 72px;
     height: 72px;
     bottom: 14px;
     right: 49px;
     position: absolute;
-    -webkit-border-radius: 100%;
-    -moz-border-radius: 100%;
     border-radius: 100%;
     border: 2px solid transparent;
     opacity: .7;
@@ -212,7 +185,6 @@
 
   .img-circleblock {
     box-sizing: content-box;
-    -webkit-box-sizing: content-box;
     width: 72px;
     height: 72px;
     background-image: url(/images/mini5.png);

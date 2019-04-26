@@ -14,9 +14,9 @@
 Route::get('/', 'SiteController@index')->name('main');
 Route::get('/menu-left', 'SiteController@menuLeft');
 
-Route::get('/catalog/{slug}', ['uses'=>'SiteController@catalog', 'as'=>'catalog.type-product']);
+Route::get('/catalog/{slug}', ['uses'=>'SiteController@catalog', 'as'=>'catalog.product-category']);
 Route::get('/catalog/detail/{slug}',['uses' => 'SiteController@detail', 'as' => 'catalog.detail']);
-Route::get('/catalog/{slugTypeProduct}/{slugLineProduct}', ['uses' => 'SiteController@lineProduct', 'as'=>'catalog.line-product']);
+Route::get('/catalog/{slugProductCategory}/{slug}', ['uses' => 'SiteController@lineProduct', 'as'=>'catalog.type-product']);
 
 Route::get('/admin', ['uses' => '\Modules\Auth\Http\Controllers\AdminController@index', 'as' => 'master']);
 

@@ -11,13 +11,13 @@
         </div>
       </div>
       <v-layout row wrap>
-        <v-flex xs3>
+        <v-flex xs2 style="padding-left: 24px">
           <left-menu></left-menu>
         </v-flex>
-        <v-flex xs9>
+        <v-flex xs9 style="margin-left: 60px">
           <v-layout row wrap>
             <v-flex xs5>
-              <detail-image :stock="{{$product->special?$product->special:'false'}}" :url="'/files/product-image/{{$product->id}}'"/>
+              <detail-image :stock="{{$product->special?$product->special:'false'}}" :url="'/files/product-image/{{$product->id}}'" :id="{{$product->id}}"/>
             </v-flex>
             <v-flex xs7 class="detail__info" text-xs-left>
               <h1>{{$product->title}}</h1>

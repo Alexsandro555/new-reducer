@@ -52,7 +52,7 @@
 }
 
 .bottom-20 {
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 @import 'find';
@@ -60,6 +60,7 @@
 .headsite {
   color: $color-blue-dark;
   padding-top: 10px;
+  margin-left: 20px;
   font-size: 1em;
   background: url('#{$path}/heading.png') top left no-repeat;
 }
@@ -138,3 +139,5 @@
 @import '~cartScss/cart';
 @import '~articleScss/articles';
 @import 'form';
+@import 'pagination';
+@import '~@nsoft/vuetify-colorizer/dist/vuetify-colorizer.css';

@@ -12,7 +12,7 @@
 */
 
 Route::prefix('files')->group(function() {
-  Route::get('/', 'FilesController@index');
+  //Route::get('/', 'FilesController@index');
   Route::post('/upload',
     [
       'before' => 'csrf',
@@ -30,9 +30,7 @@ Route::prefix('files')->group(function() {
   Route::get('/delete-file/{id}', 'FilesController@deleteFile');
 
   Route::get('/product-image/{id}', 'FilesController@productImage');
-  Route::get('/figure/{name}', 'FilesController@figure');
-
-
+  Route::get('/figure/{id}/{type}/{product_id?}', 'FilesController@figure');
   // манипуляция типом файла
   Route::get('/type-files', 'TypeFileController@index');
   Route::post('/type-files/add',

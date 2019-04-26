@@ -54,8 +54,8 @@
                     <v-flex xs8 text-xs-center>
                       <span class="product-old-price">{{$product->price}} руб.</span><br>
                       <span class="product-price-wrapper">
-                                                        <span class="product-price">{{$product->price}}</span> руб.
-                                                    </span>
+                          <span class="product-price">{{$product->price}}</span> руб.
+                      </span>
                     </v-flex>
                     <v-flex xs4>
                       <img src="{{asset('images/btn-sale.png')}}"/>

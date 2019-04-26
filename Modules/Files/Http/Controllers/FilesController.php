@@ -10,6 +10,8 @@ use Modules\Files\Classes\UploadInfo;
 use Modules\Files\Entities\Figure;
 use Modules\Files\Services\UploadService;
 use Modules\Files\Entities\File;
+use Modules\Product\Entities\Attribute;
+use Modules\Product\Entities\AttributeValue;
 use Modules\Product\Entities\LineProduct;
 use Modules\Product\Entities\Product;
 use Modules\Product\Entities\ProductCategory;
@@ -18,6 +20,11 @@ use SebastianBergmann\Diff\Line;
 
 class FilesController extends Controller
 {
+  public function index()
+  {
+    return File::all();
+  }
+
   /**
    * Upload file
    *
@@ -26,7 +33,8 @@ class FilesController extends Controller
    * @return array
    * @throws \Exception
    */
-  public function store(UploadService $uploadService, UploadInfo $uploadInfo) {
+  public function store(UploadService $uploadService, UploadInfo $uploadInfo)
+  {
     if ($uploadService->upload()) {
       return ['id' => $uploadInfo->currentFileId, 'message' => 'Успешно загружено!'];
     } else {
@@ -41,7 +49,8 @@ class FilesController extends Controller
    * @return \Illuminate\Http\JsonResponse
    * @throws \Exception
    */
-  public function storeWysiwyg(UploadService $uploadService, UploadInfo $uploadInfo) {
+  public function storeWysiwyg(UploadService $uploadService, UploadInfo $uploadInfo)
+  {
     if ($uploadService->upload()) {
       $file = File::find($uploadInfo->currentFileId);
       $arrFiles = [];
@@ -89,10 +98,11 @@ class FilesController extends Controller
     }
   }
 
-  public function productImage($id) {
+  public function productImage($id)
+  {
     // TODO: требуется выполнить оптимизацию #1 проблема
     $product = Product::findOrFail($id);
-    return File::with('typeFile')->where(function ($query) use (&$product) {
+    return File::with('typeFile', 'figure')->where(function ($query) use (&$product) {
       $query->where('fileable_id', $product->product_category_id)->where('fileable_type', ProductCategory::class);
     })->orWhere(function ($query) use (&$product) {
       $query->where('fileable_id', $product->type_product_id)->where('fileable_type', TypeProduct::class);
@@ -103,10 +113,11 @@ class FilesController extends Controller
     })->get();
   }
 
-
-  public function figure($id) {
+  public function figure($id, $type = 'medium', $product_id = null)
+  {
     $image = File::findOrFail($id);
-    $imagePath = storage_path('app/public/'.$image->config['files']['medium']['filename']);
+    $figures = Figure::where('file_id', $id)->where('type', $type)->get();
+    $imagePath = storage_path('app/public/'.$image->config['files'][$type]['filename']);
     $extension = pathinfo($imagePath)['extension'];
     $size = filesize($imagePath);
     switch ($extension)
@@ -126,49 +137,58 @@ class FilesController extends Controller
       default:
         break;
     }
+
     if($img) {
       $orig_width = imagesx($img);
       $orig_height = imagesy($img);
 
       // какие-то установки цвета - для чего они вообще нужны?
-      $index = imagecolorresolve ( $img, 227,227,227 );
+      $index = imagecolorresolve($img, 227, 227, 227);
       imagecolorset($img, $index, 255, 255, 255);
-      $index = imagecolorresolve ( $img, 229,229,229 );
+      $index = imagecolorresolve($img, 229, 229, 229);
       imagecolorset($img, $index, 255, 255, 255);
-      $color = imagecolorallocatealpha($img, 0, 0, 0, 0);
-      $color0=imagecolorallocatealpha($img, 255, 0, 0, 0);
-      $color1=imagecolorallocatealpha($img, 0, 0, 255, 0);
 
-      $arrayF=$image->figure->toArray();
-      foreach ($arrayF as $key=>$value) {
-        if (preg_match("#din#i",$key)) {
-          if (trim($image->figure->{$key})!='') {
-            $arrF=explode("|",$image->figure->{$key});
-            for ($i=0;$i<count($arrF);$i++) {
-              list($x,$y,$angle)=explode("/",$arrF[$i]);
-              $x=round(imagesx($img)/100*$x);
-              $y=round(imagesy($img)/100*$y);
-              //$product->{$key}=str_replace("&diam;","&#216;",$product->{$key});
-              putenv('GDFONTPATH=' . $_SERVER["DOCUMENT_ROOT"].'/fonts/msttcorefonts/');
-              $box = imagettftext($img, 10, $angle,$x, $y,$color, "arial.ttf", '777');
-              header('Content-Length: ' . $size);
-              switch ($extension)
-              {
-                case "jpg":
-                  return imagejpeg($img);
-                case "gif":
-                  return imagegif($img);
-                case "png":
-                  return imagepng($img);
-                default:
-                  break;
-              }
-            }
-          }
+      foreach ($figures as $figure) {
+        list($r,$g,$b)=explode("/",$figure->color);
+        $color = imagecolorallocatealpha($img, $r, $g, $b, 0);
+        putenv('GDFONTPATH=' . $_SERVER["DOCUMENT_ROOT"].'/fonts/msttcorefonts/');
+        if($product_id) {
+          $attributeValue = AttributeValue::where('attribute_id', $figure->attribute_id)->where('product_id', $product_id)->first();
+          $text = $attributeValue?$attributeValue->value:'';
+        } else {
+          $attribute = Attribute::findOrFail($figure->attribute_id);
+          $text = $attribute->title;
         }
+        $box = imagettftext($img, 10, $figure->degree,$figure->x, $figure->y,$color, "arial.ttf", $text);
       }
+      header('Content-Length: ' . $size);
+      switch ($extension)
+      {
+        case "jpg":
+          return imagejpeg($img);
+        case "gif":
+          return imagegif($img);
+        case "png":
+          return imagepng($img);
+        default:
+          break;
+      }
+      return $img;
     }
-    return $img;
+    // до данной точки не должен доходить никогда
+    return abort(404);
   }
 
+  public function createFigure(Request $request)
+  {
+    $model = new Figure;
+    $model->x = $request->x;
+    $model->y = $request->y;
+    $model->degree = $request->degree;
+    $model->attribute_id = $request->attribute_id;
+    $model->file_id = $request->file_id;
+    $model->color = $request->color['rgba']['r'].'/'.$request->color['rgba']['g'].'/'.$request->color['rgba']['b'];
+    $model->type = $request->type;
+    $model->save();
+  }
 }

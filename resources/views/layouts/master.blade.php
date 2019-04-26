@@ -139,7 +139,7 @@
       </v-layout>
     </v-container>
     <cart-modal/>
-    <callback></callback>
+    <callback/>
   </v-app>
 </div>
 <script src="{{mix('/js/main.js')}}" type="application/javascript"></script>

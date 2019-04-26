@@ -16,13 +16,17 @@ class CreateFiguresTable extends Migration
   {
     Schema::create($this->tableName, function (Blueprint $table) {
       $table->increments('id');
-      $table->string('name', 255);
-      $table->string('dinN', 50)->nullable();
-      $table->string('dinM', 50)->nullable();
-      $table->string('dinP', 50)->nullable();
-      $table->string('dinD', 50)->nullable();
+      $table->smallInteger('x');
+      $table->smallInteger('y');
+      $table->smallInteger('degree');
+      $table->string('color');
+      $table->string('type');
+      $table->unsignedInteger('file_id');
+      $table->unsignedInteger('attribute_id');
       $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
       $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'));
+      $table->foreign('attribute_id')->references('id')->on('attributes')->onDelete('cascade');
+      $table->foreign('file_id')->references('id')->on('files')->onDelete('cascade');
     });
   }
 
@@ -33,6 +37,10 @@ class CreateFiguresTable extends Migration
    */
   public function down()
   {
+    Schema::table($this->tableName, function (Blueprint $table) {
+      $table->dropForeign('figures_attribute_id_foreign');
+      $table->dropForeign('figures_file_id_foreign');
+    });
     Schema::dropIfExists($this->tableName);
   }
 }

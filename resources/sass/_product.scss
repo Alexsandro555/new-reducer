@@ -1,11 +1,11 @@
 .product-wrapper {
   filter: drop-shadow(5px 5px 10px $color-blue-dark);
-  margin-left: 25px;
+  margin-left: 19px;
   margin-bottom: 30px;
 }
 
 .product-wrapper:first-child {
-  margin-left: 0px;
+  //margin-left: 0px;
 }
 
 .product {
