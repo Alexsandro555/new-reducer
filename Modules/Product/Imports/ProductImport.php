@@ -11,7 +11,7 @@ class ProductImport implements ToModel
   public function model(array $row)
   {
     $product = new Product([
-      'title' => $row[0],
+      'title' => str_replace("-"," ", $row[0]),
       'price' => $row[1],
       'url_key' => \Slug::make(str_replace("/"," ",$row[0])),
       'product_category_id' => 2,

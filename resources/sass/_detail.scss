@@ -5,7 +5,7 @@
 
 .detail__image {
   width: 363px;
-  height: 400px;
+  height: 450px;
   top: 1px;
   left: 1px;
   background: url('#{$path}/product-corner.png') top left no-repeat;
@@ -52,6 +52,7 @@
 
 .detail__info {
   color: $color-blue-dark;
+  padding-left: 20px !important;
 }
 
 .detail__price {

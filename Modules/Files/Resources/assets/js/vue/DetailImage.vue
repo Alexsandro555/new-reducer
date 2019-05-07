@@ -67,7 +67,7 @@
           this.items.push({'id': element.id, 'file': element.config.files.small.filename});
         });
         // TODO:: утсранить дублирование
-        this.curImage = this.items.length > 0 ? '/storage/' + this.elements[0].config.files.medium.filename : null
+        this.curImage = this.items.length > 0 ? '/storage/' + this.elements[0].config.files.main.filename : null
         this.loading = false
       }).catch(error => {
         this.loading = false
@@ -82,7 +82,7 @@
           if (element.id === id) {
             if(element.figure.length > 0) {
               let config = {
-                url: '/files/figure/'+element.id+'/'+'medium'+'/'+this.id,
+                url: '/files/figure/'+element.id+'/'+'main'+'/'+this.id,
                 method: 'GET',
                 responseType: 'blob'
               }
@@ -97,7 +97,7 @@
               })
             }
             // TODO:: устранить дублирование
-            this.curImage = '/storage/' + element.config.files.medium.filename;
+            this.curImage = '/storage/' + element.config.files.main.filename;
           }
         });
       }

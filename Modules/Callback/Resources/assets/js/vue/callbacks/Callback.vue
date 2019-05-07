@@ -65,9 +65,6 @@
         errors: {}
       }
     },
-    mounted() {
-      console.log('mounted')
-    },
     computed: {
       ...mapState('callback', {visible: 'isVisible', form: 'form'})
     },
@@ -387,6 +384,7 @@
 
   .callback-form {
     margin: 0 auto;
+    padding: 0px 10px;
     width: 400px;
   }
 

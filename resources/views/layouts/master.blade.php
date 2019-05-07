@@ -138,8 +138,8 @@
         </footer>
       </v-layout>
     </v-container>
-    <cart-modal/>
-    <callback/>
+    <cart-modal></cart-modal>
+    <callback></callback>
   </v-app>
 </div>
 <script src="{{mix('/js/main.js')}}" type="application/javascript"></script>

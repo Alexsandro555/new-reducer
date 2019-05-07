@@ -161,7 +161,7 @@ class FilesController extends Controller
         }
         $box = imagettftext($img, 10, $figure->degree,$figure->x, $figure->y,$color, "arial.ttf", $text);
       }
-      header('Content-Length: ' . $size);
+      //header('Content-Length: ' . $size);
       switch ($extension)
       {
         case "jpg":
@@ -171,10 +171,11 @@ class FilesController extends Controller
         case "png":
           return imagepng($img);
         default:
+          throw new \Exception('Несуществующий формат изображения');
           break;
       }
-      return $img;
     }
+
     // до данной точки не должен доходить никогда
     return abort(404);
   }

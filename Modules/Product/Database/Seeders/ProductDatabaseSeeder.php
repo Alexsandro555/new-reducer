@@ -24,6 +24,6 @@ class ProductDatabaseSeeder extends Seeder
     $this->call(AttributeUnitTableSeeder::class);
     $this->call(AttributeGroupTableSeeder::class);
     $this->call(AttributeTableSeeder::class);
-    $this->call(VibratorsTableSeeder::class);
+    //$this->call(VibratorsTableSeeder::class);
   }
 }

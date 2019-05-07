@@ -52,45 +52,39 @@
             </v-flex>
           </v-layout>
           <div class="detail__advanced-info">
+            <h2 class="h2-product">Характиристики и описание</h2>
             <v-tabs slider-color="yellow" class="detail__characteristics">
-              <v-tab key="description">Опсание</v-tab>
-              <v-tab key="characteristics">Тех. характеристики</v-tab>
-              <v-tab key="advantages">Преимущества</v-tab>
-              <v-tab key="video">Видео</v-tab>
-              <v-tab-item key="description">
-                <div class="detail__characteristics-description">
-                  <h2>Описание</h2>
-                  <img src="{{asset('images/yellow-line.png')}}"/><br>
-                  {{$product->description}}
-                </div>
-              </v-tab-item>
-              <v-tab-item key="characteristics">
-                <div class="detail__characteristics-characteristics">
-                  <h2>Характеристики</h2>
-                  <img src="{{asset('images/yellow-line.png')}}"/><br>
-                  <v-layout row wrap>
-                    @foreach($product->attributes->chunk(9) as $chunkAttributes)
-                      <dl class="detail__characteristics-characteristics-attributes">
-                        @foreach($chunkAttributes as $attribute)
-                          <dt>{{$attribute->title}}</dt>
-                          <dd class="detail__characteristics--value">{{$attribute->pivot->value}}</dd>
-                        @endforeach
-                      </dl>
-                    @endforeach
-                  </v-layout>
-                </div>
-              </v-tab-item>
-              <v-tab-item key="advantages">
-                <div class="detail__characteristics-advantages">
-
-                </div>
-              </v-tab-item>
-              <v-tab-item key="video">
-                <div class="detail__characteristics-video">
-
-                </div>
-              </v-tab-item>
+                @foreach($groups as $group)
+                  <v-tab key="#tabs-group-{{$group->id}}">{{$group->title}}</v-tab>
+                @endforeach
+              </ul>
             </v-tabs>
+            @foreach($groups as $group)
+              <v-tab-item class="tabs-content" key="tabs-group-{{$group->id}}">
+                @foreach($product->attributes->filter(function($attribute, $key) use (&$group){
+                    return $attribute->attribute_group_id == $group->id;
+                })->sortBy('sort')->chunk(10) as $chunkAttributes)
+                  <div class="tabs__characteristics">
+                    <dl class="tabs__characteristics-attributes">
+                      @foreach($chunkAttributes as $attribute)
+                        @if($attribute->attribute_type_id == 3)
+                          <dt>{{$attribute->title}}</dt><dd class="tabs__characteristics--value">{{$attribute->pivot->integer_value}} {{$attribute->attribute_unit?$attribute->attribute_unit->title:""}}</dd>
+                        @endif
+                        @if($attribute->attribute_type_id == 4)
+                          <dt>{{$attribute->title}}</dt><dd class="tabs__characteristics--value">{{$attribute->pivot->double_value}} {{$attribute->attribute_unit?$attribute->attribute_unit->title:""}}</dd>
+                        @endif
+                        @if($attribute->attribute_type_id == 5)
+                          <dt>{{$attribute->title}}</dt><dd class="tabs__characteristics--value">{{$attribute->pivot->date_value}} {{$attribute->attribute_unit?$attribute->attribute_unit->title:""}}</dd>
+                        @endif
+                        @if($attribute->attribute_type_id == 7)
+                          <dt>{{$attribute->title}}</dt><dd class="tabs__characteristics--value">{{$attribute->pivot->decimal_value}} {{$attribute->attribute_unit?$attribute->attribute_unit->title:""}}</dd>
+                        @endif
+                      @endforeach
+                    </dl>
+                  </div>
+                @endforeach
+              </v-tab-item>
+            @endforeach
           </div>
         </v-flex>
       </v-layout>

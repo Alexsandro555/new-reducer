@@ -46,10 +46,10 @@
                 :label="field.label"
                 :value="items[num]"
                 v-model="items[num]"
+                @change="updateItemCheckbox($event,num)"
                 :rules="getRules(field.validations)"
                 :required="getRequired(field.validations)"
-                :error-messages="messages[''+num+'']"
-                @change="updateItem($event,num)"></v-checkbox>
+                :error-messages="messages[''+num+'']"></v-checkbox>
     <v-select
       v-else-if="field.type=='selectbox'"
       :name="num+'_id'"
@@ -98,6 +98,11 @@
       updateItem(value, key) {
         let objField = {}
         objField[key] = value
+        this.$emit('update', objField)
+      },
+      updateItemCheckbox(value, key) {
+        let objField = {}
+        objField[key] = Boolean(value)
         this.$emit('update', objField)
       },
       getRules(validations) {

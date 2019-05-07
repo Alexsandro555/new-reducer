@@ -9,6 +9,7 @@ use Modules\Product\Entities\ProductCategory;
 use Modules\Product\Entities\TypeProduct;
 use Modules\Product\Entities\LineProduct;
 use Modules\News\Entities\News;
+use Modules\Product\Entities\AttributeGroup;
 
 class SiteController extends Controller
 {
@@ -60,7 +61,8 @@ class SiteController extends Controller
   }
 
   public function detail($slug) {
+    $groups = AttributeGroup::orderBy('sort', 'asc')->get();
     $product = Product::with('files')->where('url_key',$slug)->first();
-    return view('detail', compact('product'));
+    return view('detail', compact('product', 'groups'));
   }
 }
