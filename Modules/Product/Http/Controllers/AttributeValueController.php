@@ -59,13 +59,13 @@ class AttributeValueController extends Controller
     $values = json_decode($request->values);
 
     if ($request->direction) {
-      $products = Product::findOrFail($request->productIds);
+      $products = Product::find($request->productIds);
       $nextAttributeValues = current($values);
       if(!$nextAttributeValues) return abort(404);
       foreach($products as $product) {
         $nextValue = current($nextAttributeValues);
         if(!$nextValue) return abort(404);
-        $attributes = Attribute::findOrFail($request->attributeIds);
+        $attributes = Attribute::find($request->attributeIds);
         foreach($attributes as $attribute) {
           $value = $this->checkValue($attribute->attribute_type_id,trim($nextValue));
           if($value) {
@@ -73,15 +73,15 @@ class AttributeValueController extends Controller
           } else {
             return abort(404);
           }
-          $nextValue = next($nextAttributeValues);
-          if(!$nextValue) break;
+          $nextValue = next($nextAttributeValues)?next($nextAttributeValues):$nextValue;
+          //if(!$nextValue) break;
         }
         $nextAttributeValues = next($values);
         if(!$nextAttributeValues) break;
       }
     } else {
       // Получаем атрибуты и по атрибутам сохраняем значения - так как атрибуты у нас расположены в строках
-      $attributes = Attribute::findOrFail($request->attributeIds);
+      $attributes = Attribute::find($request->attributeIds);
       $nextAttributeValues = current($values);
       if(!$nextAttributeValues) return abort(404);
       foreach ($attributes as $attribute) {
@@ -95,8 +95,8 @@ class AttributeValueController extends Controller
             } else {
               return abort(404);
             }
-          $nextValue = next($nextAttributeValues);
-          if(!$nextValue) break;
+          $nextValue = next($nextAttributeValues)?next($nextAttributeValues):$nextValue;
+          //if(!$nextValue) break;
         }
         $nextAttributeValues = next($values);
         if(!$nextAttributeValues) break;

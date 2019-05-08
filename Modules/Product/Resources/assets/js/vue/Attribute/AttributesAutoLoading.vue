@@ -22,7 +22,7 @@
                   item-text="title"
                   item-value="id"
                   label="Продукты"
-                  placeholder="Введите продукт для поиска"
+                  placeholder="Введите название продукта для поиска"
                   multiple>
                   <template slot="selection" slot-scope="data">
                     <v-chip
@@ -136,6 +136,10 @@
       ...mapState('attributes', {attributes: state => state.items})
     },
     methods: {
+      removes (item) {
+        const index = this.items.indexOf(item.name)
+        if (index >= 0) this.items.splice(index, 1)
+      },
       onSave() {
         if (this.$refs['form-attributes'].validate()) {
           if(!this.ts || !this.ts.getArraySelectionText().length>0) {

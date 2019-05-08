@@ -65,14 +65,20 @@ class TypeFileTableSeeder extends Seeder
             "resize": [
               {
 			          "name": "main",
-                "width": "287",
-                "height": "186",
+                "width": "350",
+                "height": "320",
                 "absolute": false
               },
               {
-			          "name": "small",
-                "width": "140",
-                "height": "140",
+			          "name": "medium",
+                "width": "210",
+                "height": "180",
+                "absolute": false
+              },
+              {
+                "name": "small",
+                "width": "100",
+                "height": "100",
                 "absolute": false
               }
             ],

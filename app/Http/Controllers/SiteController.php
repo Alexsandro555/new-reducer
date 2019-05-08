@@ -22,7 +22,13 @@ class SiteController extends Controller
     }, 'productCategory.files' => function($query) {
       $query->doesntHave('figure');
     }])->inRandomOrder()->take(4)->get();
-    $specialProducts = Product::with('files', 'typeProduct', 'lineProduct')->where('special', 1)->inRandomOrder()->take(5)->get();
+    $specialProducts = Product::with(['files', 'lineProduct.files' => function($query) {
+      $query->doesntHave('figure');
+    }, 'typeProduct.files' => function($query) {
+      $query->doesntHave('figure');
+    }, 'productCategory.files' => function($query) {
+      $query->doesntHave('figure');
+    }])->where('special', 1)->inRandomOrder()->take(5)->get();
     $news = [];
     $news = News::inRandomOrder()->take(4)->get();
     return view('index', compact('ourProducts', 'specialProducts', 'news'));
@@ -41,9 +47,9 @@ class SiteController extends Controller
     return view('catalog', compact('model', 'products'));
   }
 
-  public function lineProduct($slugProductCategory, $slug)
+  public function typeProduct($slugProductCategory, $slug)
   {
-    $model = TypeProduct::with('products.files')->where('url_key', $slug)->firstOrFail();
+    $model = TypeProduct::with(['products.files','lineProducts'])->where('url_key', $slug)->firstOrFail();
     $products = Product::with(['files', 'lineProduct.files' => function($query) {
       $query->doesntHave('figure');
     }, 'typeProduct.files' => function($query) {
@@ -51,6 +57,19 @@ class SiteController extends Controller
     }, 'productCategory.files' => function($query) {
       $query->doesntHave('figure');
     }])->where('type_product_id', $model->id)->paginate(30);
+    return view('catalog', compact('model', 'products'));
+  }
+
+  public function lineProduct($slugProductCategory, $slugTypeProduct, $slug)
+  {
+    $model = LineProduct::with('products.files')->where('url_key', $slug)->firstOrFail();
+    $products = Product::with(['files', 'lineProduct.files' => function($query) {
+      $query->doesntHave('figure');
+    }, 'typeProduct.files' => function($query) {
+      $query->doesntHave('figure');
+    }, 'productCategory.files' => function($query) {
+      $query->doesntHave('figure');
+    }])->where('line_product_id', $model->id)->paginate(30);
     return view('catalog', compact('model', 'products'));
   }
 

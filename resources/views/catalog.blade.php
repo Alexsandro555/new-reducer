@@ -23,6 +23,17 @@
           <span>{{$model->title}}</span><br>
         </p>
         <v-layout row wrap>
+          @if($model->lineProducts)
+            @foreach($model->lineProducts as $lineProduct)
+              <v-container>
+                <v-layout row wrap>
+                  <v-card>
+                    <a href="/catalog/{{$model->product_category->url_key}}/{{$model->url_key}}/{{$lineProduct->url_key}}">{{$lineProduct->title}}</a>
+                  </v-card>
+                </v-layout>
+              </v-container>
+            @endforeach
+          @endif
           @include('products',['products' => $products])
         </v-layout>
       </v-flex>
