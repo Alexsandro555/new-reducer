@@ -24,7 +24,7 @@
               <span style="line-height: 1.2">{{$product->vendor}} описание</span><br>
               <img src="{{asset('images/heading.png')}}"/><br><br>
               <div class="detail__price">
-                <span class="detail__old-price">{{$product->price}} руб.</span><br>
+                <!--<span class="detail__old-price">{{$product->price}} руб.</span><br>-->
                 <span class="detail__price--current">{{$product->price}}</span> руб.<br>
               </div>
               <div>

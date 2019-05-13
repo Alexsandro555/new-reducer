@@ -47,7 +47,8 @@
       </div>
       <v-layout row wrap>
         <v-flex xs8 text-xs-center>
-          <span class="product-old-price">{{$product->price}} руб.</span><br>
+          <br>
+          <!--<span class="product-old-price">{{$product->price}} руб.</span><br>-->
           <span class="product-price-wrapper">
                     <span class="product-price">{{$product->price}}</span> руб.</span>
         </v-flex>

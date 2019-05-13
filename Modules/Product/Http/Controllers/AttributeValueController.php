@@ -9,6 +9,7 @@ use Modules\Product\Entities\Attribute;
 use Modules\Product\Entities\AttributeValue;
 use Modules\Product\Entities\Product;
 use Modules\Product\Entities\AttributeType;
+use Modules\Product\Entities\AttributeListValues;
 
 class AttributeValueController extends Controller
 {
@@ -48,7 +49,7 @@ class AttributeValueController extends Controller
       case AttributeType::DECIMAL:
         return (double)$value;
       case AttributeType::LIST:
-        return AttributeList::where('title', $nextValue)->firstOrFail()->id;
+        return AttributeListValues::where('title', $value)->firstOrFail()->id;
     }
     return null;
   }
