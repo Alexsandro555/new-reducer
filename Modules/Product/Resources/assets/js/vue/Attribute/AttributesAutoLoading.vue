@@ -110,6 +110,11 @@
         isSaving: false,
         searchProducts: null,
         searchAttributes: null,
+        defaultForm: {
+          productIds: [],
+          attributeIds: [],
+          direction: false
+        },
         form: {
           productIds: [],
           attributeIds: [],
@@ -148,6 +153,7 @@
             return
           }
           this.save(Object.assign({}, this.form, {values: JSON.stringify(this.ts.getArraySelectionText())}))
+          this.form = Object.assign({}, this.defaultForm)
         }
       },
       onShowWindow() {
