@@ -27,9 +27,11 @@
             @foreach($model->lineProducts as $lineProduct)
               <v-container>
                 <v-layout row wrap>
-                  <v-card>
-                    <a href="/catalog/{{$model->product_category->url_key}}/{{$model->url_key}}/{{$lineProduct->url_key}}">{{$lineProduct->title}}</a>
-                  </v-card>
+                  <v-flex xs12 text-xs-center>
+                    <v-card height="100px">
+                      <a class="line-product-elements" href="/catalog/{{$model->product_category->url_key}}/{{$model->url_key}}/{{$lineProduct->url_key}}">{{$lineProduct->title}}</a>
+                    </v-card>
+                  </v-flex>
                 </v-layout>
               </v-container>
             @endforeach
