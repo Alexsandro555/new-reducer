@@ -54,37 +54,36 @@
           <div class="detail__advanced-info">
             <h2 class="h2-product">Характиристики и описание</h2>
             <v-tabs slider-color="yellow" class="detail__characteristics">
-                @foreach($groups as $group)
+              @foreach($groups as $group)
                   <v-tab key="#tabs-group-{{$group->id}}">{{$group->title}}</v-tab>
                 @endforeach
-              </ul>
-            </v-tabs>
-            @foreach($groups as $group)
-              <v-tab-item class="tabs-content" key="tabs-group-{{$group->id}}">
-                @foreach($product->attributes->filter(function($attribute, $key) use (&$group){
-                    return $attribute->attribute_group_id == $group->id;
-                })->sortBy('sort')->chunk(10) as $chunkAttributes)
-                  <div class="tabs__characteristics">
-                    <dl class="tabs__characteristics-attributes">
-                      @foreach($chunkAttributes as $attribute)
-                        @if($attribute->attribute_type_id == 3)
-                          <dt>{{$attribute->title}}</dt><dd class="tabs__characteristics--value">{{$attribute->pivot->integer_value}} {{$attribute->attribute_unit?$attribute->attribute_unit->title:""}}</dd>
-                        @endif
-                        @if($attribute->attribute_type_id == 4)
-                          <dt>{{$attribute->title}}</dt><dd class="tabs__characteristics--value">{{$attribute->pivot->double_value}} {{$attribute->attribute_unit?$attribute->attribute_unit->title:""}}</dd>
-                        @endif
-                        @if($attribute->attribute_type_id == 5)
-                          <dt>{{$attribute->title}}</dt><dd class="tabs__characteristics--value">{{$attribute->pivot->date_value}} {{$attribute->attribute_unit?$attribute->attribute_unit->title:""}}</dd>
-                        @endif
-                        @if($attribute->attribute_type_id == 7)
-                          <dt>{{$attribute->title}}</dt><dd class="tabs__characteristics--value">{{$attribute->pivot->decimal_value}} {{$attribute->attribute_unit?$attribute->attribute_unit->title:""}}</dd>
-                        @endif
-                      @endforeach
-                    </dl>
-                  </div>
+                @foreach($groups as $group)
+                  <v-tab-item class="tabs-content" key="tabs-group-{{$group->id}}">
+                    @foreach($product->attributes->filter(function($attribute, $key) use (&$group){
+                        return $attribute->attribute_group_id == $group->id;
+                    })->sortBy('sort')->chunk(10) as $chunkAttributes)
+                      <div class="tabs__characteristics">
+                        <dl class="tabs__characteristics-attributes">
+                          @foreach($chunkAttributes as $attribute)
+                            @if($attribute->attribute_type_id == 3)
+                              <dt>{{$attribute->title}}</dt><dd class="tabs__characteristics--value">{{$attribute->pivot->integer_value}} {{$attribute->attribute_unit?$attribute->attribute_unit->title:""}}</dd>
+                            @endif
+                            @if($attribute->attribute_type_id == 4)
+                              <dt>{{$attribute->title}}</dt><dd class="tabs__characteristics--value">{{$attribute->pivot->double_value}} {{$attribute->attribute_unit?$attribute->attribute_unit->title:""}}</dd>
+                            @endif
+                            @if($attribute->attribute_type_id == 5)
+                              <dt>{{$attribute->title}}</dt><dd class="tabs__characteristics--value">{{$attribute->pivot->date_value}} {{$attribute->attribute_unit?$attribute->attribute_unit->title:""}}</dd>
+                            @endif
+                            @if($attribute->attribute_type_id == 7)
+                              <dt>{{$attribute->title}}</dt><dd class="tabs__characteristics--value">{{$attribute->pivot->decimal_value}} {{$attribute->attribute_unit?$attribute->attribute_unit->title:""}}</dd>
+                            @endif
+                          @endforeach
+                        </dl>
+                      </div>
+                    @endforeach
+                  </v-tab-item>
                 @endforeach
-              </v-tab-item>
-            @endforeach
+            </v-tabs>
           </div>
         </v-flex>
       </v-layout>
