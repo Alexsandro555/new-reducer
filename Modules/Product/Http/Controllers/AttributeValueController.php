@@ -58,49 +58,48 @@ class AttributeValueController extends Controller
   {
     // Получаем значения
     $values = json_decode($request->values);
+    // Убеждаемся что массив не пустой
+    if(!$values) return abort(404);
 
+    // атрибуты по-горизонтали
     if ($request->direction) {
       $products = Product::find($request->productIds);
-      $nextAttributeValues = current($values);
-      if(!$nextAttributeValues) return abort(404);
+      $row = current($values);
+      $cell = current($row);
       foreach($products as $product) {
-        $nextValue = current($nextAttributeValues);
-        if(!$nextValue) return abort(404);
         $attributes = Attribute::find($request->attributeIds);
         foreach($attributes as $attribute) {
-          $value = $this->checkValue($attribute->attribute_type_id,trim($nextValue));
+          $value = $this->checkValue($attribute->attribute_type_id,trim($cell));
           if($value) {
             $attribute->prod()->attach($product->id, ['value' => $value]);
           } else {
             return abort(404);
           }
-          $nextValue = next($nextAttributeValues)?next($nextAttributeValues):$nextValue;
-          //if(!$nextValue) break;
+          $temp = next($row);
+          $cell = ($temp)?$temp:$cell;
         }
-        $nextAttributeValues = next($values);
-        if(!$nextAttributeValues) break;
+        $temp = next($values);
+        $row = ($temp)?$temp:reset($values);
       }
-    } else {
-      // Получаем атрибуты и по атрибутам сохраняем значения - так как атрибуты у нас расположены в строках
+    }
+    else
+    {
       $attributes = Attribute::find($request->attributeIds);
-      $nextAttributeValues = current($values);
-      if(!$nextAttributeValues) return abort(404);
+      $row = current($values);
+      $cell = current($row);
       foreach ($attributes as $attribute) {
-        $nextValue = current($nextAttributeValues);
-        if(!$nextValue) return abort(404);
         foreach($request->productIds as $productId) {
-            // проверки на соответствие атрибута типу и приведение
-            $value = $this->checkValue($attribute->attribute_type_id,trim($nextValue));
+            $value = $this->checkValue($attribute->attribute_type_id,trim($cell));
             if($value) {
               $attribute->prod()->attach($productId, ['value' => $value]);
             } else {
               return abort(404);
             }
-          $nextValue = next($nextAttributeValues)?next($nextAttributeValues):$nextValue;
-          //if(!$nextValue) break;
+            $temp = next($row);
+            $cell = ($temp)?$temp:$cell;
         }
-        $nextAttributeValues = next($values);
-        if(!$nextAttributeValues) break;
+        $temp = next($values);
+        $row = ($temp)?$temp:reset($values);
       }
     }
     return AttributeValue::all();
