@@ -153,7 +153,7 @@
             return
           }
           this.save(Object.assign({}, this.form, {values: JSON.stringify(this.ts.getArraySelectionText())}))
-          //this.form = Object.assign({}, this.defaultForm)
+          this.form = Object.assign({}, this.defaultForm)
         }
       },
       onShowWindow() {
