@@ -77,6 +77,9 @@
                             @if($attribute->attribute_type_id == 7)
                               <dt>{{$attribute->title}}</dt><dd class="tabs__characteristics--value">{{$attribute->pivot->decimal_value}} {{$attribute->attribute_unit?$attribute->attribute_unit->title:""}}</dd>
                             @endif
+                            @if($attribute->attribute_type_id == 8)
+                                <dt>{{$attribute->title}}</dt><dd class="tabs__characteristics--value">{{Modules\Product\Entities\AttributeListValues::find($attribute->pivot->list_value)->title}} {{$attribute->attribute_unit?$attribute->attribute_unit->title:""}}</dd>
+                            @endif
                           @endforeach
                         </dl>
                       </div>

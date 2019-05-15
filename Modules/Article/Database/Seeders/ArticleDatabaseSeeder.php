@@ -96,8 +96,7 @@ class ArticleDatabaseSeeder extends Seeder
         ];
 
       foreach ($arrArticles as $arrArticle) {
-        $article = new Article;
-        $article->create(['title' => $arrArticle['title'], 'content' => $arrArticle['content']]);
+        Article::create(['title' => $arrArticle['title'], 'content' => $arrArticle['content']]);
       }
     }
 }
