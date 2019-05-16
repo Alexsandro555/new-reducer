@@ -47,7 +47,7 @@ class AttributeValueController extends Controller
       case AttributeType::TEXT:
         return (string)$value;
       case AttributeType::DECIMAL:
-        return (double)$value;
+        return floatval($value);
       case AttributeType::LIST:
         return AttributeListValues::where('title', $value)->firstOrFail()->id;
     }
