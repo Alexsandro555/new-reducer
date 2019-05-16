@@ -10,7 +10,7 @@
 
 @section('content')
   <div class="content">
-    <div class="wrapper content__product-margin">
+    <v-layout row wrap>
       <v-flex xs12 text-xs-left class="top-20 bottom-20">
         @if($products->isNotEmpty())
           <h1>Результаты поиска</h1>
@@ -19,6 +19,6 @@
           <h1>По вашему запросу ничего не найдено</h1>
         @endif
       </v-flex>
-    </div>
+    </v-layout>
   </div>
 @endsection
