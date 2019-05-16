@@ -225,6 +225,10 @@ header {
   margin-right: 10px;
 }
 
+.margit-top-140 {
+  margin-top: -140px;
+}
+
 [v-cloak] .v-cloak--block {
   display: block;
   background: url("/images/cat-preloader.gif") center center no-repeat, #e19a2e;
@@ -844,6 +848,11 @@ header {
   padding-left: 20px;
 }
 
+.detail__characteristics .v-tabs__item--active {
+  color: white;
+  background-color: #29435c;
+}
+
 .tabs__characteristics {
   display: inline-block;
   margin-left: 30px;
@@ -1365,6 +1374,7 @@ form div.content-right-order table tfoot tr td {
 }
 
 .article__content {
+  margin-left: 20px;
   font-size: 1.1em;
 }
 

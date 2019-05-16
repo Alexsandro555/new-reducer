@@ -150,7 +150,7 @@
           })
       },
       goToPage(item) {
-        let url = '/Product/detail/'
+        let url = '/catalog/detail/'
         url = url + item.url_key
         window.open(url, '_blank')
       },

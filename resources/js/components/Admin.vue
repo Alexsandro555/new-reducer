@@ -26,7 +26,7 @@
     </v-navigation-drawer>
     <v-toolbar absolute app clipped-left>
       <v-toolbar-side-icon @click.native="drawer = !drawer"></v-toolbar-side-icon>
-      <span class="title ml-3 mr-5" @click="goMainPage()">Лидер</span>
+      <span class="title ml-3 mr-5" @click="goToSite()">Лидер</span>
       <v-text-field solo-inverted flat label="Поиск" prepend-icon="search"></v-text-field>
       <v-btn light @click.stop="exit">Выход</v-btn>
       <v-btn light @click.stop="goToSite">На главную</v-btn>
@@ -134,6 +134,9 @@
     methods: {
       ...mapActions('Auth', {logout: ACTIONS.AUTH_LOGOUT}),
       ...mapState('initializer', ['darkColor']),
+      goToSite() {
+        window.location.href='/'
+      },
       exit() {
         this.logout().then(() => {
           window.location.href='/'
