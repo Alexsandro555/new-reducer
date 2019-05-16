@@ -34,6 +34,11 @@
 }
 
 .article__content {
+  text-align: justify;
   margin-left: 20px;
   font-size: 1.1em;
+}
+
+.article__content p {
+  text-indent: 25px;
 }

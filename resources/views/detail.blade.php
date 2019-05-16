@@ -52,7 +52,7 @@
             </v-flex>
           </v-layout>
           <div class="detail__advanced-info">
-            <h2 class="h2-product text-xs-left">Характиристики и описание</h2>
+            <!--<h2 class="h2-product text-xs-left">Характиристики и описание</h2>-->
             <v-tabs slider-color="yellow" class="detail__characteristics">
               @foreach($groups as $group)
                   <v-tab key="#tabs-group-{{$group->id}}">{{$group->title}}</v-tab>
