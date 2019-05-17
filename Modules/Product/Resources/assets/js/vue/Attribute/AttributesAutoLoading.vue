@@ -63,6 +63,26 @@
                   label="Атрибуты по-горизонтали"
                   v-model="form.direction">
                 </v-checkbox>
+                <v-flex xs12>
+                  <v-expansion-panel>
+                    <v-expansion-panel-content>
+                      <template slot="header">
+                        <div>Выбранные значения</div>
+                      </template>
+                      <v-card>
+                        <v-card-text>
+                          <pre v-if="ts">
+                            {{getSelected}}
+                          </pre>
+                          <span v-else text-xs-center>
+                            Ничего не выбрано
+                          </span>
+                        </v-card-text>
+                      </v-card>
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-flex>
+                <br>
                 <v-flex text-xs-left>
                   <v-btn text-xs-left large :class="{primary: valid, 'red lighten-3': !valid}" :disabled="isSaving" @click.prevent="onSave">
                     Сохранить
@@ -84,7 +104,8 @@
                 </v-btn>
               </v-form>
             </v-flex>
-            <v-flex id="html-result">
+            <v-flex xs12>
+              <div  id="html-result"></div>
             </v-flex>
           </v-card-text>
         </v-card>
@@ -125,7 +146,8 @@
           message: '',
           type: null
         },
-        ts: null
+        ts: null,
+        diapason: []
       }
     },
     mounted() {
@@ -138,7 +160,12 @@
     },
     computed: {
       ...mapState('products', ['items']),
-      ...mapState('attributes', {attributes: state => state.items})
+      ...mapState('attributes', {attributes: state => state.items}),
+      getSelected() {
+        this.diapason = []
+        this.diapason = [...this.ts.getArraySelectionText()]
+        return this.ts.getArraySelectionText()
+      }
     },
     methods: {
       removes (item) {
@@ -152,8 +179,9 @@
             this.status.type = 'error'
             return
           }
-          this.save(Object.assign({}, this.form, {values: JSON.stringify(this.ts.getArraySelectionText())}))
+          this.save(Object.assign({}, this.form, {values: JSON.stringify(this.diapason)}))
           this.form = Object.assign({}, this.defaultForm)
+          this.diapason = []
         }
       },
       onShowWindow() {
