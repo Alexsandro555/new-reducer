@@ -2,7 +2,7 @@
   <v-container>
     <v-layout wrap row>
       <v-flex>
-        <edit-image :id="id" type="medium"/>
+        <!--<edit-image :id="id" type="medium"/>-->
         <edit-image :id="id" type="main"/>
       </v-flex>
     </v-layout>
