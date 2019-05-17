@@ -159,7 +159,7 @@ class FilesController extends Controller
           $attribute = Attribute::findOrFail($figure->attribute_id);
           $text = $attribute->title;
         }
-        $box = imagettftext($img, 10, $figure->degree,$figure->x, $figure->y,$color, "Arial.ttf", $text);
+        $box = imagettftext($img, 10, $figure->degree,$figure->x, $figure->y,$color, "Arial", $text);
       }
       //header('Content-Length: ' . $size);
       switch ($extension)
