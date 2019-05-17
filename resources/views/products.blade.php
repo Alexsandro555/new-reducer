@@ -2,7 +2,7 @@
   <div class="product-wrapper">
     <div class="product">
       <div class="product-image-wrapper">
-        <div class="product-image">
+        <div class="product-image" @click="goToPage('/catalog/detail/{{$product->url_key}}')">
           @if($product->productCategory && $product->productCategory->files->count()>0)
               @foreach($product->productCategory->files->random()->config as $filesItem)
                 @foreach($filesItem as $key => $fileItem)

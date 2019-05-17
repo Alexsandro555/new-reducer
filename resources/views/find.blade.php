@@ -14,7 +14,7 @@
       <v-flex xs12 text-xs-left class="top-20 bottom-20">
         <v-layout row wrap>
           @if($products->isNotEmpty())
-            <h1>Результаты поиска</h1><br>
+            <div><h1>Результаты поиска:</h1></div>
             @include('products',['products' => $products])
           @else
             <h1>По вашему запросу ничего не найдено</h1>

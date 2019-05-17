@@ -79,9 +79,9 @@
           <div class="wrapper footers">
             <div>
               <v-layout row wrap>
-                <v-flex xs3 class="footer__main-site text-xs-right">
+                <v-flex xs2 class="footer__main-site text-xs-right">
                   <v-flex xs11>
-                    <a href="#">
+                    <a class="official-site" href="#">
                       <span text-xs-left>Посетить</span><br>
                       оффициальный сайт
                     </a>
@@ -95,17 +95,21 @@
                   <a href="#"><img src="{{asset('images/social-v.png')}}"/></a>
                   <a href="#"><img src="{{asset('images/social-y.png')}}"/></a>
                 </v-flex>
-                @foreach($typeProducts->chunk(4) as $chunkTypeProduct)
-                  <v-flex xs2 class="footer__links">
-                    <v-list class="footer__list">
-                      @foreach($chunkTypeProduct as $typeProduct)
-                        <v-list-tile>
-                          <a href="/catalog/{{$typeProduct->url_key}}">{{$typeProduct->title}}</a>
-                        </v-list-tile>
-                      @endforeach
-                    </v-list>
-                  </v-flex>
-                @endforeach
+                <v-flex xs5>
+                  <v-layout row wrap>
+                    @foreach($typeProducts->chunk(4) as $chunkTypeProduct)
+                      <v-flex xs6 class="footer__links">
+                        <v-list class="footer__list">
+                          @foreach($chunkTypeProduct as $typeProduct)
+                            <v-list-tile>
+                              <a href="/catalog/{{$typeProduct->url_key}}">{{$typeProduct->title}}</a>
+                            </v-list-tile>
+                          @endforeach
+                        </v-list>
+                      </v-flex>
+                    @endforeach
+                  </v-layout>
+                </v-flex>
                 <v-flex xs3>
                   <img text-align-center src="{{asset('images/logo-footer.png')}}"/><br>
                   <span class="telephone__number">{{config('info.telephone')}}</span><br>

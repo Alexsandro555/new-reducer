@@ -606,6 +606,7 @@ header {
 
 .about__head {
   color: black;
+  margin-left: 0px;
   font-size: 0.9em;
 }
 
@@ -619,6 +620,7 @@ header {
 .container.grid-list-xs .layout .flex .about__info {
   font-size: 1.1em;
   padding-right: 20px;
+  padding-left: 30px;
 }
 
 .about .product-wrapper .product {
@@ -1043,6 +1045,10 @@ footer {
   max-width: 200px;
   margin: auto;
   font-size: 1.1em;
+}
+
+.official-site {
+  text-shadow: 1px -2px 6px rgba(0, 0, 0, 0.91);
 }
 
 .cart__info {

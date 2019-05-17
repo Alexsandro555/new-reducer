@@ -61,6 +61,9 @@ const app = new Vue({
   },
   store,
   methods: {
+    goToPage(url) {
+      window.location.href=url
+    },
     addCart(id) {
       const count = 1
       this.addCartItem({id, count})

@@ -41,6 +41,7 @@
 .about__head {
   @extend .headsite;
   color: black;
+  margin-left: 0px;
   font-size: 0.9em;
 }
 
@@ -54,6 +55,7 @@
 .container.grid-list-xs .layout .flex .about__info {
   font-size: 1.1em;
   padding-right: 20px;
+  padding-left: 30px;
 }
 
 .about .product-wrapper .product {
