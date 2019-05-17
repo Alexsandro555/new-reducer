@@ -147,7 +147,7 @@
           type: null
         },
         ts: null,
-        diapason: []
+        parameters: []
       }
     },
     mounted() {
@@ -162,8 +162,8 @@
       ...mapState('products', ['items']),
       ...mapState('attributes', {attributes: state => state.items}),
       getSelected() {
-        this.diapason = []
-        this.diapason = [...this.ts.getArraySelectionText()]
+        this.parameters = []
+        this.parameters = [...this.ts.getArraySelectionText()]
         return this.ts.getArraySelectionText()
       }
     },
@@ -174,14 +174,30 @@
       },
       onSave() {
         if (this.$refs['form-attributes'].validate()) {
-          if(!this.ts || !this.ts.getArraySelectionText().length>0) {
+          if(this.parameters.length === 0) {
             this.status.message = 'Не выбраны значения атрибутов'
             this.status.type = 'error'
             return
           }
-          this.save(Object.assign({}, this.form, {values: JSON.stringify(this.diapason)}))
+          let attributes = [];
+          if(this.form.direction) {
+            let curentRow = []
+            this.form.productIds.map((productId, indexProduct) => {
+              return this.form.attributeIds.map((attributeId, indexAttribute) => {
+                let value = this.parameters[indexProduct][indexAttribute]
+
+                return
+              })
+            })
+          }
+          this.parameters.map((row, index) => {
+            row.map((col, index) => {
+                return this.form
+            })
+          })
+          this.save(Object.assign({}, this.form, {values: JSON.stringify(this.parameters)}))
           this.form = Object.assign({}, this.defaultForm)
-          this.diapason = []
+          this.attributes = []
         }
       },
       onShowWindow() {
