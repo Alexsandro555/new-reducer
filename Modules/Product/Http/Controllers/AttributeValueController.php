@@ -63,23 +63,22 @@ class AttributeValueController extends Controller
 
     // атрибуты по-горизонтали
     if ($request->direction) {
+      $row = [];
       $products = Product::find($request->productIds);
-      $row = current($values);
-      $cell = current($row);
       foreach($products as $product) {
+        $row = array_pop($values)?:$row;
+        $reversRow = array_reverse($row);
+        $cell = '';
         $attributes = Attribute::find($request->attributeIds);
         foreach($attributes as $attribute) {
+          $cell = array_pop($reversRow)?:$cell;
           $value = $this->checkValue($attribute->attribute_type_id,trim($cell));
           if($value) {
             $attribute->prod()->attach($product->id, ['value' => $value]);
           } else {
             return abort(404);
           }
-          $temp = next($row);
-          $cell = ($temp)?$temp:$cell;
         }
-        $temp = next($values);
-        $row = ($temp)?$temp:reset($values);
       }
     }
     else

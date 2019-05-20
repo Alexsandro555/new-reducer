@@ -179,25 +179,9 @@
             this.status.type = 'error'
             return
           }
-          let attributes = [];
-          if(this.form.direction) {
-            let curentRow = []
-            this.form.productIds.map((productId, indexProduct) => {
-              return this.form.attributeIds.map((attributeId, indexAttribute) => {
-                let value = this.parameters[indexProduct][indexAttribute]
-
-                return
-              })
-            })
-          }
-          this.parameters.map((row, index) => {
-            row.map((col, index) => {
-                return this.form
-            })
-          })
           this.save(Object.assign({}, this.form, {values: JSON.stringify(this.parameters)}))
-          this.form = Object.assign({}, this.defaultForm)
-          this.attributes = []
+          //this.form = Object.assign({}, this.defaultForm)
+          this.parameters = []
         }
       },
       onShowWindow() {
