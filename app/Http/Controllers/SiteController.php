@@ -10,6 +10,7 @@ use Modules\Product\Entities\TypeProduct;
 use Modules\Product\Entities\LineProduct;
 use Modules\News\Entities\News;
 use Modules\Product\Entities\AttributeGroup;
+use Modules\Product\Entities\Attribute;
 
 class SiteController extends Controller
 {
@@ -83,5 +84,21 @@ class SiteController extends Controller
     $groups = AttributeGroup::orderBy('sort', 'asc')->get();
     $product = Product::with(['files', 'attributes.attributeListValue'])->where('url_key',$slug)->first();
     return view('detail', compact('product', 'groups'));
+  }
+
+  public function products() {
+    $products = Product::with(['attributes','files', 'lineProduct.files' => function($query) {
+      $query->doesntHave('figure');
+    }, 'typeProduct.files' => function($query) {
+      $query->doesntHave('figure');
+    }, 'productCategory.files' => function($query) {
+      $query->doesntHave('figure');
+    }])->where('product_category_id', 2)->get();
+    $attributes = Attribute::with(['attributeListValue'])->where('attribute_type_id', 8)->where('filtered', 1)->get();
+    /*$attributes = ProductCategory::with(['attributes.attributeListValue', 'attributes' => function($query) {
+      dd($query);
+      $query->where('attribute_type_id' === 8);
+    }])->find(2)->attributes;*/
+    return view('test', compact('products', 'attributes'));
   }
 }

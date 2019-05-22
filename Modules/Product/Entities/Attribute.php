@@ -33,6 +33,9 @@ class Attribute extends Model
     'attribute_unit' => [
       'enabled' => true
     ],
+    'filtered' => [
+      'enabled' => true
+    ],
     'attribute_type' => [
       'enabled' => true,
       'validations' => [

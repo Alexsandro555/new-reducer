@@ -53,6 +53,8 @@ const store = new Vuex.Store({
 
 import NavigationMenu from '@initializer/vue/NavigationMenu'
 Vue.component('navigation-menu', NavigationMenu)
+import FilterProducts from '@/components/FilterProducts'
+Vue.component('filter-products', FilterProducts)
 
 const app = new Vue({
   el: '#app',

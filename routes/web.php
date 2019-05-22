@@ -23,16 +23,7 @@ Route::get('/admin', ['uses' => '\Modules\Auth\Http\Controllers\AdminController@
 
 Route::get('/find/{text?}', ['uses' => 'FindController@index', 'as' => 'find']);
 
-Route::get('/test', function () {
-  $fileNames = Illuminate\Support\Facades\Storage::files('/public/source');
-  $typeProduct = Modules\Files\Entities\TypeFile::where('name', 'image-product')->firstOrFail();
-  foreach($fileNames as $fileName) {
-    $file = new \Illuminate\Http\UploadedFile(storage_path('app/'.$fileName), basename($fileName));
-    $fileHandler = new  Modules\Files\Classes\ImageHandler();
-    $fileHandler->handling($file, $typeProduct->config);
-    $model = new \Modules\Files\Entities\File;
-  }
-});
+Route::get('/test', ['uses' => 'SiteController@products', 'as' => 'test.products']);
 
 //Route::get('/news/{slug}', '\Modules\News\Http\Controllers\NewsController@show');
 //Route::get('/{slug}', '\Modules\Page\Http\Controllers\PageController@show');

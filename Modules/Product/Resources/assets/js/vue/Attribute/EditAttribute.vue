@@ -141,7 +141,7 @@
       },
       onSubmit() {
         if (this.$refs.form.validate()) {
-          const data = _.pick(this.form, ['id','title', 'sort', 'active', 'attribute_type_id', 'attribute_group_id', 'attribute_unit_id'])
+          const data = _.pick(this.form, ['id','title', 'sort', 'active', 'attribute_type_id', 'attribute_group_id', 'filtered', 'attribute_unit_id'])
           this.isSending = true
           this.save(data).then(response => {
             this.isSending = false
