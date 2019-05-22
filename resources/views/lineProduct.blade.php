@@ -3,7 +3,7 @@
 @section('menu')
   <div class="menu-wrapper wrapper">
     <div class="abs-position">
-      <left-menu :prop-toggle="false"></left-menu>
+      <left-menu :prop-toggle="true"></left-menu>
     </div>
   </div>
 @endsection

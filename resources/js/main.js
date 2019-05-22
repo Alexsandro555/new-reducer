@@ -71,8 +71,8 @@ const app = new Vue({
       this.addCartItem({id, count})
       this.showCartModal()
     },
-    search() {
-      const text = this.searchText.replace('/','_')
+    search(event) {
+      const text = event.target.value.replace('/','_')
       window.location.href='/find/'+ text
       this.searchText = ''
     },

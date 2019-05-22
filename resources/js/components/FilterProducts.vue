@@ -122,6 +122,7 @@
         this.showCartModal()
       },
       selectItem(value,id) {
+        console.log('de')
         this.filterAttributes[id] = value;
 
         let filteredProducts = [...this.products]
