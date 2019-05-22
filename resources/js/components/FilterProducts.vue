@@ -90,7 +90,7 @@
     },
     computed: {
       getPagesElement() {
-        return _.take(_.takeRight(this.filteredProducts,this.page*16),16)
+        return _.slice(this.filteredProducts,(this.page-1)*16,this.page*16)
       },
       colPages() {
         return Math.floor(this.filteredProducts.length/16)+1
