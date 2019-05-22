@@ -25,23 +25,36 @@
         <v-layout row wrap>
           @if($model->lineProducts)
             @foreach($model->lineProducts as $lineProduct)
-              <v-container>
-                <v-layout row wrap>
-                  <v-flex xs12 text-xs-center>
-                    <v-card height="100px">
-                      <a class="line-product-elements" href="/catalog/{{$model->product_category->url_key}}/{{$model->url_key}}/{{$lineProduct->url_key}}">{{$lineProduct->title}}</a>
-                    </v-card>
-                  </v-flex>
-                </v-layout>
-              </v-container>
+              <div class="product-wrapper">
+                <div class="product">
+                  <div class="product-image-wrapper">
+                    <div class="product-image">
+                    </div>
+                  </div>
+                  <div class="product__title">
+                  <a class="line-product-elements" href="/catalog/{{$model->product_category->url_key}}/{{$model->url_key}}/{{$lineProduct->url_key}}">{{str_limit($lineProduct->title, $limit = 27, $end="...")}}</a>
+                  </div>
+                </div>
+              </div>
             @endforeach
           @endif
-          @include('products',['products' => $products])
+            @if($model->typeProducts)
+              @foreach($model->typeProducts as $typeProduct)
+                <div class="product-wrapper">
+                  <div class="product">
+                    <div class="product-image-wrapper">
+                      <div class="product-image">
+                      </div>
+                    </div>
+                    <div class="product__title">
+                      <a class="line-product-elements" href="/catalog/{{$model->url_key}}/{{$typeProduct->url_key}}">{{str_limit($typeProduct->title, $limit = 27, $end="...")}}</a>
+                    </div>
+                  </div>
+                </div>
+              @endforeach
+            @endif
         </v-layout>
       </v-flex>
-      <div class="content-links">
-        {{ $products->links() }}
-      </div>
     </div>
   </div>
   <div class="best-sale">

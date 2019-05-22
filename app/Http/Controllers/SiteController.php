@@ -63,15 +63,16 @@ class SiteController extends Controller
 
   public function lineProduct($slugProductCategory, $slugTypeProduct, $slug)
   {
-    $model = LineProduct::with('products.files')->where('url_key', $slug)->firstOrFail();
-    $products = Product::with(['files', 'lineProduct.files' => function($query) {
+    $model = LineProduct::where('url_key', $slug)->firstOrFail();
+    $products = Product::with(['attributes','files', 'lineProduct.files' => function($query) {
       $query->doesntHave('figure');
     }, 'typeProduct.files' => function($query) {
       $query->doesntHave('figure');
     }, 'productCategory.files' => function($query) {
       $query->doesntHave('figure');
-    }])->where('line_product_id', $model->id)->paginate(30);
-    return view('catalog', compact('model', 'products'));
+    }])->where('line_product_id', $model->id)->get();
+    $attributes = Attribute::with(['attributeListValue'])->where('attribute_type_id', 8)->where('filtered', 1)->get();
+    return view('lineProduct', compact('model', 'products', 'attributes'));
   }
 
   public function menuLeft() {
