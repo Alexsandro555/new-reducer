@@ -132,10 +132,12 @@
           })
         })
         this.filteredProducts = filteredProducts
+        this.page = 1
       },
       reset() {
         this.filteredProducts = this.products
         this.filterAttributes = []
+        this.page = 1
       },
       ...mapActions('cart',{addCartItem: ACTIONS.ADD_CART}),
       ...mapMutations('cart', {showCartModal: MUTATIONS.SHOW_MODAL})
