@@ -229,6 +229,11 @@ header {
   margin-top: -140px;
 }
 
+.margin-top-100 {
+  margin-top: -150px;
+  overflow: visible;
+}
+
 [v-cloak] .v-cloak--block {
   display: block;
   background: url("/images/cat-preloader.gif") center center no-repeat, #e19a2e;
@@ -418,7 +423,7 @@ header {
 }
 
 .content__product-margin {
-  margin-top: -160px;
+  margin-top: -180px;
   margin-bottom: 20px;
   overflow: visible;
   min-height: 450px;
@@ -430,6 +435,10 @@ header {
 
 .content__left-our-products {
   margin-left: 65px;
+}
+
+.breadcrumbs {
+  padding: 5px 12px;
 }
 
 .product-wrapper {
@@ -1380,7 +1389,6 @@ form div.content-right-order table tfoot tr td {
 
 .article__content {
   text-align: justify;
-  margin-left: 20px;
   font-size: 1.1em;
 }
 

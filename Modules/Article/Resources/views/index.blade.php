@@ -14,7 +14,7 @@
     <div class="articles">
         <div class="wrapper top20">
             <v-layout row wrap>
-                <v-flex xs12 class="text-xs-center margin-top-30">
+                <v-flex xs12 class="text-xs-center margin-top-100">
                     @foreach($articles as $article)
                         <div class="article--card__wrapper">
                             <v-card class="article--card">

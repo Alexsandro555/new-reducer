@@ -12,7 +12,7 @@
 
 @section('content')
   <div class="articles">
-    <div class="wrapper top20">
+    <div class="wrapper margin-top-100">
       <v-layout row wrap>
         <v-flex xs12 class="text-xs-left">
           <p class="about__head text-md-left">

@@ -23,9 +23,9 @@
           </v-layout>
         </v-flex>
         <v-flex xs12>
-          <v-layout row wrap>
-            <template v-if="filteredProducts.length>0">
-              <div class="product-wrapper" v-for="product in filteredProducts">
+          <v-layout column wrap>
+            <v-layout row wrap v-if="filteredProducts.length>0">
+              <div class="product-wrapper" v-for="product in getPagesElement">
               <div class="product">
                 <div class="product-image-wrapper">
                   <div class="product-image" @click="goPage('/catalog/detail/'+product.url_key)">
@@ -54,9 +54,12 @@
                 </v-layout>
               </div>
             </div>
-            </template>
+            </v-layout>
             <div v-else>
               <h2>Продукция с заданными параметрами не найдена</h2>
+            </div>
+            <div class="text-xs-center">
+              <v-pagination v-if="colPages > 0" v-model="page" :length="colPages"></v-pagination>
             </div>
           </v-layout>
         </v-flex>
@@ -81,7 +84,16 @@
     data() {
       return {
         filteredProducts: this.products,
-        filterAttributes: []
+        filterAttributes: [],
+        page: 1
+      }
+    },
+    computed: {
+      getPagesElement() {
+        return _.take(_.takeRight(this.filteredProducts,this.page*16),16)
+      },
+      colPages() {
+        return Math.floor(this.filteredProducts.length/16)
       }
     },
     methods: {
