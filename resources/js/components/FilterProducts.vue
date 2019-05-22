@@ -59,7 +59,7 @@
               <h2>Продукция с заданными параметрами не найдена</h2>
             </div>
             <div class="text-xs-center">
-              <v-pagination v-if="colPages > 0" v-model="page" :length="colPages"></v-pagination>
+              <v-pagination v-if="colPages > 1" v-model="page" :length="colPages"></v-pagination>
             </div>
           </v-layout>
         </v-flex>
@@ -93,7 +93,7 @@
         return _.take(_.takeRight(this.filteredProducts,this.page*16),16)
       },
       colPages() {
-        return Math.floor(this.filteredProducts.length/16)
+        return Math.floor(this.filteredProducts.length/16)+1
       }
     },
     methods: {
