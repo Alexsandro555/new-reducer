@@ -122,7 +122,7 @@
         this.showCartModal()
       },
       selectItem(value,id) {
-        console.log('de')
+        this.page = 1
         this.filterAttributes[id] = value;
 
         let filteredProducts = [...this.products]
@@ -132,12 +132,11 @@
           })
         })
         this.filteredProducts = filteredProducts
-        this.page = 1
       },
       reset() {
+        this.page = 1
         this.filteredProducts = this.products
         this.filterAttributes = []
-        this.page = 1
       },
       ...mapActions('cart',{addCartItem: ACTIONS.ADD_CART}),
       ...mapMutations('cart', {showCartModal: MUTATIONS.SHOW_MODAL})
