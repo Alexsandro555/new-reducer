@@ -15,7 +15,7 @@
                     item-text="title"
                     item-value="id"
                     no-data-text="Нет данных"
-                    :value="filterAttributes[attribute.id]"
+                    :value="attribute.value"
                     @change="selectItem($event,attribute.id)"></v-select>
               </v-flex>
               <v-flex align-self-center><v-btn color="success" @click="reset">Сбросить</v-btn></v-flex>
@@ -123,15 +123,25 @@
       },
       selectItem(value,id) {
         this.page = 1
-        this.filterAttributes[id] = value;
+        Vue.set(this.attributes.find(attribute => attribute.id === id), 'value', value)
+        //this.filterAttributes.$set(id, value)
 
-        let filteredProducts = [...this.products]
-        this.filterAttributes.forEach((value, id) => {
+        /*let filteredProducts = [...this.products]
+        this.attributes.forEach(attributeFiltr => {
           filteredProducts =  this.products.filter(product => {
-            return product.attributes.find(attribute => attribute.id === id && attribute.pivot.list_value === value)
+            return product.attributes.find(attribute => attribute.id === attributeFiltr.id && attribute.pivot.list_value === attributeFiltr.value)
           })
+        })*/
+        this.filteredProducts = this.products.filter(product => {
+          this.attributes.forEach(attribute => {
+            let result = product.attributes.find(attribute => attribute.id === id && attribute.pivot.list_value === value)
+            if(!result) return false
+          })
+          return true
         })
-        this.filteredProducts = filteredProducts
+        /*this.filteredProducts = this.filteredProducts.filter(product => {
+          return product.attributes.find(attribute => attribute.id === id && attribute.pivot.list_value === value)
+        })*/
       },
       reset() {
         this.page = 1
