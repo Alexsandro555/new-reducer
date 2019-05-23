@@ -2,25 +2,25 @@
   <v-container>
       <v-layout row wrap>
         <v-flex xs10>
-          <v-layout col wrap>
-            <v-flex pa-2 v-for="attribute in attributes" :key="attribute.id">
-                <v-select
-                  box
-                  height="10px"
-                  background-color="purple lighten-5"
-                  color="black"
-                  light
-                  :name="attribute.id+'_id'"
-                  :label="attribute.title"
-                  :items="attribute.attribute_list_value"
-                  item-text="title"
-                  item-value="id"
-                  no-data-text="Нет данных"
-                  :value="filterAttributes[attribute.id]"
-                  @change="selectItem($event,attribute.id)"></v-select>
-            </v-flex>
-            <v-flex><v-btn color="success" @click="reset">Сбросить</v-btn></v-flex>
-          </v-layout>
+          <v-container>
+            <v-layout align-end justify-center fill-height col>
+              <v-flex pa-2 v-for="attribute in attributes" :key="attribute.id">
+                  <v-select
+                    height="35px"
+                    color="black"
+                    light
+                    :name="attribute.id+'_id'"
+                    :label="attribute.title"
+                    :items="attribute.attribute_list_value"
+                    item-text="title"
+                    item-value="id"
+                    no-data-text="Нет данных"
+                    :value="filterAttributes[attribute.id]"
+                    @change="selectItem($event,attribute.id)"></v-select>
+              </v-flex>
+              <v-flex align-self-center><v-btn color="success" @click="reset">Сбросить</v-btn></v-flex>
+            </v-layout>
+          </v-container>
         </v-flex>
         <v-flex xs12>
           <v-layout column wrap>
