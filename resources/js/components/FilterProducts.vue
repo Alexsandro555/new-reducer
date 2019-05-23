@@ -150,7 +150,9 @@
       reset() {
         this.page = 1
         this.filteredProducts = this.products
-        this.filterAttributes = []
+        this.attributes.forEach(attribute => {
+          attribute.value = null
+        })
       },
       ...mapActions('cart',{addCartItem: ACTIONS.ADD_CART}),
       ...mapMutations('cart', {showCartModal: MUTATIONS.SHOW_MODAL})
