@@ -35,7 +35,7 @@
               <v-flex xs9>
                 <p class="headsite">
                   <span>Наша продукция</span><br>
-                  кто мы и что предлагаем
+                  <!--кто мы и что предлагаем-->
                 </p>
               </v-flex>
               <v-flex xs3 text-xs-right>

@@ -39,7 +39,7 @@
                   </div>
                   <div class="button-ask-sale__wrapper">
                     <div class="button-ask-sale__wrapper-2">
-                      <a class="button-ask-sale" href="#">Узнать скидку</a>
+                      <!--<a class="button-ask-sale" href="#">Узнать скидку</a>-->
                     </div>
                   </div>
                 </v-layout>
@@ -57,10 +57,11 @@
               @foreach($groups as $group)
                   <v-tab key="#tabs-group-{{$group->id}}">{{$group->title}}</v-tab>
                 @endforeach
+                <v-tab key="#description">Описание</v-tab>
                 @foreach($groups as $group)
                   <v-tab-item class="tabs-content" key="tabs-group-{{$group->id}}">
                     <v-card height="300px">
-                      <v-card-text>
+                      <v-card-text class="text-xs-left">
                         @foreach($product->attributes->filter(function($attribute, $key) use (&$group){
                             return $attribute->attribute_group_id == $group->id;
                           })->sortBy('sort')->chunk(10) as $chunkAttributes)
@@ -90,6 +91,21 @@
                     </v-card>
                   </v-tab-item>
                 @endforeach
+                <v-tab-item>
+                  <v-card height="300px">
+                    <v-card-text class="text-xs-left">
+                      @if($product->description)
+                        {{$product->description}}
+                      @elseif($product->lineProduct && $product->lineProduct->description)
+                        {{$product->lineProduct->description}}
+                      @elseif($product->typeProduct && $product->typeProduct->description)
+                        {{$product->typeProduct->description}}
+                      @elseif($product->productCategory && $product->productCategory->description)
+                        {{$product->productCategory->description}}
+                      @endif
+                    </v-card-text>
+                  </v-card>
+                </v-tab-item>
             </v-tabs>
           </div>
         </v-flex>
