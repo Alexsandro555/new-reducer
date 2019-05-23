@@ -123,7 +123,6 @@
       },
       selectItem(value,id) {
         this.page = 1
-        Vue.set(this.attributes.find(attribute => attribute.id === id), 'value', value)
         //this.filterAttributes.$set(id, value)
 
         /*let filteredProducts = [...this.products]
@@ -132,13 +131,18 @@
             return product.attributes.find(attribute => attribute.id === attributeFiltr.id && attribute.pivot.list_value === attributeFiltr.value)
           })
         })*/
-        this.filteredProducts = this.products.filter(product => {
-          this.attributes.forEach(attribute => {
-            let result = product.attributes.find(attribute => attribute.id === id && attribute.pivot.list_value === value)
-            if(!result) return false
-          })
-          return true
+        let filteredProducts = [...this.products]
+        this.attributes.forEach(attributeFiltered => {
+          if(attributeFiltered.value) {
+            filteredProducts = filteredProducts.filter(product => {
+              return product.attributes.find(attribute => attribute.id === attributeFiltered.id && attribute.pivot.list_value === attributeFiltered.value)
+            })
+          }
         })
+        this.filteredProducts = filteredProducts.filter(product => {
+          return product.attributes.find(attribute => attribute.id === id && attribute.pivot.list_value === value)
+        })
+        Vue.set(this.attributes.find(attribute => attribute.id === id), 'value', value)
         /*this.filteredProducts = this.filteredProducts.filter(product => {
           return product.attributes.find(attribute => attribute.id === id && attribute.pivot.list_value === value)
         })*/
