@@ -92,7 +92,9 @@ class SiteController extends Controller
   }
 
   public function products() {
-    $products = Product::with(['attributes','files', 'lineProduct.files' => function($query) {
+    $products = Product::with(['attributes' => function($query) {
+      $query->where('attribute_type_id', 8);
+    },'files', 'lineProduct.files' => function($query) {
       $query->doesntHave('figure');
     }, 'typeProduct.files' => function($query) {
       $query->doesntHave('figure');
