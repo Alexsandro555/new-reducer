@@ -11,7 +11,7 @@
           <v-list-group :value="false" class="menu-left__group" slot="activator">
             <v-list-tile slot="activator">
               <v-list-tile-content>
-                <v-list-tile-title  @click="goToPage('/catalog/'+productCategory.url_key)" >
+                <v-list-tile-title>
                   {{ productCategory.title }}
                 </v-list-tile-title>
               </v-list-tile-content>
