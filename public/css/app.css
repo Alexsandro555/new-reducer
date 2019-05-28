@@ -259,6 +259,15 @@ header {
   background: url("/images/menu-left-layer-img.png") left bottom no-repeat, url("/images/header-menu-line.png") top center repeat-x, white;
 }
 
+.menu-left__header {
+  font-family: "Gilroy-ExtraBold", sans-serif;
+  font-size: 1.2em;
+  text-transform: uppercase;
+  color: #29435c;
+  text-align: center;
+  padding: 10px;
+}
+
 .menu-left .v-list__group {
   width: 243px;
   padding: 0px;

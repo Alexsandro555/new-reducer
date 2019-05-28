@@ -11,14 +11,14 @@
           <v-list-group :value="false" class="menu-left__group" slot="activator">
             <v-list-tile slot="activator">
               <v-list-tile-content>
-                <v-list-tile-title>
+                <v-list-tile-title  @click="goToPage('/catalog/'+productCategory.url_key)" >
                   {{ productCategory.title }}
                 </v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>
             <v-list-tile v-for="typeProduct in productCategory.type_products" :key="typeProduct.id">
               <v-list-tile-content>
-                <v-list-tile-title @click="goToPage('/catalog/'+typeProduct.url_key)" class="menu-left-item-el"
+                <v-list-tile-title @click="goToPage('/catalog/'+productCategory.url_key+'/'+typeProduct.url_key)" class="menu-left-item-el"
                                    slot="activator">
                   <img src="/images/footer-list-mark.png"/>
                   {{ limit(typeProduct.title, 27)}}
@@ -32,7 +32,7 @@
                 <span class="sub-menu__header">{{typeProduct.title}}</span>
                 <v-list>
                   <v-list-tile class="sub-menu__list-tile" v-for="lineProduct in typeProduct.line_products" :key="lineProduct.id">
-                    <a :href="'/catalog/'+typeProduct.url_key+'/'+lineProduct.url_key">{{lineProduct.title}}</a>
+                    <a :href="'/catalog/'+productCategory.url_key+'/'+typeProduct.url_key+'/'+lineProduct.url_key">{{lineProduct.title}}</a>
                   </v-list-tile>
                 </v-list>
               </v-layout>
