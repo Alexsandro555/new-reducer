@@ -1,14 +1,6 @@
 <template>
   <div>
-    <a v-if="visible" href="#" id="popup__toggle" @click="close">
-      <!--<div class="circlephone" style="transform-origin: center;">
-      </div>
-      <div class="circle-fill" style="transform-origin: center;">
-      </div>
-      <div class="img-circle" style="transform-origin: center;">
-        <div class="img-circleblock" style="transform-origin: center;"></div>
-      </div>-->
-    </a>
+    <a v-if="visible" href="#" id="popup__toggle" @click="close"></a>
     <!--Окно обратного звонка-->
     <div :class="{callbackwindow: true, callbackhidden: !visible}">
       <div v-if="visible" id="btn-cllback"
