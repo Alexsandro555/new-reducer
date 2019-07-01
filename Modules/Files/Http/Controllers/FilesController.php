@@ -110,7 +110,7 @@ class FilesController extends Controller
       $query->where('fileable_id', $product->line_product_id)->where('fileable_type', LineProduct::class);
     })->orWhere(function ($query) use (&$product) {
       $query->where('fileable_id', $product->id)->where('fileable_type', Product::class);
-    })->get();
+    })->orderBy('sort','desc')->get();
   }
 
   public function figure($id, $type = 'medium', $product_id = null)

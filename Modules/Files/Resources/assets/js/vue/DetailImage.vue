@@ -13,8 +13,18 @@
         </v-container>
         <template v-else>
           <div class="image-wrapper">
-            <img v-if="curImage" :src="curImage"/>
+            <img v-if="curImage" @click.stop="dialog = true" :src="curImage"/>
             <img v-else src="/images/no-image.png"/>
+            <v-dialog
+              v-model="dialog"
+              max-width="1200"
+              >
+              <v-card>
+                <v-card-text class="text-xs-center">
+                  <img :src="getImage"/>
+                </v-card-text>
+              </v-card>
+            </v-dialog>
           </div>
           <div v-if="items.length>0" class="thumbnails-slider">
             <carousel :items="3" :nav="false" :dots="false" :margin="5">
@@ -57,7 +67,10 @@
         elements: [],
         items: [],
         curImage: '',
-        loading: true
+        loading: true,
+        dialog: false,
+        figure: false,
+        imageId: null
       }
     },
     mounted() {
@@ -68,6 +81,10 @@
         });
         // TODO:: утсранить дублирование
         this.curImage = this.items.length > 0 ? '/storage/' + this.elements[0].config.files.main.filename : null
+        if(this.elements[0].figure) {
+          this.figure = true
+        }
+        this.imageId = this.elements[0].id
         this.loading = false
       }).catch(error => {
         this.loading = false
@@ -76,11 +93,19 @@
     components: {
       carousel
     },
+    computed: {
+      getImage() {
+        if(this.figure) {
+          return '/files/figure/'+this.imageId+'/big/'+this.id
+        }
+        return this.curImage
+      }
+    },
     methods: {
       selectSlide: function (id, event) {
         this.elements.forEach(element => {
           if (element.id === id) {
-            if(element.figure.length > 0) {
+            /*if(element.figure.length > 0) {
               let config = {
                 url: '/files/figure/'+element.id+'/'+'main'+'/'+this.id,
                 method: 'GET',
@@ -95,12 +120,19 @@
               }).catch(error => {
                 console.log(error)
               })
-            }
+            }*/
             // TODO:: устранить дублирование
             this.curImage = '/storage/' + element.config.files.main.filename;
+            if(element.figure.length > 0) {
+              this.figure = true
+            }
+            else {
+              this.figure = false
+            }
+            this.imageId = element.id
           }
         });
-      }
+      },
     }
   }
 </script>

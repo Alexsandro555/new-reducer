@@ -29,10 +29,12 @@ class AddFormat
      */
     public function handle(FileFormatAdded $event)
     {
+      \Debugbar::info('start');
       $typeFile = $event->typeFile;
       $curTypeFile = $event->curTypeFile;
       $countFile = 0;
       // Проходим по всем файлам который имеют соответствующий тип файла
+      \Debugbar::info($event->typeFile);
       $files = File::where('type_file_id',$typeFile->id)->get();
       foreach ($files as $file) {
         foreach ($file->config as $key => $fileConfig) {
@@ -47,7 +49,8 @@ class AddFormat
           }
         }
       }
+      \Debugbar::info('AddFormat обработано '.$countFile.' файлов.');
       // завершение обработки всех файлов
-      Log::info('AddFormat обработано '.$countFile.' файлов.');
+      //Log::info('AddFormat обработано '.$countFile.' файлов.');
     }
 }

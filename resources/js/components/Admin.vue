@@ -124,6 +124,10 @@
           {
             text: 'Изображения',
             path: '/images'
+          },
+          {
+            text: 'Типы файлов',
+            path: '/type-file'
           }
         ]
       }

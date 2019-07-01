@@ -3,7 +3,7 @@
     <v-layout wrap row>
       <v-flex>
         <!--<edit-image :id="id" type="medium"/>-->
-        <edit-image :id="id" type="main"/>
+        <edit-image :id="id" type="big"/>
       </v-flex>
     </v-layout>
   </v-container>

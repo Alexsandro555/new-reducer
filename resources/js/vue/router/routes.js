@@ -32,6 +32,7 @@ import AttibutesAutoLoading from '@product/vue/Attribute/AttributesAutoLoading'
 import ProductImport from '@product/vue/Product/ProductImport'
 import Images from '@file/vue/Images'
 import EditImages from '@file/vue/EditImages'
+import TypeFile from '@file/vue/TypeFile'
 //const EditProducer = () => import('@product/vue/Producer/EditProducer')
 
 import store from '@/vuex/states'
@@ -238,6 +239,11 @@ export const routes = [
         name: 'edit-images',
         component: EditImages,
         props: true
+      },
+      {
+        path: '/type-file',
+        name: 'type-file',
+        component: TypeFile
       }
     ]
   }
