@@ -1,8 +1,8 @@
 <template>
   <div class="detail__image--wrapper">
-      <div v-if="stock" class="detail__image-label">
+      <!--<div v-if="stock" class="detail__image-label">
         Акция!
-      </div>
+      </div>-->
       <div class="detail__image">
         <v-container v-if="loading" fill-height>
           <v-layout row wrap align-center>
@@ -17,7 +17,7 @@
             <img v-else src="/images/no-image.png"/>
             <v-dialog
               v-model="dialog"
-              max-width="1200"
+              :max-width="figure?1200:350"
               >
               <v-card>
                 <v-card-text class="text-xs-center">
