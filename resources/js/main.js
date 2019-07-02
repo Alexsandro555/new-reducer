@@ -40,11 +40,15 @@ import Callback from '@callback/vue/callbacks/Callback.vue'
 import callback from '@callback/vuex/callbacks/state'
 Vue.component('callback', Callback)
 
+// Initializer
+import initializer from '@initializer/vuex/initializer/state'
+
 import cart from '@cart/vuex/store'
 const store = new Vuex.Store({
   modules: {
     cart,
-    callback
+    callback,
+    initializer,
   },
   mutations,
   getters
@@ -55,6 +59,10 @@ import NavigationMenu from '@initializer/vue/NavigationMenu'
 Vue.component('navigation-menu', NavigationMenu)
 import FilterProducts from '@/components/FilterProducts'
 Vue.component('filter-products', FilterProducts)
+
+// Order
+import OrderForm from '@order/vue/OrderForm'
+Vue.component('order-form', OrderForm)
 
 const app = new Vue({
   el: '#app',
