@@ -145,7 +145,7 @@
       },
       filteredValueAttributes(values) {
         return values.filter(value => {
-          let result = this.products.find(function(element) {
+          let result = this.filteredProducts.find(function(element) {
             return element.title.includes(value.title.replace(/,/i, '.'))
           })
           return !_.isUndefined(result)
