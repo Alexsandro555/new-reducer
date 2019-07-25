@@ -145,10 +145,8 @@
       filteredValueAttributes(values) {
         return values.filter(value => {
           let result = this.filteredProducts.find(function(element) {
-            //let searchWord = ` ${value.title.replace(/,/i, '.')} `
-            //let result = element.title.match(searchWord)
-            return !_.isNull(element.title.match(` ${value.title.replace(/,/i, '.')} `))
-            //return element.title.includes(value.title.replace(/,/i, '.'))
+            let regExp = RegExp(` ${value.title.replace(/,/i, '.')} `, "gi")
+            return !_.isNull(element.title.match(regExp))
           })
           return !_.isUndefined(result)
         })
