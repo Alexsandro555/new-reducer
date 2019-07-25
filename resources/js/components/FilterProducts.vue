@@ -147,7 +147,7 @@
         return values.filter(value => {
           let result = this.filteredProducts.find(function(element) {
             let searchWord = value.title.replace(/,/i, '.')
-            return element.title.match(/`${searchWord}`/)
+            return element.title.match(/` ${searchWord} `/ig)
           })
           return !_.isUndefined(result)
         })
