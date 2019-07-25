@@ -58,7 +58,7 @@
             <div v-else>
               <h2>Продукция с заданными параметрами не найдена</h2>
             </div>
-            <div class="text-xs-center">
+            <div class="text-xs-left pa-5">
               <v-pagination v-if="colPages > 1" v-model="page" :length="colPages"></v-pagination>
             </div>
           </v-layout>
@@ -124,7 +124,6 @@
       selectItem(value,id) {
         this.page = 1
         Vue.set(this.attributes.find(attribute => attribute.id === id), 'value', value)
-        //this.filterAttributes.$set(id, value)
 
         let filteredProducts = [...this.products]
         this.attributes.forEach(attributeFiltr => {
