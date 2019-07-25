@@ -146,6 +146,7 @@
         return values.filter(value => {
           let result = this.filteredProducts.find(function(element) {
             let regExp = RegExp(` ${value.title.replace(/,/i, '.')} `, "gi")
+            if(value.title == '56B5') console.log(value.title, element.title,  element.title.match(regExp))
             return !_.isNull(element.title.match(regExp))
           })
           return !_.isUndefined(result)
