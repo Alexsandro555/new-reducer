@@ -11,7 +11,7 @@
                     light
                     :name="attribute.id+'_id'"
                     :label="attribute.title"
-                    :items="attribute.attribute_list_value"
+                    :items="filteredValueAttributes(attribute.attribute_list_value)"
                     item-text="title"
                     item-value="id"
                     no-data-text="Нет данных"
@@ -94,7 +94,7 @@
       },
       colPages() {
         return Math.floor(this.filteredProducts.length/16)+1
-      },
+      }
     },
     methods: {
       getImages(product) {
@@ -135,27 +135,20 @@
           }
         })
         this.filteredProducts = [...filteredProducts]
-        /*let filteredProducts = [...this.products]
-        this.attributes.forEach(attributeFiltered => {
-          if(attributeFiltered.value) {
-            filteredProducts = filteredProducts.filter(product => {
-              return product.attributes.find(attribute => attribute.id === attributeFiltered.id && attribute.pivot.list_value === attributeFiltered.value)
-            })
-          }
-        })
-        this.filteredProducts = filteredProducts.filter(product => {
-          return product.attributes.find(attribute => attribute.id === id && attribute.pivot.list_value === value)
-        })
-        Vue.set(this.attributes.find(attribute => attribute.id === id), 'value', value)*/
-        /*this.filteredProducts = this.filteredProducts.filter(product => {
-          return product.attributes.find(attribute => attribute.id === id && attribute.pivot.list_value === value)
-        })*/
       },
       reset() {
         this.page = 1
         this.filteredProducts = this.products
         this.attributes.forEach(attribute => {
           attribute.value = null
+        })
+      },
+      filteredValueAttributes(values) {
+        return values.filter(value => {
+          let result = this.products.find(function(element) {
+            return element.title.includes(value.title.replace(/,/i, '.'))
+          })
+          return !_.isUndefined(result)
         })
       },
       ...mapActions('cart',{addCartItem: ACTIONS.ADD_CART}),

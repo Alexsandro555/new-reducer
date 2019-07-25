@@ -4,7 +4,7 @@
         <v-flex xs10 v-if="attributes.length > 0">
           <v-container>
             <v-layout align-end justify-center fill-height col>
-              <v-flex pa-2 v-for="attribute in attributes" :key="attribute.id">
+              <v-flex pa-2 v-for="attribute in filteredAttributes" :key="attribute.id">
                   <v-select
                     height="35px"
                     color="black"
@@ -62,7 +62,14 @@
         page: 1
       }
     },
+    mounted() {
+      console.log('Hi')
+    },
     computed: {
+      filteredAttributes() {
+        console.log('work')
+        return this.attributes.filter(attribute => this.searchAttribute(attribute))
+      },
       getPagesElement() {
         return _.slice(this.filteredProducts,(this.page-1)*16,this.page*16)
       },
@@ -120,6 +127,11 @@
         this.filteredProducts = this.products
         this.attributes.forEach(attribute => {
           attribute.value = null
+        })
+      },
+      searchAttribute(attribute) {
+        return this.products.find(function(currentValue, index, arr) {
+          currentValue.title.match(/attribute.title.*/)
         })
       },
       ...mapActions('cart',{addCartItem: ACTIONS.ADD_CART}),

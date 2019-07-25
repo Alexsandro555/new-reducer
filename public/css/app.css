@@ -618,7 +618,7 @@ header {
 
 .detail__image {
   width: 363px;
-  height: 450px;
+  height: 480px;
   top: 1px;
   left: 1px;
   background: url("/images/product-corner.png") top left no-repeat;
@@ -628,12 +628,12 @@ header {
 }
 
 .image-wrapper {
-  height: 320px;
   position: relative;
   display: table-cell;
   vertical-align: middle;
   text-align: center;
   width: inherit;
+  height: 350px;
 }
 
 .image-wrapper img {
