@@ -25,7 +25,7 @@
         <v-flex xs12>
           <v-layout column wrap>
             <v-layout row wrap v-if="filteredProducts.length>0">
-              <div class="product-wrapper" v-for="product in filteredProducts">
+              <div class="product-wrapper" v-for="product in filtProd">
                 <div class="product">
                   <div class="product-image-wrapper">
                     <div class="product-image" @click="goPage('/catalog/detail/'+product.url_key)">
@@ -95,15 +95,11 @@
       },
       colPages() {
         return Math.floor(this.filteredProducts.length/16)+1
-      }
-    },
-    watch: {
-      filteredProducts: function(val) {
-        this.handleAttributes(val)
       },
-      /*attributes: function(val) {
-        this.handleAttributes(val)
-      }*/
+      filtProd() {
+        this.handleAttributes(this.filteredProducts)
+        return this.filteredProducts
+      }
     },
     methods: {
       getImages(product) {
@@ -169,7 +165,6 @@
         })
       },
       handleAttribute(attribute) {
-        debugger
         if(this.attr[attribute.id]) {
           this.attr[attribute.id].count+=1
         }
