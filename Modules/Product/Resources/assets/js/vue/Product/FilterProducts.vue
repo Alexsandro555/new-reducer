@@ -98,18 +98,16 @@
         return Math.floor(this.filteredProducts.length/16)+1
       },
       compAttributes() {
-        return this.filteredProducts.forEach(item => {
-          let that = this
-          let result = item.attributes.filter(item => item.filtered == 1).reduce((acc, item, i) => {
-            acc[item.id] = {
-              attr: item,
-              count: that.attr[item.id]?that.attr[item.id]+1:0
-            }
-            return acc;
-          }, {})
-          console.log(result)
-          return ''
-        })
+       return this.filteredProducts.reduce((acc, item, i) => {
+         let attributes = item.attributes.filter(item => item.filtered == 1)
+         attributes.forEach(attribute => {
+           acc[attribute.id] = {
+             attr: item,
+             count: acc[attribute.id].count?acc[attribute.id].count+1:1
+           }
+         })
+         return acc
+       }, {})
       }
     },
     methods: {
