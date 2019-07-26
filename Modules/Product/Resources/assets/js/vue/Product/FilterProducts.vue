@@ -4,7 +4,7 @@
         <v-flex xs10 v-if="attributes.length > 0">
           <v-container>
             <v-layout align-end justify-center fill-height col>
-             <!-- <v-flex pa-2 v-for="attribute in filteredAttributes" :key="attribute.id">
+             <v-flex pa-2 v-for="attribute in attributes" :key="attribute.id">
                   <v-select
                     height="35px"
                     color="black"
@@ -18,7 +18,7 @@
                     :value="attribute.value"
                     @change="selectItem($event,attribute.id)"></v-select>
               </v-flex>
-              <v-flex align-self-center><v-btn color="success" @click="reset">Сбросить</v-btn></v-flex>-->
+              <v-flex align-self-center><v-btn color="success" @click="reset">Сбросить</v-btn></v-flex>
             </v-layout>
           </v-container>
         </v-flex>
@@ -99,7 +99,7 @@
       filtProd() {
         this.handleAttributes(this.filteredProducts)
         return this.filteredProducts
-      }
+      },
     },
     methods: {
       getImages(product) {
@@ -165,15 +165,17 @@
         })
       },
       handleAttribute(attribute) {
-        if(this.attr[attribute.id]) {
-          this.attr[attribute.id].count+=1
+        if(this.attr[attribute.pivot.list_value]) {
+          this.attr[attribute.pivot.list_value].count+=1
         }
         else {
-          this.attr[attribute.id] = {
+          this.attr[attribute.pivot.list_value] = {
             count: 1,
-            value: attribute
           }
         }
+        this.filterAttributes = [...this.attributes.map(attribute => {
+          return attribute.attribute_list_value.filter(list_value => this.attr[list_value].count > 0)
+        })]
       },
       ...mapActions('cart',{addCartItem: ACTIONS.ADD_CART}),
       ...mapMutations('cart', {showCartModal: MUTATIONS.SHOW_MODAL})
