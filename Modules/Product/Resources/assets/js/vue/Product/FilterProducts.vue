@@ -169,6 +169,7 @@
         })
       },
       handleAttribute(attribute) {
+        debugger
         if(this.attr[attribute.id]) {
           this.attr[attribute.id].count+=1
         }
