@@ -102,7 +102,7 @@
           let result = item.attributes.filter(item => item.filtered == 1).reduce((acc, item, i) => {
             acc[item.id] = {
               attr: item,
-              count: this.attr[item.id] + 1
+              count: this.attr[item.id]?this.attr[item.id]:0 + 1
             }
           }, {})
           console.log(result)
