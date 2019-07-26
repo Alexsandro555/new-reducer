@@ -99,11 +99,12 @@
       },
       compAttributes() {
         return this.filteredProducts.forEach(item => {
+          let that = this
           let result = item.attributes.filter(item => item.filtered == 1).reduce((acc, item, i) => {
             debugger
             acc[item.id] = {
               attr: item,
-              count: this.attr[item.id]?this.attr[item.id]+1:0
+              count: that.attr[item.id]?that.attr[item.id]+1:0
             }
           }, {})
           console.log(result)
