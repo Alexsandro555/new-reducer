@@ -103,7 +103,7 @@
          attributes.forEach(attribute => {
            acc[attribute.id] = {
              attr: item,
-             count: acc[attribute.id].count?acc[attribute.id].count+1:1
+             count: acc[attribute.id]?acc[attribute.id].count+1:1
            }
          })
          return acc
