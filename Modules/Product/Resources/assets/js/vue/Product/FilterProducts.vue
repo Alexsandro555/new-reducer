@@ -101,9 +101,9 @@
       filteredProducts: function(val) {
         this.handleAttributes(val)
       },
-      attributes: function(val) {
+      /*attributes: function(val) {
         this.handleAttributes(val)
-      }
+      }*/
     },
     methods: {
       getImages(product) {
@@ -169,7 +169,15 @@
         })
       },
       handleAttribute(attribute) {
-        this.attr[attribute.id]?this.attr.count+=1:1
+        if(this.attr[attribute.id]) {
+          this.attr[attribute.id].count+=1
+        }
+        else {
+          this.attr[attribute.id] = {
+            count: 1,
+            value: attribute
+          }
+        }
       },
       ...mapActions('cart',{addCartItem: ACTIONS.ADD_CART}),
       ...mapMutations('cart', {showCartModal: MUTATIONS.SHOW_MODAL})
