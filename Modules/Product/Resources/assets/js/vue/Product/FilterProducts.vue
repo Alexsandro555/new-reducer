@@ -101,6 +101,7 @@
         return this.filteredProducts.forEach(item => {
           let that = this
           let result = item.attributes.filter(item => item.filtered == 1).reduce((acc, item, i) => {
+            debugger
             acc[item.id] = {
               attr: item,
               count: that.attr[item.id]?that.attr[item.id]+1:0
