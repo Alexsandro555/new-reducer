@@ -4,7 +4,8 @@
         <v-flex xs10 v-if="attributes.length > 0">
           <v-container>
             <v-layout align-end justify-center fill-height col>
-              <v-flex pa-2 v-for="attribute in filteredAttributes" :key="attribute.id">
+             {{compAttributes}}
+             <!-- <v-flex pa-2 v-for="attribute in filteredAttributes" :key="attribute.id">
                   <v-select
                     height="35px"
                     color="black"
@@ -18,21 +19,47 @@
                     :value="attribute.value"
                     @change="selectItem($event,attribute.id)"></v-select>
               </v-flex>
-              <v-flex align-self-center><v-btn color="success" @click="reset">Сбросить</v-btn></v-flex>
+              <v-flex align-self-center><v-btn color="success" @click="reset">Сбросить</v-btn></v-flex>-->
             </v-layout>
           </v-container>
         </v-flex>
         <v-flex xs12>
           <v-layout column wrap>
             <v-layout row wrap v-if="filteredProducts.length>0">
-              <template v-for="product in getPagesElement">
-                <slot :product="product" :getImages="getImages" :addCart="addCart" :getUrl="getUrl"></slot>
-              </template>
+              <div class="product-wrapper" v-for="product in filteredProducts">
+                <div class="product">
+                  <div class="product-image-wrapper">
+                    <div class="product-image" @click="goPage('/catalog/detail/'+product.url_key)">
+                      <template v-if="getImages(product).length > 0">
+                        <img :src="'/storage/'+getImages(product)[0].config.files.medium.filename"/>
+                      </template>
+                      <template v-else>
+                        <img src="/images/no-image-medium.png"/>
+                      </template>
+                    </div>
+                  </div>
+                  <div class="product__title">
+                    <a :href="'/catalog/detail/'+product.url_key">
+                      {{product.title.substr(0, 27)+".."}}
+                    </a>
+                  </div>
+                  <v-layout row wrap>
+                    <v-flex xs8 text-xs-center>
+                      <br>
+                      <span class="product-price-wrapper">
+                    <span class="product-price">{{product.price}}</span> руб.</span>
+                    </v-flex>
+                    <v-flex xs4>
+                      <img @click="addCart(product.id)" src="/images/btn-sale.png"/>
+                    </v-flex>
+                  </v-layout>
+                </div>
+              </div>
             </v-layout>
             <div v-else>
-              <h2 class="not-found-product">Продукция с заданными параметрами не найдена</h2>
+              <h2>Продукция с заданными параметрами не найдена</h2>
             </div>
-            <div class="text-xs-center">
+            <div class="text-xs-left pa-5">
               <v-pagination v-if="colPages > 1" v-model="page" :length="colPages"></v-pagination>
             </div>
           </v-layout>
@@ -48,33 +75,40 @@
     props: {
       products: {
         type: Array,
-        default: () => []
+        default: []
       },
       attributes: {
         type: Array,
-        default: () => []
+        default: []
       }
     },
     data() {
       return {
         filteredProducts: this.products,
         filterAttributes: [],
-        page: 1
+        page: 1,
+        attr: {}
       }
     },
-    mounted() {
-      console.log('Hi')
-    },
     computed: {
-      filteredAttributes() {
-        return this.attributes.filter(attribute => this.searchAttribute(attribute))
-      },
       getPagesElement() {
         return _.slice(this.filteredProducts,(this.page-1)*16,this.page*16)
       },
       colPages() {
         return Math.floor(this.filteredProducts.length/16)+1
       },
+      compAttributes() {
+        return this.filteredProducts.forEach(item => {
+          let result = item.attributes.filter(item => item.filtered == 1).reduce((acc, item, i) => {
+            acc[item.id] = {
+              attr: item,
+              count: this.attr[item.id] + 1
+            }
+          }, {})
+          console.log(result)
+          return ''
+        })
+      }
     },
     methods: {
       getImages(product) {
@@ -101,11 +135,6 @@
         this.addCartItem({id, count})
         this.showCartModal()
       },
-      getUrl(item) {
-        let url = '/catalog/detail/'
-        url = url + item.url_key
-        return url
-      },
       selectItem(value,id) {
         this.page = 1
         Vue.set(this.attributes.find(attribute => attribute.id === id), 'value', value)
@@ -127,9 +156,13 @@
           attribute.value = null
         })
       },
-      searchAttribute(attribute) {
-        return this.products.find(function(currentValue, index, arr) {
-          currentValue.title.match(/attribute.title.*/)
+      filteredValueAttributes(values) {
+        return values.filter(value => {
+          let result = this.filteredProducts.find(function(element) {
+            let regExp = RegExp(` ${value.title.replace(/,/i, '.')}`, "gi")
+            return !_.isNull(element.title.match(regExp))
+          })
+          return !_.isUndefined(result)
         })
       },
       ...mapActions('cart',{addCartItem: ACTIONS.ADD_CART}),

@@ -76,19 +76,10 @@ class SiteController extends Controller
       $query->doesntHave('figure');
     }])->where('line_product_id', $model->id)->where('active',1)->get();
     $attributes = Attribute::with(['attributeListValue'])->where('attribute_type_id', 8)->where('filtered', 1)->where('active',1)->get();
-    $attributes->each(function($attribute) use ($products) {
-      $sum = $attribute->products->whereIn('id', $products->pluck('id')->toArray())->count();
-      $attribute->attribute_count = $sum;
-    });
     return view('lineProduct', compact('model', 'products', 'attributes'));
   }
 
   public function menuLeft() {
-    /*return ProductCategory::with(['typeProducts' => function($query) {
-      $query->where('active',1)->orderBy('sort');
-    }, 'typeProducts.lineProducts' => function($query) {
-      $query->where('active', 1)->orderBy('sort');
-    }])->where('active',1)->get();*/
     return ProductCategory::with(['typeProducts' => function($query) {
       $query->orderBy('sort');
     }, 'typeProducts.lineProducts' => function($query) {
@@ -113,10 +104,6 @@ class SiteController extends Controller
       $query->doesntHave('figure');
     }])->where('product_category_id', 2)->get();
     $attributes = Attribute::with(['attributeListValue'])->where('attribute_type_id', 8)->where('filtered', 1)->get();
-    /*$attributes = ProductCategory::with(['attributes.attributeListValue', 'attributes' => function($query) {
-      dd($query);
-      $query->where('attribute_type_id' === 8);
-    }])->find(2)->attributes;*/
     return view('test', compact('products', 'attributes'));
   }
 }
