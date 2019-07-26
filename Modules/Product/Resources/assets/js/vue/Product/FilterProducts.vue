@@ -67,7 +67,6 @@
     },
     computed: {
       filteredAttributes() {
-        console.log('work')
         return this.attributes.filter(attribute => this.searchAttribute(attribute))
       },
       getPagesElement() {
@@ -110,7 +109,6 @@
       selectItem(value,id) {
         this.page = 1
         Vue.set(this.attributes.find(attribute => attribute.id === id), 'value', value)
-        //this.filterAttributes.$set(id, value)
 
         let filteredProducts = [...this.products]
         this.attributes.forEach(attributeFiltr => {

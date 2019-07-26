@@ -68,7 +68,7 @@ class SiteController extends Controller
   public function lineProduct($slugProductCategory, $slugTypeProduct, $slug)
   {
     $model = LineProduct::where('url_key', $slug)->firstOrFail();
-    $products = Product::with(['attributes','files', 'lineProduct.files' => function($query) {
+    $products = Product::withCount('attributes')->with(['files', 'lineProduct.files' => function($query) {
       $query->doesntHave('figure');
     }, 'typeProduct.files' => function($query) {
       $query->doesntHave('figure');
