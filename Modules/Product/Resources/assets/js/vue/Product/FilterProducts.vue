@@ -4,7 +4,6 @@
         <v-flex xs10 v-if="attributes.length > 0">
           <v-container>
             <v-layout align-end justify-center fill-height col>
-             {{compAttributes}}
              <!-- <v-flex pa-2 v-for="attribute in filteredAttributes" :key="attribute.id">
                   <v-select
                     height="35px"
@@ -96,18 +95,14 @@
       },
       colPages() {
         return Math.floor(this.filteredProducts.length/16)+1
+      }
+    },
+    watch: {
+      filteredProducts: function(val) {
+        this.handleAttributes(val)
       },
-      compAttributes() {
-       return this.filteredProducts.reduce((acc, item, i) => {
-         let attributes = item.attributes.filter(item => item.filtered == 1)
-         attributes.forEach(attribute => {
-           acc[attribute.id] = {
-             attr: item,
-             count: acc[attribute.id]?acc[attribute.id].count+1:1
-           }
-         })
-         return acc
-       }, {})
+      attributes: function(val) {
+        this.handleAttributes(val)
       }
     },
     methods: {
@@ -164,6 +159,17 @@
           })
           return !_.isUndefined(result)
         })
+      },
+      handleAttributes(products) {
+        products.forEach(item => {
+          let attributes = item.attributes.filter(item => item.filtered == 1)
+          attributes.forEach(attribute => {
+            this.handleAttribute(attribute)
+          })
+        })
+      },
+      handleAttribute(attribute) {
+        this.attr[attribute.id]?this.attr.count+=1:1
       },
       ...mapActions('cart',{addCartItem: ACTIONS.ADD_CART}),
       ...mapMutations('cart', {showCartModal: MUTATIONS.SHOW_MODAL})
