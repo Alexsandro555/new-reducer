@@ -157,7 +157,7 @@
         })
       },
       handleAttributes(products) {
-        console.log('handle attributes')
+        this.attrListCount = {}
         products.forEach(item => {
           let attributes = item.attributes.filter(item => item.filtered == 1 && item.attribute_type_id == 8)
           attributes.forEach(attribute => {
@@ -175,7 +175,7 @@
       },
       itemText(item) {
         console.log('handle text')
-        return this.attrListCount[item.id]?item.title + ' ('+this.attrListCount[item.id]+')':null
+        return this.attrListCount[item.id]?item.title + ' ('+this.attrListCount[item.id]+')':''
       },
       ...mapActions('cart',{addCartItem: ACTIONS.ADD_CART}),
       ...mapMutations('cart', {showCartModal: MUTATIONS.SHOW_MODAL})
