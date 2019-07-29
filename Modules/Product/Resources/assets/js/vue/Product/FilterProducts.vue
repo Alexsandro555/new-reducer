@@ -11,7 +11,7 @@
                     light
                     :name="attribute.id+'_id'"
                     :label="attribute.title"
-                    :items="attribute.attribute_list_value"
+                    :items="filterItems(attribute.attribute_list_value)"
                     :item-text="itemText"
                     item-value="id"
                     no-data-text="Нет данных"
@@ -174,7 +174,10 @@
         }
       },
       itemText(item) {
-        if(this.attrListCount[item.id]) return item.title + ' ('+this.attrListCount[item.id]+')'
+        return item.title + ' ('+this.attrListCount[item.id]+')'
+      },
+      filterItems(items) {
+        return items.filter(item => !_.isUndefined(this.attrListCount(item.id)))
       },
       ...mapActions('cart',{addCartItem: ACTIONS.ADD_CART}),
       ...mapMutations('cart', {showCartModal: MUTATIONS.SHOW_MODAL})
