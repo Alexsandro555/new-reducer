@@ -12,7 +12,7 @@
                     :name="attribute.id+'_id'"
                     :label="attribute.title"
                     :items="attribute.attribute_list_value"
-                    :item-text="item => item.title + '('+attrListCount[attribute.value]+')'"
+                    :item-text="itemText(attribute)"
                     item-value="id"
                     no-data-text="Нет данных"
                     :value="attribute.value"
@@ -171,6 +171,10 @@
         else {
             this.attrListCount[attribute.pivot.list_value]=1
         }
+      },
+      itemText(item, attribute) {
+        console.log(item, attribute)
+        return item.title + '('+this.attrListCount[attribute.value]+')'
       },
       ...mapActions('cart',{addCartItem: ACTIONS.ADD_CART}),
       ...mapMutations('cart', {showCartModal: MUTATIONS.SHOW_MODAL})
