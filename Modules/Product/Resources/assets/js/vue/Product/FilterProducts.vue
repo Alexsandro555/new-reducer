@@ -177,6 +177,7 @@
         return item.title + ' ('+this.attrListCount[item.id]+')'
       },
       filterItems(items) {
+        console.log('work')
         return items.filter(item => !_.isUndefined(this.attrListCount(item.id)))
       },
       ...mapActions('cart',{addCartItem: ACTIONS.ADD_CART}),
