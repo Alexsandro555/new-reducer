@@ -172,9 +172,9 @@
             this.attrListCount[attribute.pivot.list_value]=1
         }
       },
-      itemText(item, attribute) {
+      itemText(item) {
         console.log(item, attribute)
-        return item.title + '('+this.attrListCount[attribute.value]+')'
+        return item.title + '('+this.attrListCount[item.id]+')'
       },
       ...mapActions('cart',{addCartItem: ACTIONS.ADD_CART}),
       ...mapMutations('cart', {showCartModal: MUTATIONS.SHOW_MODAL})
