@@ -86,7 +86,7 @@
         filteredProducts: this.products,
         filterAttributes: [],
         page: 1,
-        attr: {}
+        attrListCount: {}
       }
     },
     computed: {
@@ -158,24 +158,21 @@
       },
       handleAttributes(products) {
         products.forEach(item => {
-          let attributes = item.attributes.filter(item => item.filtered == 1)
+          let attributes = item.attributes.filter(item => item.filtered == 1 && item.attribute_type_id == 8)
           attributes.forEach(attribute => {
             this.handleAttribute(attribute)
           })
         })
       },
       handleAttribute(attribute) {
-        if(this.attr[attribute.pivot.list_value]) {
-          this.attr[attribute.pivot.list_value].count+=1
+        if(this.attrListCount[attribute.pivot.list_value]) {
+          this.attrListCount[attribute.pivot.list_value]+=1
         }
         else {
-          this.attr[attribute.pivot.list_value] = {
-            count: 1,
+          this.attrListCount[attribute.pivot.list_value] = {
+            this.attrListCount[attribute.pivot.list_value] = 1
           }
         }
-        this.filterAttributes = [...this.attributes.map(attribute => {
-          return attribute.attribute_list_value.filter(list_value => this.attr[list_value].count > 0)
-        })]
       },
       ...mapActions('cart',{addCartItem: ACTIONS.ADD_CART}),
       ...mapMutations('cart', {showCartModal: MUTATIONS.SHOW_MODAL})
