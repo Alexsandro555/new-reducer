@@ -12,7 +12,7 @@
                     :name="attribute.id+'_id'"
                     :label="attribute.title"
                     :items="attribute.attribute_list_value"
-                    :item-text="'title ('+attrListCount[attribute.value]+')'"
+                    :item-text="item => item.title + '('+attrListCount[attribute.value]+')'"
                     item-value="id"
                     no-data-text="Нет данных"
                     :value="attribute.value"
