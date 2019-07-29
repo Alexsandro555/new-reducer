@@ -157,6 +157,7 @@
         })
       },
       handleAttributes(products) {
+        console.log('handleAttributes')
         products.forEach(item => {
           let attributes = item.attributes.filter(item => item.filtered == 1 && item.attribute_type_id == 8)
           attributes.forEach(attribute => {
