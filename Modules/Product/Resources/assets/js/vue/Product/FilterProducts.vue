@@ -174,8 +174,7 @@
         }
       },
       itemText(item) {
-        console.log('handle text')
-        return this.attrListCount[item.id]?item.title + ' ('+this.attrListCount[item.id]+')':''
+        if(this.attrListCount[item.id]) return item.title + ' ('+this.attrListCount[item.id]+')'
       },
       ...mapActions('cart',{addCartItem: ACTIONS.ADD_CART}),
       ...mapMutations('cart', {showCartModal: MUTATIONS.SHOW_MODAL})
