@@ -173,8 +173,7 @@
         }
       },
       itemText(item) {
-        console.log(item)
-        return item.title + '('+this.attrListCount[item.id]+')'
+        return this.attrListCount[item.id]?item.title + ' ('+this.attrListCount[item.id]+')':null
       },
       ...mapActions('cart',{addCartItem: ACTIONS.ADD_CART}),
       ...mapMutations('cart', {showCartModal: MUTATIONS.SHOW_MODAL})
