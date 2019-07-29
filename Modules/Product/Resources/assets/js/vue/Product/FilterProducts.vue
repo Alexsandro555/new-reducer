@@ -12,7 +12,7 @@
                     :name="attribute.id+'_id'"
                     :label="attribute.title"
                     :items="attribute.attribute_list_value"
-                    item-text="title"
+                    :item-text="'title ('+attrListCount[attribute.value]+')'"
                     item-value="id"
                     no-data-text="Нет данных"
                     :value="attribute.value"
@@ -169,9 +169,7 @@
           this.attrListCount[attribute.pivot.list_value]+=1
         }
         else {
-          this.attrListCount[attribute.pivot.list_value] = {
-            this.attrListCount[attribute.pivot.list_value] = 1
-          }
+            this.attrListCount[attribute.pivot.list_value]=1
         }
       },
       ...mapActions('cart',{addCartItem: ACTIONS.ADD_CART}),
