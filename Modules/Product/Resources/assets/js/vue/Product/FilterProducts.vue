@@ -5,7 +5,34 @@
           <v-container>
             <v-layout align-end justify-center fill-height col>
              <v-flex pa-2 v-for="attribute in attributes" :key="attribute.id">
-                  <v-select
+               <v-autocomplete
+                 :name="attribute.id+'_id'"
+                 :items="filterItems(attribute.attribute_list_value)"
+                 color="black"
+                 hide-no-data
+                 :item-text="itemText"
+                 item-value="id"
+                 :menu-props="{maxHeight: '400'}"
+                 :label="attribute.title"
+                 multiple
+                 persistent-hint
+                 chips
+                 no-data-text="Нет данных"
+                 :value="attribute.value"
+                 @change="selectItem($event,attribute.id)"
+                 placeholder="Введите название для поиска">
+                 <template slot="selection" slot-scope="data">
+                   <v-chip
+                     close
+                     @input="data.parent.selectItem(data.item)"
+                     :selected="data.selected"
+                     class="chip--select-multi"
+                     :key="JSON.stringify(data.item)">
+                     {{ data.item.title }}
+                   </v-chip>
+                 </template>
+               </v-autocomplete>
+                  <!--<v-select
                     height="35px"
                     color="black"
                     light
@@ -17,7 +44,7 @@
                     no-data-text="Нет данных"
                     :value="attribute.value"
                     @change="selectItem($event,attribute.id)">
-                  </v-select>
+                  </v-select>-->
               </v-flex>
               <v-flex align-self-center><v-btn color="success" @click="reset">Сбросить</v-btn></v-flex>
             </v-layout>
