@@ -1,5 +1,5 @@
 footer {
-  height: 355px;
+  min-height: 355px;
   background: url('#{$path}/footer-bottom-menu-layout.png') bottom center repeat-x, url('#{$path}/footer-blure-image.png') right 45% top repeat-y, url('#{$path}/footer.png') top left 35% no-repeat, url('#{$path}/footer-layout-img.png') right top repeat,  url('#{$path}/footer-layout-left-main-img.png') left top repeat;
 }
 .footers {

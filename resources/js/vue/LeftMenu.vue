@@ -21,7 +21,7 @@
                 <v-list-tile-title @click="goToPage('/catalog/'+productCategory.url_key+'/'+typeProduct.url_key)" class="menu-left-item-el"
                                    slot="activator">
                   <img src="/images/footer-list-mark.png"/>
-                  {{ limit(typeProduct.title, 27)}}
+                  {{ typeProduct.title }}
                 </v-list-tile-title>
               </v-list-tile-content>
             </v-list-tile>

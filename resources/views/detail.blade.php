@@ -3,12 +3,10 @@
 @section('content')
   <div class="content">
     <div class="wrapper detail content__product-margin">
-      <div class="breadcrumbs">
-        <div class="wrapper">
+      <div class="breadcrumbs text-xs-left">
           <v-flex xs12 text-xs-left>
             {{ Breadcrumbs::render() }}
           </v-flex>
-        </div>
       </div>
       <v-layout row wrap>
         <v-flex xs2 style="padding-left: 24px">

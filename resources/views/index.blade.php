@@ -112,7 +112,7 @@
   <div class="about">
     <div class="wrapper about__content">
       <v-layout row wrap>
-        <v-flex xs3 class="hidden-md-and-down">
+        <v-flex md3 class="hidden-md-and-down">
           <p class="about__brands">
             Наши бренды
           </p>
@@ -140,7 +140,7 @@
             <img src="{{asset('images/about-social-y.png')}}"/>
           </a>
         </v-flex>
-        <v-flex xs6 text-xs-left pa-2 class="about__info">
+        <v-flex xs12 md6 text-xs-left pa-2 class="about__info">
           <p class="about__head">
             <span>О компании</span><br>
             особенности покупки в нашем магазине
@@ -164,7 +164,7 @@
             <v-list-tile>Возможна оплата наличными при доставке на объект Заказчика.</v-list-tile>
           </v-list>-->
         </v-flex>
-        <v-flex xs3 text-xs-center>
+        <v-flex xs3 text-xs-center class="hidden-md-and-down">
           <div text-xs-center>
             <div class="product-wrapper">
               <div class="product__lable-sale">
@@ -202,7 +202,7 @@
   <div class="news">
     <div class="wrapper news__content">
       <v-layout row wrap>
-        <v-flex xs8 text-xs-left>
+        <v-flex px-3 xs12 md8 text-xs-left>
           <v-layout row wrap>
             <v-flex xs8>
               <p class="about__head">
@@ -224,7 +224,7 @@
             @endforeach
           </v-layout>
         </v-flex>
-        <v-flex xs4>
+        <v-flex class="hidden-md-and-down" xs4>
           <div class="news__big-image">
             <img src="{{asset('images/big-electric-motor.png')}}"/>
           </div>

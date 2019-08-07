@@ -1,7 +1,21 @@
 .abs-position {
   position: absolute;
   margin-top: -880px;
+
 }
+
+@media (max-width: 1024px) {
+  .abs-position  {
+    margin-left: -500px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .abs-position  {
+    margin-left: -600px;
+  }
+}
+
 .menu-left {
   width: 243px;
   background:  url('#{$path}/menu-left-layer-img.png') left bottom no-repeat, url('#{$path}/header-menu-line.png') top center repeat-x, rgba(255,255,255,1) ;
@@ -21,17 +35,12 @@
   padding: 0px;
 }
 
-.v-menu__activator--active {
-  //background-color: $color-blue;
-  //color: $color-white;
-}
-
 .menu-left .v-list__group.menu-left__group:hover {
   background-color: $color-blue;
   color: $color-white;
 }
 
-.menu-left  .v-list__group__items .v-list__tile:hover {
+.menu-left .v-list__group__items .v-list__tile:hover {
   background-color: $color-blue-dark;
   color: $color-white;
 }
