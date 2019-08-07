@@ -9,15 +9,15 @@
           </v-flex>
       </div>
       <v-layout row wrap>
-        <v-flex xs2 style="padding-left: 24px">
+        <v-flex xs3 style="padding-left: 24px">
           <left-menu></left-menu>
         </v-flex>
-        <v-flex offset-xs1 xs8>
+        <v-flex px-3 xs8>
           <v-layout row wrap>
             <v-flex xs6>
               <detail-image :stock="{{$product->special?$product->special:'false'}}" :url="'/files/product-image/{{$product->id}}'" :id="{{$product->id}}"/>
             </v-flex>
-            <v-flex xs6 class="detail__info" text-xs-left>
+            <v-flex xs6 px-4 class="detail__info" text-xs-left>
               <h1>{{$product->title}}</h1>
               <span style="line-height: 1.2">{{$product->vendor}} описание</span><br>
               <img src="{{asset('images/heading.png')}}"/><br><br>
