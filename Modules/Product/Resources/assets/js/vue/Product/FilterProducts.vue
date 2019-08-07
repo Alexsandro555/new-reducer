@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container style="padding: 10px">
       <v-layout row wrap>
         <v-flex xs10 v-if="attributes.length > 0">
           <v-container>
