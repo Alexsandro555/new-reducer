@@ -26,7 +26,7 @@
         <v-flex xs12>
           <v-layout column wrap>
             <v-layout row wrap v-if="filteredProducts.length>0">
-              <div class="product-wrapper" v-for="product in filteredProducts">
+              <div class="product-wrapper" v-for="product in getPagesElement">
                 <div class="product">
                   <div class="product-image-wrapper">
                     <div class="product-image" @click="goPage('/catalog/detail/'+product.url_key)">
@@ -93,7 +93,7 @@
     },
     computed: {
       getPagesElement() {
-        return _.slice(this.filteredProducts,(this.page-1)*this.perPage,this.perPage)
+        return _.slice(this.filtProd,(this.page-1)*this.perPage,this.perPage)
       },
       colPages() {
         return Math.floor(this.filteredProducts.length/this.perPage)+1
