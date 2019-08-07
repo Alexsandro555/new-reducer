@@ -1,5 +1,5 @@
 <template>
-  <v-container style="padding: 10px">
+  <v-container>
       <v-layout row wrap>
         <v-flex xs10 v-if="attributes.length > 0">
           <v-container>
@@ -16,7 +16,8 @@
                     item-value="id"
                     no-data-text="Нет данных"
                     :value="attribute.value"
-                    @change="selectItem($event,attribute.id)"></v-select>
+                    @change="selectItem($event,attribute.id)">
+                  </v-select>
               </v-flex>
               <v-flex align-self-center><v-btn color="success" @click="reset">Сбросить</v-btn></v-flex>
             </v-layout>
@@ -59,7 +60,7 @@
               <h2>Продукция с заданными параметрами не найдена</h2>
             </div>
             <div class="text-xs-left pa-5">
-              <v-pagination v-if="colPages > 1" v-model="page" :length="colPages"></v-pagination>
+              <v-pagination v-if="colPages > 1" :total-visible="7" v-model="page" :length="colPages"></v-pagination>
             </div>
           </v-layout>
         </v-flex>
@@ -86,15 +87,16 @@
         filteredProducts: this.products,
         filterAttributes: [],
         page: 1,
-        attrListCount: {}
+        attrListCount: {},
+        perPage: 12
       }
     },
     computed: {
       getPagesElement() {
-        return _.slice(this.filteredProducts,(this.page-1)*16,this.page*16)
+        return _.slice(this.filteredProducts,(this.page-1)*this.perPage,this.perPage)
       },
       colPages() {
-        return Math.floor(this.filteredProducts.length/16)+1
+        return Math.floor(this.filteredProducts.length/this.perPage)+1
       },
       filtProd() {
         this.handleAttributes(this.filteredProducts)
@@ -182,6 +184,5 @@
       ...mapActions('cart',{addCartItem: ACTIONS.ADD_CART}),
       ...mapMutations('cart', {showCartModal: MUTATIONS.SHOW_MODAL})
     }
-
   }
 </script>
