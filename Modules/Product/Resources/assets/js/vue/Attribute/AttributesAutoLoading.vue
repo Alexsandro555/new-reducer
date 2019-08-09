@@ -2,14 +2,14 @@
   <v-container>
     <v-layout align-center justify-center full-height wrap row>
       <v-flex>
-        <v-progress-circular v-if="isLoading" indeterminate :size="100" color="primary"></v-progress-circular>
-        <v-card v-else>
+        <v-card>
           <v-card-title>
             <h1>Загрузка атрибутов</h1>
           </v-card-title>
           <v-card-text>
             <v-alert :type="status.type" :value="status.type">{{status.message}}</v-alert>
-            <v-flex xs12>
+            <v-progress-circular v-if="isLoading" indeterminate :size="100" color="primary"></v-progress-circular>
+            <v-flex v-else xs12>
               <v-form ref="form-attributes" lazy-validation v-model="valid">
                 <v-autocomplete
                   v-model="form.productIds"
@@ -59,10 +59,10 @@
                     </v-chip>
                   </template>
                 </v-autocomplete>
-                <v-checkbox
+                <!--<v-checkbox
                   label="Атрибуты по-горизонтали"
                   v-model="form.direction">
-                </v-checkbox>
+                </v-checkbox>-->
                 <v-flex xs12>
                   <v-expansion-panel>
                     <v-expansion-panel-content>
@@ -90,7 +90,10 @@
                 </v-flex>
               </v-form>
             </v-flex>
-            <v-flex xs12>
+            <br><br><br>
+            <v-flex class="text-xs-left">
+              <h2>Загрузка PDF</h2>
+              <hr><br><br>
               <v-form ref="form" lazy-validation v-model="valid">
                 <input type="file" ref="pdf" @change="onUpload" style="display: none"/>
                 <v-btn
@@ -178,9 +181,11 @@
             this.status.message = 'Не выбраны значения атрибутов'
             this.status.type = 'error'
             return
+          } else {
+            this.status.message = ''
+            this.status.type = null
           }
           this.save(Object.assign({}, this.form, {values: JSON.stringify(this.parameters)}))
-          //this.form = Object.assign({}, this.defaultForm)
           this.parameters = []
         }
       },
@@ -249,6 +254,9 @@
           }
           this.loading = false;
           this.ts = new TableSelection();
+        }).catch(error => {
+          this.loading = false;
+          console.error(error)
         })
       },
       ...mapActions('products', { load: GLOBAL.LOAD }),

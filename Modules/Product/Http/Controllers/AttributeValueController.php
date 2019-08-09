@@ -62,7 +62,7 @@ class AttributeValueController extends Controller
     if(!$values) return abort(404);
 
     // атрибуты по-горизонтали
-    if ($request->direction) {
+   // if ($request->direction) {
       $row = [];
       $products = Product::find($request->productIds);
       foreach($products as $product) {
@@ -80,7 +80,7 @@ class AttributeValueController extends Controller
           }
         }
       }
-    }
+    /*}
     else
     {
       $attributes = Attribute::find($request->attributeIds);
@@ -100,7 +100,7 @@ class AttributeValueController extends Controller
         $temp = next($values);
         $row = ($temp)?$temp:reset($values);
       }
-    }
+    }*/
     return AttributeValue::all();
   }
 }
