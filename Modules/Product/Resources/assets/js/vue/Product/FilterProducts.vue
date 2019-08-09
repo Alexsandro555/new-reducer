@@ -1,58 +1,37 @@
 <template>
-  <v-container>
       <v-layout row wrap>
-        <v-flex xs10 v-if="attributes.length > 0">
-          <v-container>
-            <v-layout align-end justify-center fill-height col>
-             <v-flex pa-2 v-for="attribute in attributes" :key="attribute.id">
-               <v-autocomplete
-                 :name="attribute.id+'_id'"
-                 :items="filterItems(attribute.attribute_list_value)"
-                 color="black"
-                 hide-no-data
-                 :item-text="itemText"
-                 item-value="id"
-                 :menu-props="{maxHeight: '400'}"
-                 :label="attribute.title"
-                 multiple
-                 persistent-hint
-                 chips
-                 no-data-text="Нет данных"
-                 :value="attribute.value"
-                 @change="selectItem($event,attribute.id)"
-                 placeholder="Введите название для поиска">
-                 <template slot="selection" slot-scope="data">
-                   <v-chip
-                     close
-                     @input="data.parent.selectItem(data.item)"
-                     :selected="data.selected"
-                     class="chip--select-multi"
-                     :key="JSON.stringify(data.item)">
-                     {{ data.item.title }}
-                   </v-chip>
-                 </template>
-               </v-autocomplete>
-                  <!--<v-select
-                    height="35px"
-                    color="black"
-                    light
-                    :name="attribute.id+'_id'"
-                    :label="attribute.title"
-                    :items="filterItems(attribute.attribute_list_value)"
-                    :item-text="itemText"
-                    item-value="id"
-                    no-data-text="Нет данных"
-                    :value="attribute.value"
-                    @change="selectItem($event,attribute.id)">
-                  </v-select>-->
+        <v-flex xs12 v-if="attributes.length > 0">
+            <v-layout align-start justify-start fill-height col>
+              <v-flex pa-3 xs3 v-for="attribute in attributes" :key="attribute.id">
+                <v-select
+                  :label="attribute.title"
+                  :items="filterItems(attribute.attribute_list_value)"
+                  :value="selectAttributesValues[attribute.id]"
+                  @change="selectItem($event,attribute.id)"
+                  multiple
+                  :menu-props="{maxHeight: '400'}"
+                  :item-text="itemText"
+                  item-value="id"
+                  no-data-text="Нет данных"
+                  attach
+                  chips>
+                  <template slot="selection" slot-scope="data">
+                    <v-chip
+                      close
+                      @input="data.parent.selectItem(data.item)"
+                      :selected="data.selected"
+                      class="chip--select-multi"
+                      :key="JSON.stringify(data.item)">
+                      {{ data.item.title }}
+                    </v-chip>
+                  </template>
+                </v-select>
               </v-flex>
-              <v-flex align-self-center><v-btn color="success" @click="reset">Сбросить</v-btn></v-flex>
             </v-layout>
-          </v-container>
         </v-flex>
         <v-flex xs12>
           <v-layout column wrap>
-            <v-layout row wrap v-if="filteredProducts.length>0">
+            <v-layout row wrap v-if="filteredProducts.length > 0">
               <div class="product-wrapper" v-for="product in getPagesElement">
                 <div class="product">
                   <div class="product-image-wrapper">
@@ -84,16 +63,16 @@
               </div>
             </v-layout>
             <div v-else>
-              <h2>Продукция с заданными параметрами не найдена</h2>
+              <h2>Продукция с заданными параметрами не была найдена</h2>
             </div>
-            <div class="text-xs-left pa-5">
-              <v-pagination v-if="colPages > 1" :total-visible="7" v-model="page" :length="colPages"></v-pagination>
+            <div class="text-xs-center">
+              <v-pagination v-if="colPages > 1" :total-visible="7" v-model="page" :page="page" :length="colPages"></v-pagination>
             </div>
           </v-layout>
         </v-flex>
       </v-layout>
-  </v-container>
 </template>
+
 <script>
   import { mapActions, mapMutations } from 'vuex'
   import {ACTIONS, MUTATIONS} from '@cart/constants'
@@ -111,16 +90,20 @@
     },
     data() {
       return {
-        filteredProducts: this.products,
         filterAttributes: [],
         page: 1,
+        perPage: 15,
         attrListCount: {},
-        perPage: 12
+        selectAttributesValues: {}
       }
     },
     computed: {
+      filteredProducts() {
+        this.handleAttributes(this.getFilteredProducts(this.selectAttributesValues))
+        return this.getFilteredProducts(this.selectAttributesValues)
+      },
       getPagesElement() {
-        return _.slice(this.filtProd,(this.page-1)*this.perPage,this.perPage)
+        return _.slice(this.filteredProducts,(this.page-1)*this.perPage,(this.page-1)*this.perPage+this.perPage)
       },
       colPages() {
         return Math.floor(this.filteredProducts.length/this.perPage)+1
@@ -129,6 +112,11 @@
         this.handleAttributes(this.filteredProducts)
         return this.filteredProducts
       },
+    },
+    mounted() {
+      this.attributes.forEach(attribute => {
+        Vue.set(this.selectAttributesValues, attribute.id, [])
+      })
     },
     methods: {
       getImages(product) {
@@ -157,17 +145,9 @@
       },
       selectItem(value,id) {
         this.page = 1
-        Vue.set(this.attributes.find(attribute => attribute.id === id), 'value', value)
-
-        let filteredProducts = [...this.products]
-        this.attributes.forEach(attributeFiltr => {
-          if(attributeFiltr.value) {
-            filteredProducts =  filteredProducts.filter(product => {
-              return product.attributes.find(attribute => attribute.id === attributeFiltr.id && attribute.pivot.list_value === attributeFiltr.value)
-            })
-          }
-        })
-        this.filteredProducts = [...filteredProducts]
+        let obj = {}
+        obj[id] = value
+        this.selectAttributesValues = Object.assign({}, this.selectAttributesValues, obj)
       },
       reset() {
         this.page = 1
@@ -207,6 +187,25 @@
       },
       filterItems(items) {
         return items.filter(item => !_.isUndefined(this.attrListCount[item.id]))
+      },
+      getFilteredProducts(attributes) {
+        let result = []
+        let products = this.products
+        //if (attributes.filter(attribute => attribute.length > 0).length == 0) return this.products
+        for(let index in attributes) {
+          attributes[index].forEach((currentValue, i, array) => {
+            products.filter(product => {
+              return !_.isUndefined(product.attributes.find(item => item.id == index && item.pivot.list_value == currentValue))
+            }).forEach(product => {
+              if(_.isUndefined(result.find(item => item.id == product.id))) {
+                result.push(product)
+              }
+            })
+          })
+          products = result.length>0?result:products
+          result = []
+        }
+        return products
       },
       ...mapActions('cart',{addCartItem: ACTIONS.ADD_CART}),
       ...mapMutations('cart', {showCartModal: MUTATIONS.SHOW_MODAL})
