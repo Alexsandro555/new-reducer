@@ -1,8 +1,8 @@
 <template>
       <v-layout row wrap>
         <v-flex xs12 v-if="attributes.length > 0">
-            <v-layout align-start justify-start fill-height col>
-              <v-flex pa-3 xs3 v-for="attribute in attributes" :key="attribute.id">
+            <v-layout row wrap>
+              <v-flex pa-3 md3 xs12 v-for="attribute in attributes" :key="attribute.id">
                 <v-select
                   :label="attribute.title"
                   :items="filterItems(attribute.attribute_list_value)"
