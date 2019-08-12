@@ -12,9 +12,9 @@
   <div class="content">
     <div class="wrapper content__product-margin">
       <div class="breadcrumbs">
-          <v-flex xs12 text-xs-left>
-            {{ Breadcrumbs::render() }}
-          </v-flex>
+        <v-flex xs12 text-xs-left>
+          {{ Breadcrumbs::render() }}
+        </v-flex>
       </div>
       <v-flex xs12 text-xs-left class="bottom-20">
         <p class="headsite">
@@ -23,6 +23,7 @@
         <v-layout row wrap>
           <filter-products :products="{{$products}}" :attributes="{{$attributes}}"/>
         </v-layout>
+      </v-flex>
       </v-flex>
     </div>
   </div>

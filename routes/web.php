@@ -19,6 +19,8 @@ Route::get('/catalog/detail/{slug}',['uses' => 'SiteController@detail', 'as' => 
 Route::get('/catalog/{slugProductCategory}/{slug}', ['uses' => 'SiteController@typeProduct', 'as'=>'catalog.type-product']);
 Route::get('/catalog/{slugProductCategory}/{slugTypeProduct}/{slug}', ['uses' => 'SiteController@lineProduct', 'as'=>'catalog.line-product']);
 
+Route::get('/filterable-products/{id}', ['uses' => 'SiteController@filterableProducts', 'as' => 'filterable-products']);
+
 Route::get('/admin', ['uses' => '\Modules\Auth\Http\Controllers\AdminController@index', 'as' => 'master']);
 
 Route::get('/find/{text?}', ['uses' => 'FindController@index', 'as' => 'find']);
