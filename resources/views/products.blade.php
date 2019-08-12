@@ -42,7 +42,7 @@
       </div>
       <div class="product__title">
         <a href="/catalog/detail/{{$product->url_key}}">
-          {{str_limit($product->title, $limit = 27, $end="...")}}
+          {{str_limit($product->title, $limit = 42, $end="...")}}
         </a>
       </div>
       <v-layout row wrap>
