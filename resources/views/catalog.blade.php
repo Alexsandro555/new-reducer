@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-  <div class="content">
+  <div class="our-products">
     <div class="wrapper content__product-margin">
       <div class="breadcrumbs">
           <v-flex xs12 text-xs-left>

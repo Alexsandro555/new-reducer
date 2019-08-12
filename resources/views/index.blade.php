@@ -9,45 +9,40 @@
 @endsection
 
 @section('content')
-  <div class="content">
-    <div class="wrapper content-wrapper">
-      <v-layout row wrap>
-        <v-flex class="hidden-md-and-down" xs2>
-          <div class="left-banner">
-            <div class="left-banner__content text-xs-left">
-                            <span>
-                                Мотор-<br>
-                                редукторы<br>
-                            </span>
-              двигатели и<br>
-              компоненты<br>
-              <p>
-                <a href="#">Подробнее</a>
-              </p>
-
-            </div>
-            <img class="left-banner__img-ugl" src="{{asset('images/left-banner-layout-ugl.png')}}"/>
-          </div>
-        </v-flex>
-        <v-flex xs10 text-xs-left class="bottom-20">
-          <div class="content__left-our-products">
-            <v-layout row wrap>
-              <v-flex xs9>
-                <p class="headsite">
-                  <span>Наша продукция</span><br>
-                  <!--кто мы и что предлагаем-->
+  <div class="our-products">
+    <div class="wrapper our-products-wrapper">
+        <v-layout row wrap>
+          <v-flex xs2 class="hidden-md-and-down">
+            <div class="left-banner">
+              <div class="left-banner__content text-xs-left">
+                              <span>Мотор-<br>редукторы<br></span>
+                двигатели и<br>компоненты<br>
+                <p>
+                  <a href="#">Подробнее</a>
                 </p>
-              </v-flex>
-              <v-flex xs3 text-xs-right>
-                <a href="#" class="content-button content-button--margin">Смотреть каталог</a>
-              </v-flex>
-            </v-layout>
-            <v-layout row wrap>
-              @include('products',['products' => $ourProducts])
-            </v-layout>
-          </div>
-        </v-flex>
-      </v-layout>
+              </div>
+              <img class="left-banner__img-ugl" src="{{asset('images/left-banner-layout-ugl.png')}}"/>
+            </div>
+          </v-flex>
+          <v-flex xs10 text-xs-left class="bottom-20">
+            <div class="content__left-our-products">
+              <v-layout row wrap>
+                <v-flex xs9>
+                  <p class="headsite">
+                    <span>Наша продукция</span><br>
+                    <!--кто мы и что предлагаем-->
+                  </p>
+                </v-flex>
+                <v-flex xs3 text-xs-right>
+                  <a href="#" class="content-button content-button--margin">Смотреть каталог</a>
+                </v-flex>
+              </v-layout>
+              <v-layout row wrap>
+                @include('products',['products' => $ourProducts])
+              </v-layout>
+            </div>
+          </v-flex>
+        </v-layout>
     </div>
   </div>
   <div class="best-sale">
