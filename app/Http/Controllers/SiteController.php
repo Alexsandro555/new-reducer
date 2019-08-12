@@ -24,14 +24,14 @@ class SiteController extends Controller
       $query->doesntHave('figure');
     }, 'productCategory.files' => function($query) {
       $query->doesntHave('figure');
-    }])->where('type_product_id',1)->where('active',1)->inRandomOrder()->take(4)->get();
+    }])->where('onsale',1)->where('active',1)->inRandomOrder()->take(4)->get();
     $specialProducts = Product::with(['files', 'lineProduct.files' => function($query) {
       $query->doesntHave('figure');
     }, 'typeProduct.files' => function($query) {
       $query->doesntHave('figure');
     }, 'productCategory.files' => function($query) {
       $query->doesntHave('figure');
-    }])->where('type_product_id', 9)->where('active',1)->inRandomOrder()->take(5)->get();
+    }])->where('special',1)->where('active',1)->inRandomOrder()->take(5)->get();
     $news = [];
     $news = News::inRandomOrder()->take(4)->get();
     return view('index', compact('ourProducts', 'specialProducts', 'news'));
