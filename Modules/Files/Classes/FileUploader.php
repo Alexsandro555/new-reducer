@@ -31,8 +31,7 @@ class FileUploader extends AbstractFileUploader implements Uploader
   {
     $this->uploadInfo = $uploadInfo;
     $uploadedFile = $request->file('file');
-    if($uploadedFile->isValid())
-    {
+    if($uploadedFile->isValid()) {
       $this->manager = new ImageManager();
       $this->uploadFile = $uploadedFile;
       $originalName = $uploadedFile->getClientOriginalName();
@@ -44,12 +43,14 @@ class FileUploader extends AbstractFileUploader implements Uploader
       $this->file = new File;
       $this->file->fileable_id = $request->fileableId;
       $this->file->fileable_type = $request->model;
+      if($request->image_view_id !== 'null') {
+        $this->file->image_view_id = $request->image_view_id;
+      }
       //$this->file->original_name = $originalName;
     }
     else {
       throw new \Exception('Файла не существует');
     }
-
   }
 
   public function upload($typeFile, $name, $resize, $absolute, $width=null, $height=null)

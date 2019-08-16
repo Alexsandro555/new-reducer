@@ -17,3 +17,7 @@ Route::middleware('auth:api')->prefix('files')->group(function() {
   Route::get('/', 'FilesController@index');
   Route::post('/', 'FilesController@createFigure');
 });
+
+Route::middleware('auth:api')->prefix('image_views')->group(function() {
+  Route::get('/', 'ImageViewController@index');
+});

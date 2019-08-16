@@ -18,6 +18,29 @@ class Product extends Model
 
   protected $guarded = ['attribute_values'];
 
+  public function scopeAndFiles($query)
+  {
+    $query->with(['files', 'lineProduct.files' => function($query) {
+      $query->doesntHave('figure');
+    }, 'typeProduct.files' => function($query) {
+      $query->doesntHave('figure');
+    }, 'productCategory.files' => function($query) {
+      $query->doesntHave('figure');
+    }]);
+  }
+
+  public function scopeAndFilterableAttributes($query)
+  {
+    $query->with(['attributes' => function($query) {
+      $query->where('filtered',1)->where('active',1);
+    }]);
+  }
+
+  public function scopeActive($query)
+  {
+    $query->where('active', 1);
+  }
+
   public function productCategory()
   {
     return $this->belongsTo(ProductCategory::class);
@@ -72,6 +95,7 @@ class Product extends Model
   {
     return $this->morphMany(File::class, 'fileable');
   }
+
 
   public function filesFigure()
   {

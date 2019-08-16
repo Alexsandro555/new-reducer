@@ -61,6 +61,9 @@ Vue.component('navigation-menu', NavigationMenu)
 import FilterProducts from '@product/vue/Product/FilterProducts'
 Vue.component('filter-products', FilterProducts)
 
+import FilterProducts3 from '@product/vue/Product/FilterProducts3/'
+Vue.component('filter-products3', FilterProducts3)
+
 // Order
 import OrderForm from '@order/vue/OrderForm'
 Vue.component('order-form', OrderForm)

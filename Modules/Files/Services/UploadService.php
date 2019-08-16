@@ -14,8 +14,8 @@ use Modules\Files\Entities\TypeFile;
 use Modules\Files\Contracts\Uploader;
 use Validator;
 
-class UploadService {
-
+class UploadService
+{
   protected $request;
   protected $fileUploader;
   protected $uploader;
@@ -27,7 +27,8 @@ class UploadService {
     $this->uploader = $uploader;
   }
 
-  public function getTypeFile() {
+  public function getTypeFile()
+  {
     $typeFile = null;
     if($this->request->typeFiles) {
       $typeFile = TypeFile::where('name',$this->request->typeFiles)->first();
@@ -42,7 +43,8 @@ class UploadService {
     return $typeFile;
   }
 
-  public function maxsize($maxsize) {
+  public function maxsize($maxsize)
+  {
     $messages = [
       'max' => 'Файл превышает максимальный размер '.$maxsize,
     ];
@@ -56,7 +58,8 @@ class UploadService {
     return true;
   }
 
-  public function checkExtension($extensions) {
+  public function checkExtension($extensions)
+  {
     $messages = [
       'mimes' => 'Поддерживаемые расширения: '.$extensions,
     ];
@@ -70,7 +73,8 @@ class UploadService {
     return true;
   }
 
-  public function upload() {
+  public function upload()
+  {
     // Получение информации о типе файла
     $typeFile = $this->getTypeFile();
     $config = $typeFile->config;

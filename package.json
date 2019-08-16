@@ -24,6 +24,7 @@
         "@nsoft/vuetify-colorizer": "^1.0.15",
         "date-fns": "^1.30.1",
         "material-design-icons-iconfont": "^4.0.3",
+        "normalizr": "^3.4.1",
         "pdfjs-dist": "^2.0.943",
         "table-selection": "^0.9.1",
         "vee-validate": "^2.1.7",

@@ -1,5 +1,19 @@
 <template>
     <div>
+        <v-autocomplete
+          v-model="image_view_id"
+          :items="imageViews"
+          :search-input.sync="searchImageViews"
+          color="white"
+          hide-no-data
+          item-text="title"
+          item-value="id"
+          label="Вид изображения"
+          placeholder="Введите название для поиска">
+            <template slot="selection" slot-scope="data">
+                {{ data.item.title }}
+            </template>
+        </v-autocomplete>
         <h2>Область загрузки файлов</h2>
         <vue-dropzone
                 ref="productDropzone"
@@ -19,6 +33,8 @@
 
 <script>
     import vueDropzone from 'vue2-dropzone'
+    import {GLOBAL} from "@/constants"
+    import {mapActions,mapState} from 'vuex'
 
     export default {
         props: {
@@ -50,14 +66,20 @@
                     headers: { 'X-CSRF-TOKEN': window.token },
                     maxFiles: 30,
                 },
-                errorMessage: ''
+                errorMessage: '',
+                searchImageViews: '',
+                image_view_id: null
             }
         },
         components: {
             vueDropzone
         },
+        computed: {
+            ...mapState('image_views', {imageViews: 'items'})
+        },
         mounted() {
             this.getImages()
+            this.load()
         },
         watch: {
             fileableId: function (val) {
@@ -75,6 +97,7 @@
           next()
         },
         methods: {
+            ...mapActions('image_views', {load: GLOBAL.LOAD_ALL}),
             template() {
                 return `
                     <div class="dz-preview dz-file-preview" id="drop-img-vue">
@@ -113,6 +136,7 @@
             vsending(file, xhr, formData) {
                 formData.append('fileableId',this.fileableId);
                 formData.append('typeFiles', this.typeFiles);
+                formData.append('image_view_id', this.image_view_id);
                 formData.append('model', this.model);
             },
             showSuccess(file,data) {

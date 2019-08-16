@@ -71,17 +71,6 @@ class SiteController extends Controller
   public function lineProduct($slugProductCategory, $slugTypeProduct, $slug)
   {
     $model = LineProduct::where('url_key', $slug)->firstOrFail();
-    /*$products = Cache::remember('products_cache',now()->addMinutes(3600), function() use($model) {
-      return Product::with(['files', 'lineProduct.files' => function($query) {
-        $query->doesntHave('figure');
-      }, 'typeProduct.files' => function($query) {
-        $query->doesntHave('figure');
-      }, 'productCategory.files' => function($query) {
-        $query->doesntHave('figure');
-      },'attributes' => function($query) {
-        $query->where('filtered',1)->where('active',1);
-      }])->where('line_product_id', $model->id)->where('active',1)->get()->toJson();
-    });*/
     $products = Product::with(['files', 'lineProduct.files' => function($query) {
       $query->doesntHave('figure');
     }, 'typeProduct.files' => function($query) {
@@ -95,26 +84,16 @@ class SiteController extends Controller
     return view('lineProduct', compact('model','products', 'attributes'));
   }
 
-  public function filterableProducts($id) {
-    $products = Cache::remember('products_cache',now()->addMinutes(3600), function() use($id) {
-      return Product::with(['files', 'lineProduct.files' => function($query) {
-        $query->doesntHave('figure');
-      }, 'typeProduct.files' => function($query) {
-        $query->doesntHave('figure');
-      }, 'productCategory.files' => function($query) {
-        $query->doesntHave('figure');
-      },'attributes' => function($query) {
-        $query->where('filtered',1)->where('active',1);
-      }])->where('line_product_id', $id)->where('active',1)->get()->toJson();
-    });
-    $attributes = Attribute::with(['attributeListValue'])->where('attribute_type_id', 8)->where('filtered', 1)->where('active',1)->get();
-    return [
-      'products' => $products,
-      'attributes' => $attributes
-    ];
+  public function equipment()
+  {
+    $products = Product::andFiles()->with(['attributes' => function($query) {
+      $query->where('filtered',1)->where('active',1);
+    }])->where('special', 1)->where('active',1)->get();
+    return view('equipment',compact('products'));
   }
 
-  public function menuLeft() {
+  public function menuLeft()
+  {
     return ProductCategory::with(['typeProducts' => function($query) {
       $query->orderBy('sort');
     }, 'typeProducts.lineProducts' => function($query) {
@@ -122,13 +101,15 @@ class SiteController extends Controller
     }])->get();
   }
 
-  public function detail($slug) {
+  public function detail($slug)
+  {
     $groups = AttributeGroup::orderBy('sort', 'asc')->get();
     $product = Product::with(['files', 'attributes.attributeListValue'])->where('url_key',$slug)->first();
     return view('detail', compact('product', 'groups'));
   }
 
-  public function products() {
+  public function products()
+  {
     $products = Product::with(['attributes' => function($query) {
       $query->where('attribute_type_id', 8);
     },'files', 'lineProduct.files' => function($query) {

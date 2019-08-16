@@ -18,9 +18,9 @@ class ProductImport implements ToModel
       'title' => str_replace("-"," ", $row[0]),
       'price' => $row[1],
       'url_key' => \Slug::make(str_replace("/"," ",$row[0])),
-      'product_category_id' => 2,
-      'type_product_id' => 1,
-      'line_product_id' => $lineProduct->id
+      'product_category_id' => 1,
+      'type_product_id' => 9,
+      'line_product_id' => 2
     ]);
     return $product;
   }

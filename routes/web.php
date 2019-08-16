@@ -19,15 +19,13 @@ Route::get('/catalog/detail/{slug}',['uses' => 'SiteController@detail', 'as' => 
 Route::get('/catalog/{slugProductCategory}/{slug}', ['uses' => 'SiteController@typeProduct', 'as'=>'catalog.type-product']);
 Route::get('/catalog/{slugProductCategory}/{slugTypeProduct}/{slug}', ['uses' => 'SiteController@lineProduct', 'as'=>'catalog.line-product']);
 
-Route::get('/filterable-products/{id}', ['uses' => 'SiteController@filterableProducts', 'as' => 'filterable-products']);
+Route::get('/equipment', ['uses' => 'SiteController@equipment', 'as' => 'equipment']);
 
 Route::get('/admin', ['uses' => '\Modules\Auth\Http\Controllers\AdminController@index', 'as' => 'master']);
 
 Route::get('/find/{text?}', ['uses' => 'FindController@index', 'as' => 'find']);
 
-Route::get('/test', function() {
-  phpinfo();
-});
+Route::get('/test', 'TestController@test');
 
 //Route::get('/news/{slug}', '\Modules\News\Http\Controllers\NewsController@show');
 //Route::get('/{slug}', '\Modules\Page\Http\Controllers\PageController@show');
