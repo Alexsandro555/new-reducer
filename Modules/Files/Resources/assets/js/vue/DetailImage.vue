@@ -75,7 +75,7 @@
     },
     mounted() {
       axios.get(this.url).then(response => {
-        this.elements = response.data.filter(item => item.image_view_id == this.product.image_view_id || _.isNull(item.image_view_id))
+        this.elements = response.data.filter(item => item.file_list_view_id == this.product.file_list_view_id || _.isNull(item.file_list_view_id))
         this.elements.forEach(element => {
             this.items.push({'id': element.id, 'file': element.config.files.small.filename})
         });
