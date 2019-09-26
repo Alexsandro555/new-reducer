@@ -177,13 +177,8 @@
                           item-value="id"
                           v-model="form.line_product_id"></v-select>-->
                         <wysiwyg
-                          :element-id="id"
-                          name="description"
-                          url="image-wysiwyg-upload"
-                          url-file="upload-file"
-                          type-file-upload="file"
-                          no-data-text="Нет данных"
-                          type-file="image-wysiwyg"
+                          :id="id"
+                          url="files"
                           :model="getModel"
                           v-model="form.description">
                         </wysiwyg>

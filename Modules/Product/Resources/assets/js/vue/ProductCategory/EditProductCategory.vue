@@ -16,13 +16,9 @@
                       <form-builder :field="field" v-if="num!=='description'" :num="num" @update="updateField" :items="form"></form-builder>
                     </template>
                     <wysiwyg
-                      :element-id="id"
-                      name="description"
-                      url="image-wysiwyg-upload"
-                      url-file="upload-file"
-                      type-file-upload="file"
-                      type-file="image-wysiwyg"
-                      model="getModel"
+                      :id="id"
+                      url="files"
+                      :model="getModel"
                       v-model="form.description">
                     </wysiwyg>
                     <br>

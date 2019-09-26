@@ -12,21 +12,13 @@
 */
 
 Route::prefix('files')->group(function() {
-  //Route::get('/', 'FilesController@index');
   Route::post('/upload',
     [
       'before' => 'csrf',
       'uses' => 'FilesController@store'
     ]);
-  Route::post('/image-wysiwyg-upload',
-    [
-      'before' => 'csrf',
-      'uses' => 'FilesController@storeWysiwyg'
-    ]);
-  Route::post('/get-images', [
-    'before' => 'csrf',
-    'uses' => 'FilesController@getImages'
-  ]);
+  Route::post('/wysiwyg/image', 'WysiwygController@store');
+  Route::post('/get-images', ['before' => 'csrf', 'uses' => 'FilesController@getImages']);
   Route::get('/delete-file/{id}', 'FilesController@deleteFile');
 
   Route::get('/product-image/{id}', 'FilesController@productImage');

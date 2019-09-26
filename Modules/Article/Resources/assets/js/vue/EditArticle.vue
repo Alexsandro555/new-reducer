@@ -13,22 +13,20 @@
                 <v-flex>
                   <v-form ref="form" lazy-validation v-model="valid">
                     <template v-for="(field, num) in fields">
-                      <form-builder :field="field" v-if="num!=='content'" :num="num" :relations="relations" :items="form" @update="updateField"></form-builder>
+                      <form-builder :field="field" v-if="num!=='content'" :num="num" :relations="relations"
+                                    :items="form" @update="updateField"></form-builder>
                     </template>
                     <wysiwyg
-                      :element-id="id"
-                      name="content"
-                      url="image-wysiwyg-upload"
-                      url-file="upload-file"
-                      type-file-upload="file"
-                      type-file="image-wysiwyg"
-                      model="getModel"
+                      :id="id"
+                      url="files"
+                      :model="getModel"
                       v-model="form.content">
                     </wysiwyg>
                     <!--<file-box url="/files/upload" :fileable-id="Number(item.id)" :type-files="typeFiles"
                               :model="model"></file-box>-->
                     <v-flex text-xs-left>
-                      <v-btn large :class="{primary: valid, 'red lighten-3': !valid}" :disabled="isSending" @click.prevent="onSubmit">Сохранить
+                      <v-btn large :class="{primary: valid, 'red lighten-3': !valid}" :disabled="isSending"
+                             @click.prevent="onSubmit">Сохранить
                       </v-btn>
                     </v-flex>
                   </v-form>
@@ -76,7 +74,7 @@
       ...mapState('articles', ['items', 'fields', 'relations']),
       ...mapGetters('articles', {getItem: GLOBAL.GET_ITEM, getModel: 'getModel'}),
       form() {
-        return _.pick(this.getItem(Number(this.id)), ['id','title','content','meta_title', 'meta_description', 'meta_keywords'])
+        return _.pick(this.getItem(Number(this.id)), ['id', 'title', 'content', 'meta_title', 'meta_description', 'meta_keywords'])
       }
     },
     components: {

@@ -17,13 +17,9 @@
                                     @update="updateField"></form-builder>
                     </template>
                     <wysiwyg
-                      :element-id="id"
-                      name="description"
-                      url="image-wysiwyg-upload"
-                      url-file="upload-file"
-                      type-file-upload="file"
-                      type-file="image-wysiwyg"
-                      model="getModel"
+                      :id="id"
+                      url="files"
+                      :model="getModel"
                       v-model="form.description">
                     </wysiwyg>
                     <file-box url="/files/upload" :fileable-id="Number(form.id)" :type-files="typeFiles" :model="getModel"></file-box>

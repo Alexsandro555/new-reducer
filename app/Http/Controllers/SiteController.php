@@ -101,10 +101,10 @@ class SiteController extends Controller
   public function menuLeft()
   {
     return ProductCategory::with(['typeProducts' => function($query) {
-      $query->orderBy('sort');
+      $query->where('active',1)->orderBy('sort');
     }, 'typeProducts.lineProducts' => function($query) {
-      $query->orderBy('sort');
-    }])->get();
+      $query->where('active',1)->orderBy('sort');
+    }])->where('active',1)->orderBy('sort')->get();
   }
 
   public function detail($slug)
