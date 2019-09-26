@@ -1,9 +1,9 @@
 <template>
     <div>
         <v-autocomplete
-          v-model="image_view_id"
-          :items="imageViews"
-          :search-input.sync="searchImageViews"
+          v-model="file_list_view_id"
+          :items="items"
+          :search-input.sync="search"
           color="white"
           hide-no-data
           item-text="title"
@@ -67,15 +67,15 @@
                     maxFiles: 30,
                 },
                 errorMessage: '',
-                searchImageViews: '',
-                image_view_id: null
+                search: '',
+                file_list_view_id: null
             }
         },
         components: {
             vueDropzone
         },
         computed: {
-            ...mapState('image_views', {imageViews: 'items'})
+            ...mapState('file_list_views', {items: 'items'})
         },
         mounted() {
             this.getImages()
@@ -97,7 +97,7 @@
           next()
         },
         methods: {
-            ...mapActions('image_views', {load: GLOBAL.LOAD_ALL}),
+            ...mapActions('file_list_views', {load: GLOBAL.LOAD_ALL}),
             template() {
                 return `
                     <div class="dz-preview dz-file-preview" id="drop-img-vue">

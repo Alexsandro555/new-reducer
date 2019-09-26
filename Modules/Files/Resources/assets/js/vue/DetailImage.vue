@@ -57,8 +57,8 @@
         Type: Boolean,
         default: false
       },
-      id: {
-        Type: Number,
+      product: {
+        Type: Object,
         required: true
       }
     },
@@ -75,13 +75,13 @@
     },
     mounted() {
       axios.get(this.url).then(response => {
-        this.elements = response.data
-        response.data.forEach(element => {
-          this.items.push({'id': element.id, 'file': element.config.files.small.filename});
+        this.elements = response.data.filter(item => item.image_view_id == this.product.image_view_id || _.isNull(item.image_view_id))
+        this.elements.forEach(element => {
+            this.items.push({'id': element.id, 'file': element.config.files.small.filename})
         });
         // TODO:: утсранить дублирование
         this.curImage = this.items.length > 0 ? '/storage/' + this.elements[0].config.files.main.filename : null
-        if(this.elements[0].figure) {
+        if(this.elements[0].figure.length > 0 ) {
           this.figure = true
         }
         this.imageId = this.elements[0].id
@@ -96,7 +96,7 @@
     computed: {
       getImage() {
         if(this.figure) {
-          return '/files/figure/'+this.imageId+'/big/'+this.id
+          return '/files/figure/'+this.imageId+'/big/'+this.product.id
         }
         return this.curImage
       }

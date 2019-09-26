@@ -46,7 +46,7 @@
                   </div>
                   <div class="product__title">
                     <a :href="'/catalog/detail/'+product.url_key">
-                      {{product.title.substr(0, 27)+".."}}
+                      {{product.title.substr(0, 42)}}
                     </a>
                   </div>
                   <v-layout row wrap>
@@ -133,6 +133,7 @@
         if(product.files.length > 0) {
           files = _.concat(files, product.files)
         }
+        files = files.filter(item => item.image_view_id == product.image_view_id || _.isNull(item.image_view_id))
         return _.shuffle(files)
       },
       goPage(url) {

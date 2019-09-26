@@ -43,8 +43,8 @@ class FileUploader extends AbstractFileUploader implements Uploader
       $this->file = new File;
       $this->file->fileable_id = $request->fileableId;
       $this->file->fileable_type = $request->model;
-      if($request->image_view_id !== 'null') {
-        $this->file->image_view_id = $request->image_view_id;
+      if($request->file_list_view_id !== 'null') {
+        $this->file->file_list_view_id = $request->file_list_view_id;
       }
       //$this->file->original_name = $originalName;
     }

@@ -15,7 +15,7 @@
         <v-flex px-3 xs8>
           <v-layout row wrap>
             <v-flex md6 xs12>
-              <detail-image :stock="{{$product->special?$product->special:'false'}}" :url="'/files/product-image/{{$product->id}}'" :id="{{$product->id}}"/>
+              <detail-image :stock="{{$product->special?$product->special:'false'}}" :url="'/files/product-image/{{$product->id}}'" :product="{{$product}}"/>
             </v-flex>
             <v-flex md6 xs12 px-4 class="detail__info" text-xs-left>
               <h1>{{$product->title}}</h1>

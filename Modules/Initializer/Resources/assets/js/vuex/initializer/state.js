@@ -25,6 +25,9 @@ export default {
               break;
             case 422:
               commit('SET_ERRORS', error.response.data.errors)
+              for (let key in error.response.data.errors) {
+                dispatch('errorNotification', error.response.data.errors[key], {root: true})
+              }
               break;
             default:
               dispatch('errorNotification', error.response.data.message, {root: true})

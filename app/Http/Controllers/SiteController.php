@@ -80,7 +80,13 @@ class SiteController extends Controller
     },'attributes' => function($query) {
       $query->where('filtered',1)->where('active',1);
     }])->where('line_product_id', $model->id)->where('active',1)->get();
-    $attributes = Attribute::with(['attributeListValue'])->where('attribute_type_id', 8)->where('filtered', 1)->where('active',1)->get();
+    $attributes = Attribute::whereHas('lineProducts', function($query) use ($model) {
+      $query->where('id', $model->id);
+    })->orWhereHas('typeProducts', function($query) use ($model) {
+      $query->where('id', $model->type_product->id);
+    })->orWhereHas('productCategories', function($query) use ($model) {
+      $query->where('id', $model->type_product->product_category->id);
+    })->with(['attributeListValue'])->where('attribute_type_id', 8)->where('filtered', 1)->where('active',1)->get();
     return view('lineProduct', compact('model','products', 'attributes'));
   }
 

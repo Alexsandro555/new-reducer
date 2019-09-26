@@ -51,7 +51,7 @@
                     {{ data.item.title }}
                   </template>
                 </v-autocomplete>
-                <input type="file" ref="excel" @change="onUpload" style="display: none"/>
+                <input type="file" id="file" name="file" ref="excel" @change.prevent="onUpload" style="display: none"/>
                 <v-flex xs12 text-xs-left>
                   <v-btn
                     :loading="loading"
@@ -82,6 +82,9 @@
         loading: false,
         valid: false,
         isSaving: false,
+        product_category_id: null,
+        type_product_id: null,
+        line_product_id: null,
       }
     },
     mixins: [headingMixin],
@@ -89,29 +92,38 @@
       onShowWindow() {
         this.$refs.excel.click()
       },
+      reset() {
+        const input = this.$refs.excel
+        input.type = 'text'
+        input.type = 'file'
+      },
       onUpload() {
         if (this.$refs.form.validate()) {
           this.loading = true
           let formData = new FormData()
           let file = this.$refs.excel
           formData.append("file", file.files[0])
-          formData.append("product_category_id", this.product_category_id)
-          formData.append("type_product_id", this.type_product_id)
-          formData.append("line_product_id", this.line_product_id)
+          formData.append("product_category_id", this.product_category_id?this.product_category_id:'')
+          formData.append("type_product_id", this.type_product_id?this.type_product_id:'')
+          formData.append("line_product_id", this.line_product_id?this.line_product_id:'')
           this.loading = true
-          axios.post('/api/products/import', formData, {
+          axios.post('/api/products/import', formData , {
             headers: {
               'Content-type': 'multipart/form-data'
             }
           })
           .then(response => response.data)
           .then(response => {
-              this.loading = false
+            this.reset()
+            this.loading = false
+            this.$refs.form.reset()
           }).catch(error => {
+            this.reset()
+            this.loading = false
             console.error(error)
           })
         }
-      },
+      }
     }
   }
 </script>

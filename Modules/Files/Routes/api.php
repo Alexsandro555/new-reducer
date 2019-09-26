@@ -18,6 +18,6 @@ Route::middleware('auth:api')->prefix('files')->group(function() {
   Route::post('/', 'FilesController@createFigure');
 });
 
-Route::middleware('auth:api')->prefix('image_views')->group(function() {
-  Route::get('/', 'ImageViewController@index');
+Route::middleware('auth:api')->prefix('file_list_views')->group(function() {
+  Route::get('/', 'FileListViewController@index');
 });

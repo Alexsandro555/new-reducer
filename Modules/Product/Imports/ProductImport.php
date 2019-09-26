@@ -6,21 +6,22 @@ use Modules\Product\Entities\LineProduct;
 use Modules\Product\Entities\Product;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Alexusmai\Ruslug\Slug;
+use Modules\Files\Entities\FileListView;
 
 class ProductImport implements ToModel
 {
   public function model(array $row)
   {
-    list($name, $size) = explode("-", $row[0]);
-    $lineProduct = LineProduct::where('title', $name.' '.$size)->first();
-    if(!$lineProduct)  throw new \Exception('Линейка не была найдена!');
     $product = new Product([
-      'title' => str_replace("-"," ", $row[0]),
-      'price' => $row[1],
+      'title' => $row[0],
+      'price' => $row[1]=='По запросу'?null:$row[1],
+      'need_order' => $row[1]=='По запросу'?1:0,
       'url_key' => \Slug::make(str_replace("/"," ",$row[0])),
-      'product_category_id' => 1,
-      'type_product_id' => 9,
-      'line_product_id' => 2
+      'product_category_id' => request('product_category_id'),
+      'active' => 1,
+      'type_product_id' => request('type_product_id', null),
+      'line_product_id' => request('line_product_id', null),
+      'file_list_view_id' => FileListView::where('title', $row[2])->pluck('id')->first()
     ]);
     return $product;
   }

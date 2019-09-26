@@ -22,6 +22,11 @@ class AttributeValueController extends Controller
     $this->model = new AttributeValue();
   }
 
+  public function index(Request $request)
+  {
+    return $this->model->all();
+  }
+
   public function save(Request $request)
   {
     $request = $request->all();
