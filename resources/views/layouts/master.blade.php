@@ -128,7 +128,7 @@
                 </v-flex>
               </v-layout>
             </div>
-            <div class="hidden-md-and-down">
+            <div class="hidden-md-and-down footer__menu-down">
               <br>
               <v-layout row wrap>
                 <v-flex xs4 class="footer__copyright">

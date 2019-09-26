@@ -1,5 +1,6 @@
 footer {
   min-height: 355px;
+  position: relative;
   background: url('#{$path}/footer-bottom-menu-layout.png') bottom center repeat-x, url('#{$path}/footer-blure-image.png') right 45% top repeat-y, url('#{$path}/footer.png') top left 35% no-repeat, url('#{$path}/footer-layout-img.png') right top repeat,  url('#{$path}/footer-layout-left-main-img.png') left top repeat;
 }
 .footers {
@@ -57,4 +58,10 @@ footer {
 
 .official-site {
   text-shadow: 1px -2px 6px rgba(0,0,0,.91);
+}
+
+.footer__menu-down {
+  width: 1200px;
+  position: absolute;
+  bottom: 0px;
 }

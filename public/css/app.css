@@ -941,6 +941,7 @@ header {
 
 footer {
   min-height: 355px;
+  position: relative;
   background: url("/images/footer-bottom-menu-layout.png") bottom center repeat-x, url("/images/footer-blure-image.png") right 45% top repeat-y, url("/images/footer.png") top left 35% no-repeat, url("/images/footer-layout-img.png") right top repeat, url("/images/footer-layout-left-main-img.png") left top repeat;
 }
 
@@ -1000,6 +1001,12 @@ footer {
 
 .official-site {
   text-shadow: 1px -2px 6px rgba(0, 0, 0, 0.91);
+}
+
+.footer__menu-down {
+  width: 1200px;
+  position: absolute;
+  bottom: 0px;
 }
 
 .cart__info {
