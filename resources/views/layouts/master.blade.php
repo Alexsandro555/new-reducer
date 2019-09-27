@@ -104,12 +104,12 @@
                 </v-flex>
                 <v-flex xs5 class="hidden-md-and-down">
                   <v-layout row wrap>
-                    @foreach($typeProducts->chunk(4) as $chunkTypeProduct)
+                    @foreach($productCategory->chunk(4) as $chunkProductCategory)
                       <v-flex xs6 class="footer__links">
                         <v-list class="footer__list">
-                          @foreach($chunkTypeProduct as $typeProduct)
+                          @foreach($chunkProductCategory as $productCategory)
                             <v-list-tile>
-                              <a href="/catalog/{{$typeProduct->product_category->url_key}}/{{$typeProduct->url_key}}">{{$typeProduct->title}}</a>
+                              <a href="/catalog/{{$productCategory->url_key}}">{{$productCategory->title}}</a>
                             </v-list-tile>
                           @endforeach
                         </v-list>

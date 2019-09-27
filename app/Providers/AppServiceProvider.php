@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Modules\Product\Entities\TypeProduct;
+use Modules\Product\Entities\ProductCategory;
 use Faker\Generator as FakerGenerator;
 use Faker\Factory as FakerFactory;
 
@@ -17,8 +17,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
       view()->composer('layouts.master', function($view) {
-        $typeProducts = TypeProduct::with('product_category')->take(8)->get();
-        $view->with('typeProducts', $typeProducts);
+        $view->with('productCategory', ProductCategory::where('active', 1)->get());
       });
     }
 
