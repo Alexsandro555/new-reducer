@@ -1654,3 +1654,14 @@ form div.content-right-order table tfoot tr td {
   margin-top: -160px;
 }
 
+.sale-wrapper {
+  width: 100%;
+  background: url("/images/content-layout.png") bottom center repeat-x, white;
+  margin-top: -120px;
+}
+
+.sale {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+

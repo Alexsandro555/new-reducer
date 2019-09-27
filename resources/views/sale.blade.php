@@ -9,22 +9,22 @@
 @endsection
 
 @section('content')
-  <div class="content">
-    <div class="wrapper content__product-margin">
-      <!--<div class="breadcrumbs">
-        <v-flex xs12 text-xs-left>
-          {{ Breadcrumbs::render() }}
+  <div class="sale-wrapper">
+    <div class="sale">
+      <v-layout>
+        <v-flex xs12 md9 text-xs-left>
+          <v-layout row wrap>
+            <v-flex xs12 text-xs-left class="bottom-20">
+              <p class="headsite">
+                <span>{{$header}}</span><br>
+              </p>
+              <v-layout row wrap>
+                <filter-products :products="{{$products}}"/>
+              </v-layout>
+            </v-flex>
+          </v-layout>
         </v-flex>
-      </div>-->
-      <v-flex xs12 text-xs-left class="bottom-20">
-        <p class="headsite">
-          <span>{{$header}}</span><br>
-        </p>
-        <v-layout row wrap>
-          <filter-products :products="{{$products}}" :attributes="{{$attributes}}"/>
-        </v-layout>
-      </v-flex>
-      </v-flex>
+      </v-layout>
     </div>
   </div>
 @endsection

@@ -137,9 +137,8 @@ class SiteController extends Controller
     }, 'productCategory.files' => function($query) {
       $query->doesntHave('figure');
     }])->where('onsale', 1)->get();
-    $attributes = [];
     $header = 'Наша продукция';
-    return view('sale', compact('products', 'attributes', 'header'));
+    return view('sale', compact('products', 'header'));
   }
 
   public function special() {
@@ -150,8 +149,7 @@ class SiteController extends Controller
     }, 'productCategory.files' => function($query) {
       $query->doesntHave('figure');
     }])->where('special', 1)->get();
-    $attributes = [];
     $header = 'Лучшие продажи';
-    return view('sale', compact('products', 'attributes', 'header'));
+    return view('sale', compact('products', 'header'));
   }
 }
