@@ -1,117 +1,153 @@
 <template>
   <v-container>
     <v-layout align-center justify-center full-height wrap row>
-      <v-flex>
-        <v-card>
-          <v-card-title>
-            <h1>Загрузка атрибутов</h1>
-          </v-card-title>
-          <v-card-text>
-            <v-alert :type="status.type" :value="status.type">{{status.message}}</v-alert>
-            <v-progress-circular v-if="isLoading" indeterminate :size="100" color="primary"></v-progress-circular>
-            <v-flex v-else xs12>
-              <v-form ref="form-attributes" lazy-validation v-model="valid">
-                <v-autocomplete
-                  v-model="form.productIds"
-                  :items="items"
-                  :search-input.sync="searchProducts"
-                  color="white"
-                  v-if="items"
-                  chips
-                  hide-no-data
-                  item-text="title"
-                  item-value="id"
-                  label="Продукты"
-                  placeholder="Введите название продукта для поиска"
-                  multiple>
-                  <template slot="selection" slot-scope="data">
-                    <v-chip
-                      close
-                      @input="data.parent.selectItem(data.item)"
-                      :selected="data.selected"
-                      class="chip--select-multi"
-                      :key="JSON.stringify(data.item)">
-                      {{ data.item.title }}
-                    </v-chip>
-                  </template>
-                </v-autocomplete>
-                <v-autocomplete
-                  v-model="form.attributeIds"
-                  :items="attributes"
-                  :search-input.sync="searchAttributes"
-                  v-if="attributes"
-                  color="white"
-                  chips
-                  hide-no-data
-                  item-text="title"
-                  item-value="id"
-                  label="Атрибуты"
-                  placeholder="Введите название атрибута для поиска"
-                  multiple>
-                  <template slot="selection" slot-scope="data">
-                    <v-chip
-                      close
-                      @input="data.parent.selectItem(data.item)"
-                      :selected="data.selected"
-                      class="chip--select-multi"
-                      :key="JSON.stringify(data.item)">
-                      {{ data.item.title }}
-                    </v-chip>
-                  </template>
-                </v-autocomplete>
-                <!--<v-checkbox
-                  label="Атрибуты по-горизонтали"
-                  v-model="form.direction">
-                </v-checkbox>-->
-                <v-flex xs12>
-                  <v-expansion-panel>
-                    <v-expansion-panel-content>
-                      <template slot="header">
-                        <div>Выбранные значения</div>
+      <v-flex xs12>
+        <v-progress-circular v-if="isLoading" indeterminate :size="100" color="primary"></v-progress-circular>
+        <v-stepper v-else v-model="el">
+          <v-stepper-header>
+            <v-stepper-step :complete="el > 1" step="1">Загрузка PDF</v-stepper-step>
+            <v-divider></v-divider>
+            <v-stepper-step :complete="el > 2" step="2">Загрузка атрибутов</v-stepper-step>
+            <v-divider></v-divider>
+            <v-stepper-step step="3">Загрузка выполнена!</v-stepper-step>
+          </v-stepper-header>
+
+          <v-stepper-items>
+            <!--Шаг 1-->
+            <v-stepper-content step="1">
+
+              <v-card class="mb-12">
+                <v-card-text>
+                  <v-flex xs12 text-xs-left>
+                    <v-alert :type="status.type" :value="status.type">{{status.message}}</v-alert>
+                    <v-form ref="form" lazy-validation v-model="valid">
+                      <input type="file" ref="pdf" @change="onUpload" style="display: none"/>
+                      <v-btn
+                        :loading="loading"
+                        :disabled="loading"
+                        color="blue"
+                        class="white--text"
+                        @click="onShowWindow">
+                        Загрузить PDF
+                        <v-icon right dark>cloud_upload</v-icon>
+                      </v-btn>
+                    </v-form>
+                  </v-flex>
+                  <v-flex xs12>
+                    <div id="html-result"></div>
+                  </v-flex>
+                </v-card-text>
+                <v-card-actions>
+                  <v-btn color="primary" :disabled="!parameters.length>0" @click="el = 2">Продолжить</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-stepper-content>
+            <!--Конец Шаг 1-->
+            <!--Шаг 2-->
+            <v-stepper-content step="2">
+              <v-card class="mb-12" height="500px">
+                <v-card-text>
+                  <v-flex xs12>
+                  <v-form ref="form-attributes" lazy-validation v-model="valid">
+                    <v-autocomplete
+                      v-model="form.productIds"
+                      :items="items"
+                      :search-input.sync="searchProducts"
+                      color="white"
+                      v-if="items"
+                      chips
+                      hide-no-data
+                      item-text="title"
+                      item-value="id"
+                      label="Продукты"
+                      placeholder="Введите название продукта для поиска"
+                      multiple>
+                      <template slot="selection" slot-scope="data">
+                        <v-chip
+                          close
+                          @input="data.parent.selectItem(data.item)"
+                          :selected="data.selected"
+                          class="chip--select-multi"
+                          :key="JSON.stringify(data.item)">
+                          {{ data.item.title }}
+                        </v-chip>
                       </template>
-                      <v-card>
-                        <v-card-text>
+                    </v-autocomplete>
+                    <v-autocomplete
+                      v-model="form.attributeIds"
+                      :items="attributes"
+                      :search-input.sync="searchAttributes"
+                      v-if="attributes"
+                      color="white"
+                      chips
+                      hide-no-data
+                      item-text="title"
+                      item-value="id"
+                      label="Атрибуты"
+                      placeholder="Введите название атрибута для поиска"
+                      multiple>
+                      <template slot="selection" slot-scope="data">
+                        <v-chip
+                          close
+                          @input="data.parent.selectItem(data.item)"
+                          :selected="data.selected"
+                          class="chip--select-multi"
+                          :key="JSON.stringify(data.item)">
+                          {{ data.item.title }}
+                        </v-chip>
+                      </template>
+                    </v-autocomplete>
+                    <v-checkbox
+                      label="Атрибуты по-горизонтали"
+                      v-model="form.direction">
+                    </v-checkbox>
+                    <v-flex xs12>
+                      <template v-for="(param, key) in parameters">
+                        <div v-if="Array.isArray(param)" :key="key">
+                          <!--<v-text-field v-model="element" v-for="element in param"></v-text-field>-->
+                          <pre>{{param}}</pre>
+                        </div>
+                        <template v-for="(element, key) in param">
+                          <v-text-field v-model="element" :key="key"></v-text-field>
+                        </template>
+                      </template>
+
+                      <v-expansion-panel>
+                        <v-expansion-panel-content>
+                          <template slot="header">
+                            <div>Выбранные значения</div>
+                          </template>
+                          <v-card>
+                            <v-card-text>
                           <pre v-if="ts">
                             {{getSelected}}
                           </pre>
-                          <span v-else text-xs-center>
+                              <span v-else text-xs-center>
                             Ничего не выбрано
                           </span>
-                        </v-card-text>
-                      </v-card>
-                    </v-expansion-panel-content>
-                  </v-expansion-panel>
+                            </v-card-text>
+                          </v-card>
+                        </v-expansion-panel-content>
+                      </v-expansion-panel>
+                    </v-flex>
+                    <br>
+                    <v-flex text-xs-left>
+                      <v-btn text-xs-left large :class="{primary: valid, 'red lighten-3': !valid}" :disabled="isSaving" @click.prevent="onSave">
+                        Сохранить
+                      </v-btn>
+                    </v-flex>
+                  </v-form>
                 </v-flex>
-                <br>
-                <v-flex text-xs-left>
-                  <v-btn text-xs-left large :class="{primary: valid, 'red lighten-3': !valid}" :disabled="isSaving" @click.prevent="onSave">
-                    Сохранить
-                  </v-btn>
-                </v-flex>
-              </v-form>
-            </v-flex>
-            <br><br><br>
-            <v-flex class="text-xs-left">
-              <h2>Загрузка PDF</h2>
-              <hr><br><br>
-              <v-form ref="form" lazy-validation v-model="valid">
-                <input type="file" ref="pdf" @change="onUpload" style="display: none"/>
-                <v-btn
-                  :loading="loading"
-                  :disabled="loading"
-                  color="blue"
-                  class="white--text"
-                  @click="onShowWindow">
-                  Загрузить
-                  <v-icon right dark>cloud_upload</v-icon>
-                </v-btn>
-              </v-form>
-            </v-flex>
-            <v-flex xs12>
-              <div  id="html-result"></div>
-            </v-flex>
-          </v-card-text>
-        </v-card>
+                </v-card-text>
+                <v-card-actions>
+                  <v-btn color="primary"  @click="el = 3">Продолжить</v-btn>
+                  <v-btn text  @click="el = 1">Назад</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-stepper-content>
+            <!--Конец Шаг 2-->
+          </v-stepper-items>
+        </v-stepper>
       </v-flex>
     </v-layout>
   </v-container>
@@ -128,6 +164,7 @@
     props: {},
     data() {
       return {
+        el: 0,
         loading: false,
         valid: false,
         isLoading: false,
@@ -175,6 +212,11 @@
         const index = this.items.indexOf(item.name)
         if (index >= 0) this.items.splice(index, 1)
       },
+      reset() {
+        const input = this.$refs.pdf
+        input.type = 'text'
+        input.type = 'file'
+      },
       onSave() {
         if (this.$refs['form-attributes'].validate()) {
           if(this.parameters.length === 0) {
@@ -194,8 +236,9 @@
       },
       onUpload() {
         if (this.$refs.form.validate()) {
+          $('#html-result').html('<br>');
           this.loading = true
-          this.status.message = 'Перемещение файла'
+          this.status.message = 'Загрузка файла'
           this.status.type = 'info'
           let file = this.$refs.pdf.files[0]
           {
@@ -208,6 +251,7 @@
             }
             reader.readAsArrayBuffer(file)
           }
+          this.reset()
         }
       },
       parseContent(content) {
