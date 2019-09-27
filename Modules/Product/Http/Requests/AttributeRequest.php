@@ -16,7 +16,7 @@ class AttributeRequest extends FormRequest
   {
     if(Request::isMethod('patch')) {
       return [
-        'title' => 'required|unique:attributes'
+        'title' => 'required'
       ];
     } else {
       return [
