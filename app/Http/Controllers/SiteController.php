@@ -128,4 +128,30 @@ class SiteController extends Controller
     $attributes = Attribute::with(['attributeListValue'])->where('attribute_type_id', 8)->where('filtered', 1)->get();
     return view('test', compact('products', 'attributes'));
   }
+
+  public function sale() {
+    $products = Product::with(['attributes','files', 'lineProduct.files' => function($query) {
+      $query->doesntHave('figure');
+    }, 'typeProduct.files' => function($query) {
+      $query->doesntHave('figure');
+    }, 'productCategory.files' => function($query) {
+      $query->doesntHave('figure');
+    }])->where('onsale', 1)->get();
+    $attributes = [];
+    $header = 'Наша продукция';
+    return view('sale', compact('products', 'attributes', 'header'));
+  }
+
+  public function special() {
+    $products = Product::with(['attributes','files', 'lineProduct.files' => function($query) {
+      $query->doesntHave('figure');
+    }, 'typeProduct.files' => function($query) {
+      $query->doesntHave('figure');
+    }, 'productCategory.files' => function($query) {
+      $query->doesntHave('figure');
+    }])->where('special', 1)->get();
+    $attributes = [];
+    $header = 'Лучшие продажи';
+    return view('sale', compact('products', 'attributes', 'header'));
+  }
 }

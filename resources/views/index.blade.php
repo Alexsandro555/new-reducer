@@ -34,7 +34,7 @@
                   </p>
                 </v-flex>
                 <v-flex xs3 text-xs-right>
-                  <a href="#" class="content-button content-button--margin">Смотреть каталог</a>
+                  <a href="/sale" class="content-button content-button--margin">Смотреть каталог</a>
                 </v-flex>
               </v-layout>
               <v-layout row wrap>
@@ -56,7 +56,7 @@
             </p>
           </v-flex>
           <v-flex xs3 text-xs-right>
-            <a href="#" class="content-button">Смотреть каталог</a>
+            <a href="/special" class="content-button">Смотреть каталог</a>
           </v-flex>
         </v-layout>
         <v-layout row wrap>
