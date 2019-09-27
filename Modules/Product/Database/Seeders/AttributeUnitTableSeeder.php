@@ -18,13 +18,14 @@ class AttributeUnitTableSeeder extends Seeder
       Model::unguard();
 
       $arrAttributeUnits = [
-        ['title' => 'Нм'],
-        ['title' => 'об/мин.'],
         ['title' => 'кВт'],
+        ['title' => 'об/мин.'],
+        ['title' => 'Нм'],
         ['title' => 'H'],
         ['title' => 'кг'],
         ['title' => 'л'],
         ['title' => 'мм'],
+        ['title' => '%'],
       ];
 
       foreach ($arrAttributeUnits as $arrAttributeUnit) {
