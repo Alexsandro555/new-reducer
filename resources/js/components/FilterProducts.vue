@@ -78,7 +78,7 @@
       },
       attributes: {
         type: Array,
-        default: []
+        default: () => []
       }
     },
     data() {
