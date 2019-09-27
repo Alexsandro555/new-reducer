@@ -235,7 +235,7 @@ header {
 
 [v-cloak] .v-cloak--block {
   display: block;
-  background: url("/images/cat-preloader.gif") center center no-repeat, #e19a2e;
+  background: url("/images/cat-preloader.gif") center center no-repeat, #e1ffff;
   width: 100%;
   height: 1200px;
 }

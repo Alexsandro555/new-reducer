@@ -14,16 +14,19 @@ use Modules\Product\Entities\LineProduct;
 use Modules\Initializer\Traits\DefaultTrait;
 use Spatie\PdfToText\Pdf;
 use Illuminate\Support\Facades\Storage;
+use Modules\Product\Http\Requests\AttributeRequest;
 
 class AttributeController extends Controller
 {
   Use ControllerTrait, DefaultTrait;
 
   public $model;
+  public $request;
 
-  public function __construct()
+  public function __construct(AttributeRequest $request)
   {
     $this->model = new Attribute();
+    $this->request = $request;
   }
 
   /**

@@ -6,14 +6,16 @@ use Illuminate\Http\Request;
 
 trait ControllerTrait {
   public $model;
+  public $request;
 
-  public function index(Request $request)
+  public function index()
   {
     return $this->model->all();
   }
 
-  public function load(Request $request)
+  public function load()
   {
+    $request = $this->request?:request();
     $values=$request->all();
     $m=$this->model;
     $visible=null;
@@ -69,8 +71,9 @@ trait ControllerTrait {
     return $collection;
   }
 
-  public function save(Request $request)
+  public function save()
   {
+    $request = $this->request?:request();
     $multidim=false;
     foreach ($request->all() as $key=>$value)
     {
@@ -96,8 +99,9 @@ trait ControllerTrait {
     return $f;
   }
 
-  public function delete(Request $request)
+  public function delete()
   {
+    $request = $this->request?:request();
     $k=$this->model->find($request->id);
     $k->delete();
     return $k;
