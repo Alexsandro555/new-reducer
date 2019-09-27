@@ -136,7 +136,7 @@
             vsending(file, xhr, formData) {
                 formData.append('fileableId',this.fileableId);
                 formData.append('typeFiles', this.typeFiles);
-                formData.append('image_view_id', this.image_view_id);
+                formData.append('file_list_view_id', this.file_list_view_id);
                 formData.append('model', this.model);
             },
             showSuccess(file,data) {
