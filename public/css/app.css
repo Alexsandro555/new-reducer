@@ -1679,9 +1679,8 @@ form div.content-right-order table tfoot tr td {
 }
 
 .category__title {
-  padding: 15px 20px 15px 20px;
+  padding: 80px 20px 15px 20px;
   text-align: center;
-  line-height: 13;
 }
 
 .category__title a {

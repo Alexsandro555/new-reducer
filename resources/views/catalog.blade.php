@@ -26,7 +26,7 @@
               <div class="category-wrapper">
                 <div class="category">
                   <div class="category__title">
-                    <a class="category-elements" href="/catalog/{{$model->product_category->url_key}}/{{$model->url_key}}/{{$lineProduct->url_key}}">{{str_limit($lineProduct->title, $limit = 27, $end="...")}}</a>
+                    <a class="category-elements" href="/catalog/{{$model->product_category->url_key}}/{{$model->url_key}}/{{$lineProduct->url_key}}">{{$lineProduct->title}}</a>
                   </div>
                 </div>
               </div>
@@ -37,7 +37,7 @@
                 <div class="category-wrapper">
                   <div class="category">
                     <div class="category__title">
-                      <a class="category-elements" href="/catalog/{{$model->url_key}}/{{$typeProduct->url_key}}">{{str_limit($typeProduct->title, $limit = 27, $end="...")}}</a>
+                      <a class="category-elements" href="/catalog/{{$model->url_key}}/{{$typeProduct->url_key}}">{{$typeProduct->title}}</a>
                     </div>
                   </div>
                 </div>
