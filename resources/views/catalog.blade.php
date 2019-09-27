@@ -23,14 +23,10 @@
         <v-layout row wrap>
           @if($model->lineProducts)
             @foreach($model->lineProducts as $lineProduct)
-              <div class="product-wrapper">
-                <div class="product">
-                  <div class="product-image-wrapper">
-                    <div class="product-image">
-                    </div>
-                  </div>
-                  <div class="product__title">
-                  <a class="line-product-elements" href="/catalog/{{$model->product_category->url_key}}/{{$model->url_key}}/{{$lineProduct->url_key}}">{{str_limit($lineProduct->title, $limit = 27, $end="...")}}</a>
+              <div class="category-wrapper">
+                <div class="category">
+                  <div class="category__title">
+                    <a class="category-elements" href="/catalog/{{$model->product_category->url_key}}/{{$model->url_key}}/{{$lineProduct->url_key}}">{{str_limit($lineProduct->title, $limit = 27, $end="...")}}</a>
                   </div>
                 </div>
               </div>
@@ -38,14 +34,10 @@
           @endif
             @if($model->typeProducts)
               @foreach($model->typeProducts as $typeProduct)
-                <div class="product-wrapper">
-                  <div class="product">
-                    <div class="product-image-wrapper">
-                      <div class="product-image">
-                      </div>
-                    </div>
-                    <div class="product__title">
-                      <a class="line-product-elements" href="/catalog/{{$model->url_key}}/{{$typeProduct->url_key}}">{{str_limit($typeProduct->title, $limit = 27, $end="...")}}</a>
+                <div class="category-wrapper">
+                  <div class="category">
+                    <div class="category__title">
+                      <a class="category-elements" href="/catalog/{{$model->url_key}}/{{$typeProduct->url_key}}">{{str_limit($typeProduct->title, $limit = 27, $end="...")}}</a>
                     </div>
                   </div>
                 </div>

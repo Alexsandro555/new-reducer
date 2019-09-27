@@ -1665,3 +1665,28 @@ form div.content-right-order table tfoot tr td {
   margin: 0 auto;
 }
 
+.category-wrapper {
+  -webkit-filter: drop-shadow(5px 5px 10px #29435c);
+          filter: drop-shadow(5px 5px 10px #29435c);
+  margin-left: 19px;
+  margin-bottom: 30px;
+}
+
+.category {
+  width: 200px;
+  height: 200px;
+  background-color: #ecf6fc;
+}
+
+.category__title {
+  padding: 15px 20px 15px 20px;
+  text-align: center;
+  line-height: 13;
+}
+
+.category__title a {
+  font-family: "Gilroy-ExtraBold", sans-serif;
+  color: #29435c;
+  text-decoration: none;
+}
+
