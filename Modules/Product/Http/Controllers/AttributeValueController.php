@@ -10,6 +10,9 @@ use Modules\Product\Entities\AttributeValue;
 use Modules\Product\Entities\Product;
 use Modules\Product\Entities\AttributeType;
 use Modules\Product\Entities\AttributeListValues;
+use Modules\Product\Http\Requests\AttributeRequest;
+use Modules\Product\Http\Requests\MultipleAttributeRequest;
+use Illuminate\Support\Facades\Log;
 
 class AttributeValueController extends Controller
 {
@@ -38,9 +41,9 @@ class AttributeValueController extends Controller
     return $this->model->all();
   }
 
-  private function checkValue($id, $value)
+  private function formatValue($attribute, $value)
   {
-    switch ($id) {
+    switch ($attribute->attribute_type_id) {
       case AttributeType::BOOLEAN:
         return (boolean)$value;
       case AttributeType::STRING:
@@ -54,58 +57,46 @@ class AttributeValueController extends Controller
       case AttributeType::DECIMAL:
         return floatval($value);
       case AttributeType::LIST:
-        return AttributeListValues::where('title', $value)->firstOrFail()->id;
+        $attributeListValue = AttributeListValues::where('title', $value)->where('attribute_id', $attribute->id)->first();
+        if(!$attributeListValue) {
+          throw new \Modules\Product\Exceptions\NotFoundAttributeListValueException('Аттрибут '.$attribute->title.' не содержит значения с именем: '.$value);
+        }
+        return AttributeListValues::where('title', $value)->where('attribute_id', $attribute->id)->firstOrFail()->id;
     }
     return null;
   }
 
-  public function saveMultiple(Request $request)
+  public function saveMultiple(MultipleAttributeRequest $request)
   {
-    // Получаем значения
     $values = json_decode($request->values);
-    // Убеждаемся что массив не пустой
-    if(!$values) return abort(404);
+    $attributes = Attribute::findOrFail($request->attributeIds);
 
-    // атрибуты по-горизонтали
-   // if ($request->direction) {
-      $row = [];
-      $products = Product::find($request->productIds);
-      foreach($products as $product) {
-        $row = array_pop($values)?:$row;
-        $reversRow = array_reverse($row);
-        $cell = '';
-        $attributes = Attribute::find($request->attributeIds);
-        foreach($attributes as $attribute) {
-          $cell = array_pop($reversRow)?:$cell;
-          $value = $this->checkValue($attribute->attribute_type_id,trim($cell));
+
+    foreach($request->productIds as $productId) {
+      $row = array_shift($values);
+      if(!$row) return AttributeValue::all();
+
+      try {
+        foreach($request->attributeIds as $attributeId) {
+          $attribute = $attributes->firstWhere('id', $attributeId);
+          $cell = array_shift($row);
+          if(!$cell) break;
+          try {
+            $value = $this->formatValue($attribute,trim($cell));
+          } catch(\Modules\Product\Exceptions\NotFoundAttributeListValueException $e) {
+            Log::error($e->getMessage());
+          }
           if($value) {
-            $attribute->prod()->attach($product->id, ['value' => $value]);
+            $attribute->prod()->attach($productId, ['value' => $value]);
           } else {
-            return abort(404);
+            throw new \Modules\Product\Exceptions\FormatAttributeValueException('Неверный формат атрибута '.$attribute->title.' допустимый тип: '.$attribute->attribute_type->title.', передаваемое значение: '.$cell);
           }
         }
+      } catch (\Modules\Product\Exceptions\FormatAttributeValueException $e) {
+        Log::error($e->getMessage());
       }
-    /*}
-    else
-    {
-      $attributes = Attribute::find($request->attributeIds);
-      $row = current($values);
-      $cell = current($row);
-      foreach ($attributes as $attribute) {
-        foreach($request->productIds as $productId) {
-            $value = $this->checkValue($attribute->attribute_type_id,trim($cell));
-            if($value) {
-              $attribute->prod()->attach($productId, ['value' => $value]);
-            } else {
-              return abort(404);
-            }
-            $temp = next($row);
-            $cell = ($temp)?$temp:$cell;
-        }
-        $temp = next($values);
-        $row = ($temp)?$temp:reset($values);
-      }
-    }*/
+    }
+
     return AttributeValue::all();
   }
 }
