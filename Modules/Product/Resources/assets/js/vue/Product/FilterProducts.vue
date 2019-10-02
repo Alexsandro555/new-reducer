@@ -1,76 +1,76 @@
 <template>
+  <v-layout row wrap>
+    <v-flex xs12 v-if="attributes.length > 0">
       <v-layout row wrap>
-        <v-flex xs12 v-if="attributes.length > 0">
-            <v-layout row wrap>
-              <v-flex pa-3 md3 xs12 v-for="attribute in attributes" :key="attribute.id">
-                <v-select
-                  :label="attribute.title"
-                  :items="filterItems(attribute.attribute_list_value)"
-                  :value="selectAttributesValues[attribute.id]"
-                  @change="selectItem($event,attribute.id)"
-                  multiple
-                  :menu-props="{maxHeight: '400'}"
-                  :item-text="itemText"
-                  item-value="id"
-                  no-data-text="Нет данных"
-                  attach
-                  chips>
-                  <template slot="selection" slot-scope="data">
-                    <v-chip
-                      close
-                      @input="data.parent.selectItem(data.item)"
-                      :selected="data.selected"
-                      class="chip--select-multi"
-                      :key="JSON.stringify(data.item)">
-                      {{ data.item.title }}
-                    </v-chip>
-                  </template>
-                </v-select>
-              </v-flex>
-            </v-layout>
-        </v-flex>
-        <v-flex xs12>
-          <v-layout column wrap>
-            <v-layout row wrap v-if="filteredProducts.length > 0">
-              <div class="product-wrapper" v-for="product in getPagesElement">
-                <div class="product">
-                  <div class="product-image-wrapper">
-                    <div class="product-image" @click="goPage('/catalog/detail/'+product.url_key)">
-                      <template v-if="getImages(product).length > 0">
-                        <img :src="'/storage/'+getImages(product)[0].config.files.medium.filename"/>
-                      </template>
-                      <template v-else>
-                        <img src="/images/no-image-medium.png"/>
-                      </template>
-                    </div>
-                  </div>
-                  <div class="product__title">
-                    <a :href="'/catalog/detail/'+product.url_key">
-                      {{product.title.substr(0, 42)}}
-                    </a>
-                  </div>
-                  <v-layout row wrap>
-                    <v-flex xs8 text-xs-center>
-                      <br>
-                      <span class="product-price-wrapper">
-                    <span class="product-price">{{product.price}}</span> руб.</span>
-                    </v-flex>
-                    <v-flex xs4>
-                      <img @click="addCart(product.id)" src="/images/btn-sale.png"/>
-                    </v-flex>
-                  </v-layout>
-                </div>
-              </div>
-            </v-layout>
-            <div v-else>
-              <h2>Продукция с заданными параметрами не была найдена</h2>
-            </div>
-            <div class="text-xs-center">
-              <v-pagination v-if="colPages > 1" :total-visible="7" v-model="page" :page="page" :length="colPages"></v-pagination>
-            </div>
-          </v-layout>
+        <v-flex pa-3 md3 xs12 v-for="attribute in filteredAttributes" :key="attribute.id">
+          <v-select
+            :label="attribute.title"
+            :items="filterItems(attribute.attribute_list_value)"
+            :value="selectAttributesValues[attribute.id]"
+            @change="selectItem($event,attribute.id)"
+            multiple
+            :menu-props="{maxHeight: '400'}"
+            :item-text="itemText"
+            item-value="id"
+            no-data-text="Нет данных"
+            attach
+            chips>
+            <template slot="selection" slot-scope="data">
+              <v-chip
+                close
+                @input="data.parent.selectItem(data.item)"
+                :selected="data.selected"
+                class="chip--select-multi"
+                :key="JSON.stringify(data.item)">
+                {{ data.item.title }}
+              </v-chip>
+            </template>
+          </v-select>
         </v-flex>
       </v-layout>
+    </v-flex>
+    <v-flex xs12>
+      <v-layout column wrap>
+        <v-layout row wrap v-if="filteredProducts.length > 0">
+          <div class="product-wrapper" v-for="product in getPagesElement">
+            <div class="product">
+              <div class="product-image-wrapper">
+                <div class="product-image" @click="goPage('/catalog/detail/'+product.url_key)">
+                  <template v-if="getImages(product).length > 0">
+                    <img :src="'/storage/'+getImages(product)[0].config.files.medium.filename"/>
+                  </template>
+                  <template v-else>
+                    <img src="/images/no-image-medium.png"/>
+                  </template>
+                </div>
+              </div>
+              <div class="product__title">
+                <a :href="'/catalog/detail/'+product.url_key">
+                  {{product.title.substr(0, 42)}}
+                </a>
+              </div>
+              <v-layout row wrap>
+                <v-flex xs8 text-xs-center>
+                  <br>
+                  <span class="product-price-wrapper">
+                    <span class="product-price">{{product.price}}</span> руб.</span>
+                </v-flex>
+                <v-flex xs4>
+                  <img @click="addCart(product.id)" src="/images/btn-sale.png"/>
+                </v-flex>
+              </v-layout>
+            </div>
+          </div>
+        </v-layout>
+        <div v-else>
+          <h2>Продукция с заданными параметрами не была найдена</h2>
+        </div>
+        <div class="text-xs-center">
+          <v-pagination v-if="colPages > 1" :total-visible="7" v-model="page" :page="page" :length="colPages"></v-pagination>
+        </div>
+      </v-layout>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
@@ -98,6 +98,9 @@
       }
     },
     computed: {
+      filteredAttributes() {
+        return this.attributes.filter(item => item.active && item.filtered && item.attribute_type_id === 8)
+      },
       filteredProducts() {
         this.handleAttributes(this.getFilteredProducts(this.selectAttributesValues))
         return this.getFilteredProducts(this.selectAttributesValues)
@@ -180,7 +183,7 @@
           this.attrListCount[attribute.pivot.list_value]+=1
         }
         else {
-            this.attrListCount[attribute.pivot.list_value]=1
+          this.attrListCount[attribute.pivot.list_value]=1
         }
       },
       itemText(item) {

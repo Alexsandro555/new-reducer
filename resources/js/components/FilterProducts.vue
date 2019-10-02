@@ -73,8 +73,8 @@
   export default {
     props: {
       products: {
-        type: Array,
-        default: []
+        type: Object,
+        default: null
       },
       attributes: {
         type: Array,

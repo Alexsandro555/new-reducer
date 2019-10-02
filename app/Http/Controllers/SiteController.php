@@ -71,6 +71,7 @@ class SiteController extends Controller
   public function lineProduct($slugProductCategory, $slugTypeProduct, $slug)
   {
     $model = LineProduct::where('url_key', $slug)->firstOrFail();
+
     $products = Product::with(['files', 'lineProduct.files' => function($query) {
       $query->doesntHave('figure');
     }, 'typeProduct.files' => function($query) {
@@ -78,15 +79,21 @@ class SiteController extends Controller
     }, 'productCategory.files' => function($query) {
       $query->doesntHave('figure');
     },'attributes' => function($query) {
-      $query->where('filtered',1)->where('active',1);
+      $query->where('filtered',1)->where('attribute_type_id', 8)->where('active',1);
     }])->where('line_product_id', $model->id)->where('active',1)->get();
-    $attributes = Attribute::whereHas('lineProducts', function($query) use ($model) {
-      $query->where('id', $model->id);
-    })->orWhereHas('typeProducts', function($query) use ($model) {
-      $query->where('id', $model->type_product->id);
-    })->orWhereHas('productCategories', function($query) use ($model) {
-      $query->where('id', $model->type_product->product_category->id);
-    })->with(['attributeListValue'])->where('attribute_type_id', 8)->where('filtered', 1)->where('active',1)->get();
+
+
+    $attributes = Attribute::with(['attributeListValue'])->whereHas('lineProducts', function($query) use (&$model) {
+      $query->where(['id' => $model->id]);
+    })->orWhereHas('typeProducts', function($query) use (&$model) {
+      $query->where(['id' => $model->type_product->id]);
+    })->orWhereHas('productCategories', function($query) use (&$model) {
+      $query->where(['id' => $model->type_product->product_category->id]);
+    })->orderBy('sort','asc')->get();
+
+    /*$attributes = $model->type_product->product_category->attributes->where('filtered',1)->where('attribute_type_id', 8)->where('active',1);
+    $attributes = $attributes->concat($model->type_product->attributes->where('filtered',1)->where('attribute_type_id', 8)->where('active',1));
+    $attributes = $attributes->concat($model->attributes->where('filtered',1)->where('attribute_type_id', 8)->where('active',1));*/
     return view('lineProduct', compact('model','products', 'attributes'));
   }
 

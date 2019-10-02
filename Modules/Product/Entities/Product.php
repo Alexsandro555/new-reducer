@@ -102,7 +102,7 @@ class Product extends Model
     return $this->hasManyDeep(Figure::class, [LineProduct::class, File::class], ['id', ['fileable_type', 'fileable_id'], 'file_id'], ['line_product_id', 'id', 'id']);
   }
 
-  public function getPricesAttribute()
+  /*public function getPricesAttribute()
   {
     $resultArr = [];
     $this->skus->each(function($sku) use (&$resultArr) {
@@ -116,5 +116,5 @@ class Product extends Model
     return $resultArr;
   }
 
-  protected $appends = ['prices'];
+  protected $appends = ['prices'];*/
 }
