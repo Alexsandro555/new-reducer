@@ -10,7 +10,8 @@
             <v-card>
               <v-card-content class="collapseAttribute__content">
                 <div v-for="item in filterItems(attribute.attribute_list_value)">
-                  <v-checkbox v-model="selectValuesAttributes[attribute.id]" :label="item.title"></v-checkbox>
+                  <input type="checkbox" v-model="selectValuesAttributes[attribute.id][item.id]"/>{{item.title}}
+                  <!--<v-checkbox v-model="selectValuesAttributes[attribute.id]" :label="item.title"></v-checkbox>-->
                 </div>
               </v-card-content>
             </v-card>
