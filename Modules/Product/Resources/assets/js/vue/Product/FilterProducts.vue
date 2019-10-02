@@ -10,7 +10,7 @@
             <v-card>
               <v-card-content class="collapseAttribute__content">
                 <div v-for="item in filterItems(attribute.attribute_list_value)">
-                  {{item.title}}
+                  <v-checkbox v-model="selectValuesAttributes[attribute.id]" :label="item.title"></v-checkbox>
                 </div>
               </v-card-content>
             </v-card>
@@ -116,6 +116,7 @@
         perPage: 15,
         attrListCount: {},
         selectAttributesValues: {},
+        selectValuesAttributes: {},
         panel: []
       }
     },
@@ -148,6 +149,7 @@
     mounted() {
       this.attributes.forEach(attribute => {
         Vue.set(this.selectAttributesValues, attribute.id, [])
+        Vue.set(this.selectValuesAttributes, attribute.id, [])
       })
     },
     methods: {
