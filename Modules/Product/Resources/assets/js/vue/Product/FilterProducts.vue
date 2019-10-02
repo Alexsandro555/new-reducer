@@ -8,12 +8,12 @@
               <span class="collapseAttribute__header">{{attribute.title}}</span>
             </template>
             <v-card class="collapseAttribute__content">
-              <v-card-content>
+              <v-card-title>
                 <div v-for="item in filterItems(attribute.attribute_list_value)">
-                  <input type="checkbox" v-model="selectValuesAttributes[attribute.id][item.id]"/>{{item.title}}
+                  <input type="checkbox" v-model="selectValuesAttributes[attribute.id][item.id]"/>{{itemText(item)}}
                   <!--<v-checkbox v-model="selectValuesAttributes[attribute.id]" :label="item.title"></v-checkbox>-->
                 </div>
-              </v-card-content>
+              </v-card-title>
             </v-card>
           </v-expansion-panel-content>
         </v-expansion-panel>
@@ -229,6 +229,7 @@
         let products = this.products
         for(let index in attributes) {
           attributes[index].forEach((currentValue, i, array) => {
+            console.log(currentValue)
             products.filter(product => {
               return !_.isUndefined(product.attributes.find(item => item.id == index && currentValue.includes(item.pivot.list_value)))
             }).forEach(product => {
