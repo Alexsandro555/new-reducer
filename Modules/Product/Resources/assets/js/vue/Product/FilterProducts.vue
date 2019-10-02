@@ -7,8 +7,8 @@
             <template slot="header">
               <span class="collapseAttribute__header">{{attribute.title}}</span>
             </template>
-            <v-card>
-              <v-card-content class="collapseAttribute__content">
+            <v-card class="collapseAttribute__content">
+              <v-card-content>
                 <div v-for="item in filterItems(attribute.attribute_list_value)">
                   <input type="checkbox" v-model="selectValuesAttributes[attribute.id][item.id]"/>{{item.title}}
                   <!--<v-checkbox v-model="selectValuesAttributes[attribute.id]" :label="item.title"></v-checkbox>-->
@@ -230,7 +230,7 @@
         for(let index in attributes) {
           attributes[index].forEach((currentValue, i, array) => {
             products.filter(product => {
-              return !_.isUndefined(product.attributes.find(item => item.id == index && item.pivot.list_value == currentValue))
+              return !_.isUndefined(product.attributes.find(item => item.id == index && currentValue.includes(item.pivot.list_value)))
             }).forEach(product => {
               if(_.isUndefined(result.find(item => item.id == product.id))) {
                 result.push(product)
