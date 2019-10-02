@@ -10,7 +10,7 @@
             <v-card>
               <v-card-content class="collapseAttribute__content">
                 <div v-for="item in filterItems(attribute.attribute_list_value)">
-                  item.title
+                  {{item.title}}
                 </div>
               </v-card-content>
             </v-card>
