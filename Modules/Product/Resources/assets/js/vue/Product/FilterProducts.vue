@@ -1,75 +1,96 @@
 <template>
   <v-layout row wrap>
-    <v-flex xs12 v-if="attributes.length > 0">
-      <v-layout row wrap>
-        <v-flex pa-3 md3 xs12 v-for="attribute in filteredAttributes" :key="attribute.id">
-          <v-select
-            :label="attribute.title"
-            :items="filterItems(attribute.attribute_list_value)"
-            :value="selectAttributesValues[attribute.id]"
-            @change="selectItem($event,attribute.id)"
-            multiple
-            :menu-props="{maxHeight: '400'}"
-            :item-text="itemText"
-            item-value="id"
-            no-data-text="Нет данных"
-            attach
-            chips>
-            <template slot="selection" slot-scope="data">
-              <v-chip
-                close
-                @input="data.parent.selectItem(data.item)"
-                :selected="data.selected"
-                class="chip--select-multi"
-                :key="JSON.stringify(data.item)">
-                {{ data.item.title }}
-              </v-chip>
+    <div class="filterBody">
+      <aside class="filterSidebar">
+        <v-expansion-panel v-model="panel" expand>
+          <v-expansion-panel-content class="collapseAttribute" v-for="attribute in filteredAttributes" :key="attribute.id">
+            <template slot="header">
+              <span class="collapseAttribute__header">{{attribute.title}}</span>
             </template>
-          </v-select>
+            <v-card>
+              <v-card-content class="collapseAttribute__content">
+                <div v-for="item in filterItems(attribute.attribute_list_value)">
+                  item.title
+                </div>
+              </v-card-content>
+            </v-card>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </aside>
+      <div class="filterContent">
+        <v-flex xs12 v-if="attributes.length > 0">
+          <v-layout row wrap>
+            <v-flex pa-3 md3 xs12 v-for="attribute in filteredAttributes" :key="attribute.id">
+              <v-select
+                :label="attribute.title"
+                :items="filterItems(attribute.attribute_list_value)"
+                :value="selectAttributesValues[attribute.id]"
+                @change="selectItem($event,attribute.id)"
+                multiple
+                :menu-props="{maxHeight: '400'}"
+                :item-text="itemText"
+                item-value="id"
+                no-data-text="Нет данных"
+                attach
+                chips>
+                <template slot="selection" slot-scope="data">
+                  <v-chip
+                    close
+                    @input="data.parent.selectItem(data.item)"
+                    :selected="data.selected"
+                    class="chip--select-multi"
+                    :key="JSON.stringify(data.item)">
+                    {{ data.item.title }}
+                  </v-chip>
+                </template>
+              </v-select>
+            </v-flex>
+          </v-layout>
         </v-flex>
-      </v-layout>
-    </v-flex>
-    <v-flex xs12>
-      <v-layout column wrap>
-        <v-layout row wrap v-if="filteredProducts.length > 0">
-          <div class="product-wrapper" v-for="product in getPagesElement">
-            <div class="product">
-              <div class="product-image-wrapper">
-                <div class="product-image" @click="goPage('/catalog/detail/'+product.url_key)">
-                  <template v-if="getImages(product).length > 0">
-                    <img :src="'/storage/'+getImages(product)[0].config.files.medium.filename"/>
-                  </template>
-                  <template v-else>
-                    <img src="/images/no-image-medium.png"/>
-                  </template>
+        <v-flex xs12>
+          <v-layout column wrap>
+            <v-layout row wrap v-if="filteredProducts.length > 0">
+              <div class="product-wrapper" v-for="product in getPagesElement">
+                <div class="product">
+                  <div class="product-image-wrapper">
+                    <div class="product-image" @click="goPage('/catalog/detail/'+product.url_key)">
+                      <template v-if="getImages(product).length > 0">
+                        <img :src="'/storage/'+getImages(product)[0].config.files.medium.filename"/>
+                      </template>
+                      <template v-else>
+                        <img src="/images/no-image-medium.png"/>
+                      </template>
+                    </div>
+                  </div>
+                  <div class="product__title">
+                    <a :href="'/catalog/detail/'+product.url_key">
+                      {{product.title.substr(0, 42)}}
+                    </a>
+                  </div>
+                  <v-layout row wrap>
+                    <v-flex xs8 text-xs-center>
+                      <br>
+                      <span class="product-price-wrapper">
+                    <span class="product-price">{{product.price}}</span> руб.</span>
+                    </v-flex>
+                    <v-flex xs4>
+                      <img @click="addCart(product.id)" src="/images/btn-sale.png"/>
+                    </v-flex>
+                  </v-layout>
                 </div>
               </div>
-              <div class="product__title">
-                <a :href="'/catalog/detail/'+product.url_key">
-                  {{product.title.substr(0, 42)}}
-                </a>
-              </div>
-              <v-layout row wrap>
-                <v-flex xs8 text-xs-center>
-                  <br>
-                  <span class="product-price-wrapper">
-                    <span class="product-price">{{product.price}}</span> руб.</span>
-                </v-flex>
-                <v-flex xs4>
-                  <img @click="addCart(product.id)" src="/images/btn-sale.png"/>
-                </v-flex>
-              </v-layout>
+            </v-layout>
+            <div v-else>
+              <h2>Продукция с заданными параметрами не была найдена</h2>
             </div>
-          </div>
-        </v-layout>
-        <div v-else>
-          <h2>Продукция с заданными параметрами не была найдена</h2>
-        </div>
-        <div class="text-xs-center">
-          <v-pagination v-if="colPages > 1" :total-visible="7" v-model="page" :page="page" :length="colPages"></v-pagination>
-        </div>
-      </v-layout>
-    </v-flex>
+            <div class="text-xs-center">
+              <v-pagination v-if="colPages > 1" :total-visible="7" v-model="page" :page="page" :length="colPages"></v-pagination>
+            </div>
+          </v-layout>
+        </v-flex>
+      </div>
+    </div>
+
   </v-layout>
 </template>
 
@@ -94,12 +115,20 @@
         page: 1,
         perPage: 15,
         attrListCount: {},
-        selectAttributesValues: {}
+        selectAttributesValues: {},
+        panel: []
       }
     },
     computed: {
       filteredAttributes() {
-        return this.attributes.filter(item => item.active && item.filtered && item.attribute_type_id === 8)
+        return this.attributes.filter(item => {
+          if(item.active && item.filtered && item.attribute_type_id === 8) {
+            this.panel.push(true)
+            return true
+          } else {
+            return false
+          }
+        })
       },
       filteredProducts() {
         this.handleAttributes(this.getFilteredProducts(this.selectAttributesValues))
@@ -195,7 +224,6 @@
       getFilteredProducts(attributes) {
         let result = []
         let products = this.products
-        //if (attributes.filter(attribute => attribute.length > 0).length == 0) return this.products
         for(let index in attributes) {
           attributes[index].forEach((currentValue, i, array) => {
             products.filter(product => {
@@ -216,3 +244,26 @@
     }
   }
 </script>
+
+<style scoped>
+  .filterBody {
+    display: flex;
+    flex-direction: row;
+    border-top: 1px solid #d3d4d6;
+  }
+  .filterSidebar {
+    width: 285px;
+    flex: 0 0 285px;
+    margin-right: 20px;
+    display: block;
+  }
+  .filterContent {
+    flex: 1;
+  }
+  .collapseAttribute__header {
+    font-weight: bold;
+  }
+  .collapseAttribute__content {
+    padding: 0 20px 20px;
+  }
+</style>
