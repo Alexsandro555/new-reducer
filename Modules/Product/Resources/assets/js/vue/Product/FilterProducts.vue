@@ -9,7 +9,7 @@
             </template>
             <v-card class="collapseAttribute__content">
               <v-card-title>
-                  <filter-attributes :items="filterItems(attribute.attribute_list_value)" @attributechanged="updateSelectedAttribute(attribute.id,$event)"/>
+                  <filter-attributes :items="filterItems(attribute.attribute_list_value, attribute.id)" @attributechanged="updateSelectedAttribute(attribute.id,$event)"/>
               </v-card-title>
             </v-card>
           </v-expansion-panel-content>
@@ -117,7 +117,8 @@
         checkedAttributes: {},
         selectValuesAttributes: {},
         selectAttributesValues: {},
-        panel: []
+        panel: [],
+        currentAttributeId: null
       }
     },
     components: {
@@ -182,6 +183,7 @@
         this.showCartModal()
       },
       updateSelectedAttribute(attribute_id, event) {
+        this.currentAttributeId = attribute_id
         Vue.set(this.selectAttributesValues, attribute_id, event)
       },
       selectItem(event,id,index) {
@@ -212,8 +214,7 @@
       handleAttributes(products) {
         this.attrListCount = {}
         products.forEach(item => {
-          let attributes = item.attributes.filter(item => item.filtered == 1 && item.attribute_type_id == 8)
-          attributes.forEach(attribute => {
+          item.attributes.forEach(attribute => {
             this.handleAttribute(attribute)
           })
         })
@@ -229,8 +230,8 @@
       itemText(item) {
         return item.title + ' ('+this.attrListCount[item.id]+')'
       },
-      filterItems(items) {
-        return items.filter(item => !_.isUndefined(this.attrListCount[item.id]))
+      filterItems(items, attribute_id) {
+       return this.currentAttributeId == attribute_id?items:items.filter(item => !_.isUndefined(this.attrListCount[item.id]))
       },
       getFilteredProducts(attributes) {
         let result = []
