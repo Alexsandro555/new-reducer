@@ -10,7 +10,6 @@
             <v-card class="collapseAttribute__content">
               <v-card-title>
                   <filter-attributes :items="filterItems(attribute.attribute_list_value)" @attributechanged="updateSelectedAttribute(attribute.id,$event)"/>
-                  <!--<v-checkbox v-model="selectValuesAttributes[attribute.id]" :label="item.title"></v-checkbox>-->
               </v-card-title>
             </v-card>
           </v-expansion-panel-content>
@@ -237,15 +236,10 @@
         let result = []
         let products = this.products
         for(let index in attributes) {
-          attributes[index].forEach((currentValue, i, array) => {
-            console.log(currentValue)
-            products.filter(product => {
-              return !_.isUndefined(product.attributes.find(item => item.id == index && currentValue.includes(item.pivot.list_value)))
-            }).forEach(product => {
-              if(_.isUndefined(result.find(item => item.id == product.id))) {
-                result.push(product)
-              }
-            })
+          products.filter(product => !_.isUndefined(product.attributes.find(item => item.id == index && attributes[index].includes(item.pivot.list_value)))).forEach(product => {
+            if(_.isUndefined(result.find(item => item.id == product.id))) {
+              result.push(product)
+            }
           })
           products = result.length>0?result:products
           result = []
