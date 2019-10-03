@@ -212,7 +212,9 @@
         })
       },
       handleAttributes(products) {
-        Vue.set(this.attrListCount, this.currentAttributeId, this.attrListCount[this.currentAttributeId])
+        let temp = this.attrListCount[this.currentAttributeId]
+        this.attrListCount = {}
+        Vue.set(this.attrListCount, this.currentAttributeId, temp)
         products.forEach(item => {
           item.attributes.forEach(attribute => {
             if(attribute.id !== this.currentAttributeId) this.handleAttribute(attribute)
