@@ -182,8 +182,8 @@
         this.addCartItem({id, count})
         this.showCartModal()
       },
-      updateSelectedAttribute(id, event) {
-        console.log(event, id)
+      updateSelectedAttribute(attribute_id, event) {
+        Vue.set(this.selectAttributesValues, attribute_id, event)
       },
       selectItem(event,id,index) {
         console.log(event)
