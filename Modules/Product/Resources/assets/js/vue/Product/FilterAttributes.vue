@@ -1,7 +1,7 @@
 <template>
     <div>
       <div v-for="item in items">
-        <input type="checkbox" :value="item.id" v-model="checkedAttributes"/>{{item.title}}
+        <input type="checkbox" :value="item.id" v-model="checkedAttributes"/>{{title}}
       </div>
     </div>
 </template>
@@ -11,6 +11,10 @@
           items: {
             type: Array,
             default: () => []
+          },
+          title: {
+            type: String,
+            default: ''
           }
         },
         data() {

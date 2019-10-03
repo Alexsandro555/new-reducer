@@ -9,7 +9,7 @@
             </template>
             <v-card class="collapseAttribute__content">
               <v-card-title>
-                  <filter-attributes :items="filterItems(attribute.attribute_list_value, attribute.id)" @attributechanged="updateSelectedAttribute(attribute.id,$event)"/>
+                  <filter-attributes :items="filterItems(attribute.attribute_list_value, attribute.id)" :title="itemText(item)" @attributechanged="updateSelectedAttribute(attribute.id,$event)"/>
               </v-card-title>
             </v-card>
           </v-expansion-panel-content>
@@ -215,12 +215,11 @@
         Vue.set(this.attrListCount, this.currentAttributeId, this.attrListCount[this.currentAttributeId])
         products.forEach(item => {
           item.attributes.forEach(attribute => {
-            this.handleAttribute(attribute)
+            if(attribute.id !== this.currentAttributeId) this.handleAttribute(attribute)
           })
         })
       },
       handleAttribute(attribute) {
-        if(attribute.id == this.currentAttributeId) return
         if(this.attrListCount[attribute.pivot.list_value]) {
           this.attrListCount[attribute.pivot.list_value]+=1
         }
