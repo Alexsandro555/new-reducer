@@ -212,7 +212,7 @@
         })
       },
       handleAttributes(products) {
-        this.attrListCount = {}
+        Vue.set(this.attrListCount, this.currentAttributeId, this.attrListCount[this.currentAttributeId])
         products.forEach(item => {
           item.attributes.forEach(attribute => {
             this.handleAttribute(attribute)
