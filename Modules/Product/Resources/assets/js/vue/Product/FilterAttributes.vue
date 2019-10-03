@@ -15,6 +15,10 @@
           attrListCount: {
             type: Object,
             required: true
+          },
+          attributeId: {
+            type: Number,
+            required: true
           }
         },
         data() {
@@ -29,7 +33,7 @@
         },
       methods: {
         itemText(item) {
-          return item.title + ' (' + this.attrListCount[item.id] + ')'
+          return item.title + ' (' + this.attrListCount[this.attributeId][item.id] + ')'
         },
       }
      }

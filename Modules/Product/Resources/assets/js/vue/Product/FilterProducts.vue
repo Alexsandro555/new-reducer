@@ -9,7 +9,7 @@
             </template>
             <v-card class="collapseAttribute__content">
               <v-card-title>
-                  <filter-attributes :items="filterItems(attribute.attribute_list_value, attribute.id)" :attrListCount="attrListCount" @attributechanged="updateSelectedAttribute(attribute.id,$event)"/>
+                  <filter-attributes :items="filterItems(attribute.attribute_list_value, attribute.id)" :attribute-id="attribute.id" :attrListCount="attrListCount" @attributechanged="updateSelectedAttribute(attribute.id,$event)"/>
               </v-card-title>
             </v-card>
           </v-expansion-panel-content>
@@ -222,11 +222,11 @@
         })
       },
       handleAttribute(attribute) {
-        if(this.attrListCount[attribute.pivot.list_value]) {
-          this.attrListCount[attribute.pivot.list_value]+=1
+        if(this.attrListCount[attribute.id][attribute.pivot.list_value]) {
+          this.attrListCount[attribute.id][attribute.pivot.list_value]+=1
         }
         else {
-          this.attrListCount[attribute.pivot.list_value]=1
+          this.attrListCount[attribute.id][attribute.pivot.list_value]=1
         }
         return
       },
