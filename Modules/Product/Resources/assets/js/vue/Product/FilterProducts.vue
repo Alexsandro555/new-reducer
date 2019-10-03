@@ -10,7 +10,7 @@
             <v-card class="collapseAttribute__content">
               <v-card-title>
                 <div v-for="item in filterItems(attribute.attribute_list_value)">
-                  <filter-attributes :item="item" @attributechanged="updateSelectedAttribute(attribute.id)"/>
+                  <filter-attributes :item="item" @attributechanged="updateSelectedAttribute(attribute.id,$event)"/>
                   <!--<v-checkbox v-model="selectValuesAttributes[attribute.id]" :label="item.title"></v-checkbox>-->
                 </div>
               </v-card-title>
@@ -184,7 +184,7 @@
         this.addCartItem({id, count})
         this.showCartModal()
       },
-      updateSelectedAttribute(event, id) {
+      updateSelectedAttribute(id, event) {
         console.log(event, id)
       },
       selectItem(event,id,index) {
