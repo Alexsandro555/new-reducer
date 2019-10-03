@@ -182,7 +182,9 @@
       selectItem(value,id,index) {
         this.page = 1
         let obj = {}
-        obj[id][index] = value
+        let arr = this.selectAttributesValues[id]
+        arr.push(index)
+        obj = {id: arr}
         this.selectAttributesValues = Object.assign({}, this.selectAttributesValues, obj)
       },
       reset() {
