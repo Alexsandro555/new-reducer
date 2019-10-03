@@ -10,7 +10,7 @@
             <v-card class="collapseAttribute__content">
               <v-card-title>
                 <div v-for="item in filterItems(attribute.attribute_list_value)">
-                  <input type="checkbox" v-model="selectValuesAttributes[attribute.id][item.id]" :value="item.id" @change="selectItem($event,attribute.id,item.id)"/>{{itemText(item)}}
+                  <input type="checkbox" v-model="selectValuesAttributes[attribute.id]" :value="selectValuesAttributes[attribute.id]" @change="selectItem($event,attribute.id,item.id)"/>{{itemText(item)}}
                   <!--<v-checkbox v-model="selectValuesAttributes[attribute.id]" :label="item.title"></v-checkbox>-->
                 </div>
               </v-card-title>
@@ -179,13 +179,14 @@
         this.addCartItem({id, count})
         this.showCartModal()
       },
-      selectItem(value,id,index) {
+      selectItem(event,id,index) {
+        /*(console.log(event)
         this.page = 1
         let obj = {}
         let arr = this.selectAttributesValues[id]
         arr.push(index)
         obj = {id: arr}
-        this.selectAttributesValues = Object.assign({}, this.selectAttributesValues, obj)
+        this.selectAttributesValues = Object.assign({}, this.selectAttributesValues, obj)*/
       },
       reset() {
         this.page = 1
