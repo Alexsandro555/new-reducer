@@ -9,10 +9,8 @@
             </template>
             <v-card class="collapseAttribute__content">
               <v-card-title>
-                <div v-for="item in filterItems(attribute.attribute_list_value)">
-                  <filter-attributes :item="item" @attributechanged="updateSelectedAttribute(attribute.id,$event)"/>
+                  <filter-attributes :items="filterItems(attribute.attribute_list_value)" @attributechanged="updateSelectedAttribute(attribute.id,$event)"/>
                   <!--<v-checkbox v-model="selectValuesAttributes[attribute.id]" :label="item.title"></v-checkbox>-->
-                </div>
               </v-card-title>
             </v-card>
           </v-expansion-panel-content>

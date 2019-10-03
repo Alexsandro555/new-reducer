@@ -1,14 +1,16 @@
 <template>
     <div>
-      <input type="checkbox" :value="item.id" v-model="checkedAttributes"/>{{item.title}}
+      <div v-for="item in items">
+        <input type="checkbox" :value="item.id" v-model="checkedAttributes"/>{{item.title}}
+      </div>
     </div>
 </template>
 <script>
     export default {
         props: {
-          item: {
-            type: Object,
-            default: () => {}
+          items: {
+            type: Array,
+            default: () => []
           }
         },
         data() {
