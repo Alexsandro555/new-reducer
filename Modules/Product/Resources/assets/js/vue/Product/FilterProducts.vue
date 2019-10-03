@@ -10,7 +10,7 @@
             <v-card class="collapseAttribute__content">
               <v-card-title>
                 <div v-for="item in filterItems(attribute.attribute_list_value)">
-                  <input type="checkbox" :value="item.id" v-model="selectValuesAttributes[attribute.id]"/>{{itemText(item)}}
+                  <filter-attributes :item="item" @attributechanged="updateSelectedAttribute(attribute.id)"/>
                   <!--<v-checkbox v-model="selectValuesAttributes[attribute.id]" :label="item.title"></v-checkbox>-->
                 </div>
               </v-card-title>
@@ -96,6 +96,7 @@
 </template>
 
 <script>
+  import FilterAttributes from './FilterAttributes'
   import { mapActions, mapMutations } from 'vuex'
   import {ACTIONS, MUTATIONS} from '@cart/constants'
 
@@ -116,10 +117,14 @@
         page: 1,
         perPage: 15,
         attrListCount: {},
-        selectAttributesValues: {},
+        checkedAttributes: {},
         selectValuesAttributes: {},
+        selectAttributesValues: {},
         panel: []
       }
+    },
+    components: {
+      FilterAttributes
     },
     computed: {
       filteredAttributes() {
@@ -178,6 +183,9 @@
         const count = 1
         this.addCartItem({id, count})
         this.showCartModal()
+      },
+      updateSelectedAttribute(event, id) {
+        console.log(event, id)
       },
       selectItem(event,id,index) {
         console.log(event)
