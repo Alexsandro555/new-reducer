@@ -9,7 +9,7 @@
             </template>
             <v-card class="collapseAttribute__content">
               <v-card-title>
-                  <filter-attributes :items="filterItems(attribute.attribute_list_value, attribute.id)" :title="itemText(item)" @attributechanged="updateSelectedAttribute(attribute.id,$event)"/>
+                  <filter-attributes :items="filterItems(attribute.attribute_list_value, attribute.id)" :attrListCount="attrListCount" @attributechanged="updateSelectedAttribute(attribute.id,$event)"/>
               </v-card-title>
             </v-card>
           </v-expansion-panel-content>

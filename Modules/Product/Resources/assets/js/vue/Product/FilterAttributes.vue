@@ -1,7 +1,7 @@
 <template>
     <div>
       <div v-for="item in items">
-        <input type="checkbox" :value="item.id" v-model="checkedAttributes"/>{{title}}
+        <input type="checkbox" :value="item.id" v-model="checkedAttributes"/>{{itemText(item)}}
       </div>
     </div>
 </template>
@@ -12,9 +12,9 @@
             type: Array,
             default: () => []
           },
-          title: {
-            type: String,
-            default: ''
+          attrListCount: {
+            type: Object,
+            required: true
           }
         },
         data() {
@@ -26,6 +26,11 @@
           checkedAttributes() {
             this.$emit('attributechanged', this.checkedAttributes)
           }
-        }
+        },
+      methods: {
+        itemText(item) {
+          return item.title + ' (' + this.attrListCount[item.id] + ')'
+        },
+      }
      }
 </script>
