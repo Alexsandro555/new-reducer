@@ -180,13 +180,13 @@
         this.showCartModal()
       },
       selectItem(event,id,index) {
-        /*(console.log(event)
+        console.log(event)
         this.page = 1
         let obj = {}
         let arr = this.selectAttributesValues[id]
         arr.push(index)
         obj = {id: arr}
-        this.selectAttributesValues = Object.assign({}, this.selectAttributesValues, obj)*/
+        this.selectAttributesValues = Object.assign({}, this.selectAttributesValues, obj)
       },
       reset() {
         this.page = 1
