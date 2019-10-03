@@ -220,18 +220,20 @@
         })
       },
       handleAttribute(attribute) {
+        if(attribute.id == this.currentAttributeId) return
         if(this.attrListCount[attribute.pivot.list_value]) {
           this.attrListCount[attribute.pivot.list_value]+=1
         }
         else {
           this.attrListCount[attribute.pivot.list_value]=1
         }
+        return
       },
       itemText(item) {
         return item.title + ' ('+this.attrListCount[item.id]+')'
       },
       filterItems(items, attribute_id) {
-       return this.currentAttributeId == attribute_id?items:items.filter(item => !_.isUndefined(this.attrListCount[item.id]))
+       return items.filter(item => !_.isUndefined(this.attrListCount[item.id]))
       },
       getFilteredProducts(attributes) {
         let result = []
