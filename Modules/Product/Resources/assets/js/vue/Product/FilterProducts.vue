@@ -213,8 +213,12 @@
       },
       handleAttributes(products) {
         let obj = {}
-        obj[this.currentAttributeId] = this.attrListCount[this.currentAttributeId]
-        this.attrListCount = Object.assign({}, obj)
+        if(this.attrListCount[this.currentAttributeId]) {
+          obj[this.currentAttributeId] = this.attrListCount[this.currentAttributeId]
+          this.attrListCount = Object.assign({}, obj)
+        } else {
+          this.attrListCount = {}
+        }
         products.forEach(item => {
           item.attributes.forEach(attribute => {
             if(attribute.id !== this.currentAttributeId) this.handleAttribute(attribute)
@@ -222,7 +226,7 @@
         })
       },
       handleAttribute(attribute) {
-        if(this.attrListCount[attribute.id][attribute.pivot.list_value]) {
+        if(this.attrListCount[attribute.id] && this.attrListCount[attribute.id][attribute.pivot.list_value]) {
           this.attrListCount[attribute.id][attribute.pivot.list_value]+=1
         }
         else {
