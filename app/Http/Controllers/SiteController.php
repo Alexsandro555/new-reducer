@@ -159,4 +159,37 @@ class SiteController extends Controller
     $header = 'Лучшие продажи';
     return view('sale', compact('products', 'header'));
   }
+
+
+  public function filter(Request $request) {
+    $query = Product::query();
+    $query->with(
+      [
+        'files',
+        'lineProduct.files' => function($query) {
+          $query->doesntHave('figure');
+        },
+        'typeProduct.files' => function($query) {
+          $query->doesntHave('figure');
+        },
+        'productCategory.files' => function($query) {
+          $query->doesntHave('figure');
+        },
+        'attributes' => function($query) {
+          $query->with(['attribute_unit','attributeListValue'])->whereHas('attribute_type', function($query) {
+            $query->where('title', 'Списковый');
+          });
+        }
+      ]
+    );
+    foreach($request->except('sortBy') as $attributeId => $optionsIds) {
+      foreach($optionsIds as $optionId) {
+        $query->orWhereHas('attributeValues', function($q) use ($attributeId, $optionId) {
+          $q->where('attribute_id', str_replace('param_id','',$attributeId))->where('list_value', $optionId);
+        });
+      }
+    }
+    $sortyBy = explode("|",$request->sortBy);
+    return $query->where('active',1)->orderBy($sortyBy[0],$sortyBy[1])->get();
+  }
 }

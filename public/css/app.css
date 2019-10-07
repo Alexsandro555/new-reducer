@@ -175,6 +175,12 @@ header {
   text-transform: uppercase;
 }
 
+.headsite-low {
+  font-family: "Gilroy-ExtraBold", sans-serif;
+  text-transform: uppercase;
+  font-size: 1.7em;
+}
+
 .figure-button,
 .button-ask-sale {
   display: inline-block;

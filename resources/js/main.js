@@ -47,7 +47,7 @@ Vue.component('callback', Callback)
 import NavigationMenu from '@initializer/vue/NavigationMenu'
 Vue.component('navigation-menu', NavigationMenu)
 
-import FilterProducts from '@product/vue/Product/FilterProducts'
+import FilterProducts from '@product/vue/Product/Filter'
 Vue.component('filter-products', FilterProducts)
 
 import FilterProducts3 from '@product/vue/Product/FilterProducts3/'

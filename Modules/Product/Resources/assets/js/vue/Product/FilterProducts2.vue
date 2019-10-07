@@ -1,225 +1,166 @@
 <template>
   <v-layout row wrap>
-    <v-flex xs12 v-if="attributes.length > 0">
-      <v-layout align-start justify-start fill-height col>
-        <v-flex pa-3 xs3 v-for="attribute in attributes" :key="attribute.id">
-          <v-select
-            :label="attribute.title"
-            :items="filterItems(attribute.attribute_list_value)"
-            :value="selectAttributesValues[attribute.id]"
-            @change="selectItem($event,attribute.id)"
-            multiple
-            :menu-props="{maxHeight: '400'}"
-            :item-text="itemText"
-            item-value="id"
-            no-data-text="Нет данных"
-            attach
-            chips>
-            <template slot="selection" slot-scope="data">
-              <v-chip
-                close
-                @input="data.parent.selectItem(data.item)"
-                :selected="data.selected"
-                class="chip--select-multi"
-                :key="JSON.stringify(data.item)">
-                {{ data.item.title }}
-              </v-chip>
-            </template>
-          </v-select>
+    <v-flex xs12>
+      <v-layout row wrap>
+        <v-flex xs7>
+          <v-layout class="full-height" column justify-center align-start>
+            <span class="headsite-low">Фильтр</span>
+          </v-layout>
+        </v-flex>
+        <v-flex xs5 text-xs-right>
+          <v-layout row wrap>
+            <v-flex shrink class="select">
+              <v-layout align-baseline>
+                <v-select :items="sortedElements" item-text="title" @change="selectOrder" autofocus item-value="id" v-model="sortBy" single-line :append-icon="'$vuetify.icons.dropdown'">
+                  <template slot="selection" slot-scope="data">
+                    <v-icon>sort</v-icon>
+                    <span class="select__text">&nbsp;{{data.item.title}}</span>
+                  </template>
+                </v-select>
+              </v-layout>
+            </v-flex>
+            <v-flex pa-3 text-xs-left>
+              <v-btn-toggle v-model="toggle_exclusive" mandatory>
+                <v-btn><v-icon>view_module</v-icon></v-btn>
+                <v-btn><v-icon>view_list</v-icon></v-btn>
+                <v-btn><v-icon>view_headline</v-icon></v-btn>
+              </v-btn-toggle>
+            </v-flex>
+          </v-layout>
         </v-flex>
       </v-layout>
     </v-flex>
-    <v-flex xs12>
-      <v-layout column wrap>
-        <v-container v-if="filteredProducts.length === 0">
-          <v-layout align-center justify-center full-height wrap row>
-            <v-progress-circular indeterminate :size="100" color="primary"></v-progress-circular>
-          </v-layout>
-        </v-container>
-        <v-layout row wrap v-else>
-          <div class="product-wrapper" v-for="product in getPagesElement">
-            <div class="product">
-              <div class="product-image-wrapper">
-                <div class="product-image" @click="goPage('/catalog/detail/'+product.url_key)">
-                  <template v-if="getImages(product).length > 0">
-                    <img :src="'/storage/'+getImages(product)[0].config.files.medium.filename"/>
-                  </template>
-                  <template v-else>
-                    <img src="/images/no-image-medium.png"/>
-                  </template>
-                </div>
-              </div>
-              <div class="product__title">
-                <a :href="'/catalog/detail/'+product.url_key">
-                  {{product.title.substr(0, 27)+".."}}
-                </a>
-              </div>
-              <v-layout row wrap>
-                <v-flex xs8 text-xs-center>
-                  <br>
-                  <span class="product-price-wrapper">
-                    <span class="product-price">{{product.price}}</span> руб.</span>
-                </v-flex>
-                <v-flex xs4>
-                  <img @click="addCart(product.id)" src="/images/btn-sale.png"/>
-                </v-flex>
-              </v-layout>
-            </div>
-          </div>
+    <div class="filterBody">
+      <aside class="filterSidebar">
+        <v-expansion-panel v-model="panel" expand>
+          <v-expansion-panel-content class="collapseAttribute" v-for="attribute in filteredAttributes"
+                                     :key="attribute.id">
+            <template slot="header">
+              <span class="collapseAttribute__header">{{attribute.title}}</span>
+            </template>
+            <v-card class="collapseAttribute__content">
+              <v-card-title>
+                <filter-attributes :items="attribute.attribute_list_value" @attributechanged="updateSelectedAttribute(attribute.id,$event)"/>
+              </v-card-title>
+            </v-card>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </aside>
+      <v-flex xs12>
+        <v-layout column wrap>
+
         </v-layout>
-        <div v-else>
-          <h2>Продукция с заданными параметрами не была найдена</h2>
-        </div>
-        <div class="text-xs-center">
-          <v-pagination v-if="colPages > 1" :total-visible="7" v-model="page" :page="page" :length="colPages"></v-pagination>
-        </div>
-      </v-layout>
-    </v-flex>
+      </v-flex>
+    </div>
   </v-layout>
 </template>
 
 <script>
-  import { mapActions, mapMutations } from 'vuex'
-  import {ACTIONS, MUTATIONS} from '@cart/constants'
+  import FilterAttributes from './FilterAttributes'
   import axios from 'axios'
 
   export default {
     props: {
-      id: {
-        type: Number,
-        required: true
+      attributes: {
+        type: Array,
+        default: () => []
       }
     },
     data() {
       return {
-        filterAttributes: [],
-        page: 1,
-        perPage: 15,
-        attrListCount: {},
+        panel: [],
         selectAttributesValues: {},
-        products: [],
-        attributes: []
+        sortedElements: [
+          {id: 'sort|asc', title: 'По умолчанию'},
+          {id: 'title|asc', title: 'По названию от А до Я'},
+          {id: 'title|desc', title: 'По названию от Я до А'},
+          {id: 'price|asc', title: 'Цена - по возрастанию'},
+          {id: 'price|desc', title: 'Цена - по убыванию'}
+        ],
+        sortBy: 'sort|asc',
+        toggle_exclusive: null
       }
     },
+    mounted() {
+    },
+    components: {
+      FilterAttributes
+    },
     computed: {
-      filteredProducts() {
-        this.handleAttributes(this.getFilteredProducts(this.selectAttributesValues))
-        return this.getFilteredProducts(this.selectAttributesValues)
-      },
-      getPagesElement() {
-        return _.slice(this.filteredProducts,(this.page-1)*this.perPage,(this.page-1)*this.perPage+this.perPage)
-      },
-      colPages() {
-        return Math.floor(this.filteredProducts.length/this.perPage)+1
-      },
-      filtProd() {
-        this.handleAttributes(this.filteredProducts)
-        return this.filteredProducts
+      filteredAttributes() {
+        return this.attributes.filter(item => {
+          if(item.active && item.filtered && item.attribute_type_id === 8) {
+            this.panel.push(true)
+            return true
+          } else {
+            return false
+          }
+        })
       },
     },
-    mounted() {
-      axios.get('/filterable-products/'+this.id)
-        .then(response => response.data)
-        .then(response => {
-          this.products = JSON.parse(response.products)
-          this.attributes = response.attributes
-          this.attributes.forEach(attribute => {
-            Vue.set(this.selectAttributesValues, attribute.id, [])
-          })
-      })
-
+    watch: {
+      selectAttributesValues(values) {
+        this.sendRequest(values)
+      }
     },
     methods: {
-      getImages(product) {
-        let files = []
-        if(product.product_category && product.product_category.files.length > 0) {
-          files = _.concat(files,product.product_category.files)
-        }
-        if(product.type_product && product.type_product.files.length > 0) {
-          files = _.concat(files, product.type_product.files)
-        }
-        if(product.line_product && product.line_product.files.length > 0) {
-          files = _.concat(files, product.line_product.files)
-        }
-        if(product.files.length > 0) {
-          files = _.concat(files, product.files)
-        }
-        return _.shuffle(files)
+      selectOrder() {
+        this.sendRequest(this.selectAttributesValues)
       },
-      goPage(url) {
-        window.location.href=url
-      },
-      addCart(id) {
-        const count = 1
-        this.addCartItem({id, count})
-        this.showCartModal()
-      },
-      selectItem(value,id) {
-        this.page = 1
-        let obj = {}
-        obj[id] = value
-        this.selectAttributesValues = Object.assign({}, this.selectAttributesValues, obj)
-      },
-      reset() {
-        this.page = 1
-        this.filteredProducts = this.products
-        this.attributes.forEach(attribute => {
-          attribute.value = null
-        })
-      },
-      filteredValueAttributes(values) {
-        return values.filter(value => {
-          let result = this.filteredProducts.find(function(element) {
-            let regExp = RegExp(` ${value.title.replace(/,/i, '.')}`, "gi")
-            return !_.isNull(element.title.match(regExp))
+      sendRequest(values) {
+        let params = ''
+        for(let key in values) {
+          values[key].forEach((value, index, array) => {
+            if(params !== '') params+='&'
+            params+='param_id'+key+'[]='+value
           })
-          return !_.isUndefined(result)
-        })
-      },
-      handleAttributes(products) {
-        this.attrListCount = {}
-        products.forEach(item => {
-          let attributes = item.attributes.filter(item => item.filtered == 1 && item.attribute_type_id == 8)
-          attributes.forEach(attribute => {
-            this.handleAttribute(attribute)
+        }
+        params+='&sortBy='+this.sortBy
+
+        axios.get('/filter?'+params)
+          .then(response => response.data)
+          .then(response => {
+            console.log(response)
           })
-        })
-      },
-      handleAttribute(attribute) {
-        if(this.attrListCount[attribute.pivot.list_value]) {
-          this.attrListCount[attribute.pivot.list_value]+=1
-        }
-        else {
-          this.attrListCount[attribute.pivot.list_value]=1
-        }
-      },
-      itemText(item) {
-        return item.title + ' ('+this.attrListCount[item.id]+')'
-      },
-      filterItems(items) {
-        return items.filter(item => !_.isUndefined(this.attrListCount[item.id]))
-      },
-      getFilteredProducts(attributes) {
-        let result = []
-        let products = this.products
-        //if (attributes.filter(attribute => attribute.length > 0).length == 0) return this.products
-        for(let index in attributes) {
-          attributes[index].forEach((currentValue, i, array) => {
-            products.filter(product => {
-              return !_.isUndefined(product.attributes.find(item => item.id == index && item.pivot.list_value == currentValue))
-            }).forEach(product => {
-              if(_.isUndefined(result.find(item => item.id == product.id))) {
-                result.push(product)
-              }
-            })
+          .catch(error => {
+            console.log(error)
           })
-          products = result.length>0?result:products
-          result = []
-        }
-        return products
       },
-      ...mapActions('cart',{addCartItem: ACTIONS.ADD_CART}),
-      ...mapMutations('cart', {showCartModal: MUTATIONS.SHOW_MODAL})
+      updateSelectedAttribute(attribute_id, event) {
+        this.selectAttributesValues = Object.assign({}, this.selectAttributesValues, {[attribute_id]: event})
+      }
     }
   }
 </script>
+
+<style scoped>
+  .filterBody {
+    display: flex;
+    flex-direction: row;
+    border-top: 1px solid #d3d4d6;
+  }
+  .filterSidebar {
+    width: 285px;
+    flex: 0 0 285px;
+    margin-right: 20px;
+    display: block;
+  }
+  .filterContent {
+    flex: 1;
+  }
+  .collapseAttribute__header {
+    font-weight: bold;
+  }
+  .collapseAttribute__content {
+    padding: 0 20px 20px;
+  }
+  .select {
+    width: 302px;
+  }
+  .select__text {
+    font-size: 1.2em;
+  }
+  .full-height {
+    height: 100%;
+  }
+</style>
