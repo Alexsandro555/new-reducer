@@ -34,7 +34,7 @@
     <v-flex xs12 class="filterBody">
       <aside class="filterSidebar">
         <v-expansion-panel v-model="panel" expand>
-          <v-expansion-panel-content class="collapseAttribute" v-for="attribute in filteredAttributes"
+          <v-expansion-panel-content class="collapseAttribute" v-for="attribute in countedAttributes"
                                      :key="attribute.id">
             <template slot="header">
               <span class="collapseAttribute__header">{{attribute.title}}</span>
@@ -78,6 +78,10 @@
       attributes: {
         type: Array,
         default: () => []
+      },
+      lineProductId: {
+       type: Number,
+       request: true
       }
     },
     data() {
@@ -101,6 +105,20 @@
       }
     },
     mounted() {
+      let temp = this.attributes.filter(item => item.attribute_type_id === 8)
+      console.log(temp)
+      /*let params = 'sortBy=' + this.sortBy
+      axios.get('/filter/'+this.lineProductId+'?'+params)
+        .then(response => response.data)
+        .then(response => {
+          this.products = response
+          this.attributeHandler(response)
+          this.isLoading = false
+        })
+        .catch(error => {
+          this.isLoading = false
+          console.log(error)
+        })*/
     },
     components: {
       Attributes,
@@ -126,6 +144,7 @@
         return Math.floor(this.products.length/this.perPage)+1
       }
     },
+
     watch: {
       selectAttributesValues(values) {
         this.sendRequest(values)
@@ -146,7 +165,7 @@
         params += '&sortBy=' + this.sortBy
 
         this.isLoading = true
-        axios.get('/filter?' + params)
+        axios.get('/filter/'+this.lineProductId+'?' + params)
           .then(response => response.data)
           .then(response => {
             this.products = response
@@ -159,19 +178,14 @@
           })
       },
       attributeHandler(products) {
+        this.countedAttributes = []
+        this.countedAttributes = this.attributes.filter(item => item.attribute_type_id === 8)
         products.forEach(product => {
           product.attributes.forEach(attribute => {
-            let currentAttribute = this.countedAttributes.find(item => item.id === attribute.id)
-            if(currentAttribute) {
-              let listValue = currentAttribute.attribute_list_value.find(item => item.id === currentAttribute.pivot.list_value)
-              if(listValue) listValue.count+=1
-            } else {
-              let localAttribute = Object.assign({}, attribute)
-              let listValue = localAttribute.attribute_list_value.find(item => item.id === localAttribute.pivot.list_value)
-              if(listValue)  {
-                listValue.count=1
-              }
-              this.countedAttributes.push(localAttribute)
+            let countedAttribute = this.countedAttributes.find(item => item.id === attribute.id)
+            if(countedAttribute) {
+              let listValue = countedAttribute.attribute_list_value.find(item => item.id === countedAttribute.pivot.list_value)
+              if (listValue) listValue.count+=1
             }
           })
         })

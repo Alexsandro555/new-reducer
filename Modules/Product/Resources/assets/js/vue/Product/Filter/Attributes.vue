@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-for="item in items">
-      <input type="checkbox" :value="item.id" v-model="checkedAttributes"/>{{item.title}}
+      <input type="checkbox" :value="item.id" v-model="checkedAttributes"/>&nbsp;{{item.title}}&nbsp;{{item.count?'('+item.count+')':''}}
     </div>
   </div>
 </template>

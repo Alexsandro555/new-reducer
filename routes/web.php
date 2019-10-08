@@ -9,7 +9,7 @@ Route::get('/equipment', ['uses' => 'SiteController@equipment', 'as' => 'equipme
 Route::get('/sale', ['uses' => 'SiteController@sale', 'as' => 'sale']);
 Route::get('/special', ['uses' => 'SiteController@special', 'as' => 'special']);
 Route::get('/find/{text?}', ['uses' => 'FindController@index', 'as' => 'find']);
-Route::get('/filter', 'SiteController@filter');
+Route::get('/filter/{lineProductId}', 'SiteController@filter');
 Route::get('/catalog/detail/{slug}',['uses' => 'SiteController@detail', 'as' => 'catalog.detail']);
 Route::get('/catalog/attributes/{id}', 'SiteController@lineProductAttributes');
 Route::get('/catalog/{slug}', ['uses'=>'SiteController@catalog', 'as'=>'catalog.product-category']);

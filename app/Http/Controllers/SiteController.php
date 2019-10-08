@@ -161,8 +161,9 @@ class SiteController extends Controller
   }
 
 
-  public function filter(Request $request) {
+  public function filter(Request $request, $lineProductId) {
     $query = Product::query();
+    $query = $query->where('line_product_id', $lineProductId);
     $query->with(
       [
         'files',
@@ -176,20 +177,30 @@ class SiteController extends Controller
           $query->doesntHave('figure');
         },
         'attributes' => function($query) {
-          $query->with(['attribute_unit','attributeListValue'])->whereHas('attribute_type', function($query) {
-            $query->where('title', 'Списковый');
-          });
+          $query->with(['attribute_unit','attributeListValue', 'attribute_type']);
         }
       ]
     );
     foreach($request->except('sortBy') as $attributeId => $optionsIds) {
-      foreach($optionsIds as $optionId) {
-        $query->orWhereHas('attributeValues', function($q) use ($attributeId, $optionId) {
-          $q->where('attribute_id', str_replace('param_id','',$attributeId))->where('list_value', $optionId);
+        $query->whereHas('attributeValues', function($q) use ($attributeId, $optionsIds) {
+          $q->where('attribute_id', str_replace('param_id','',$attributeId))->whereIn('list_value', $optionsIds);
         });
-      }
     }
     $sortyBy = explode("|",$request->sortBy);
-    return $query->where('active',1)->orderBy($sortyBy[0],$sortyBy[1])->get();
+    $products = $query->where('active',1)->orderBy($sortyBy[0],$sortyBy[1])->get();
+
+    foreach($products as $product) {
+      $product->attributes->each(function($attribute) {
+        if($attribute->attribute_type->title == 'Списковый') {
+          $value = $attribute->pivot->list_value;
+          $attribute->attribute_list_value->forEach(function($list) use($value) {
+            if($list == $value) $list->disabled=false;
+          });
+        }
+      });
+    }
+
+    dd($products);
+    return [];
   }
 }

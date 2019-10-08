@@ -21,7 +21,7 @@
           <span>{{$model->title}}</span><br>
         </p>
         <v-layout row wrap>
-          <div class="content__items"><filter-products :products="{{$products}}" :attributes="{{$attributes}}"/></div>
+          <div class="content__items"><filter-products :line-product-id="{{$model->id}}" :products="{{$products}}" :attributes="{{$attributes}}"/></div>
         </v-layout>
       </v-flex>
       </v-flex>
